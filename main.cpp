@@ -20,7 +20,13 @@ class Record {
     std::size_t askId;
 
     BidAsk bidAsk;
-    
+    std::chrono::time_point entryTime;
+
+    double oldprice;
+    std::size_t oldVolume;
+
+    std::size_t buyerId;
+    std::size_t sellerId;
 
     enum BidAsk {
         Bid,
