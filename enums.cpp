@@ -11,18 +11,5 @@ const std::vector<std::string> type_strings = {
 };
 
 std::ostream& operator<< (std::ostream &os, const Record::Type &type) {
-    switch (type) {
-        case Record::Type::ENTER:
-            os << "ENTER";
-            break;
-        case Record::Type::AMEND:
-            os << "AMEND";
-            break;
-        case Record::Type::TRADE:
-            os << "TRADE";
-            break;
-        case Record::Type::DELETE:
-            os << "DELETE";
-            break;
-    };
+    os << type_strings[static_cast<int>(type)];
 }
