@@ -11,7 +11,8 @@ class Record {
 public:
     enum BidAsk {
         Bid = 0,
-        Ask
+        Ask,
+        Neither
     };
 
     enum class Type {
@@ -23,7 +24,8 @@ public:
     };
 
 private:
-    static const std::vector<std::pair<std::string, Record::Type> > type_strings;
+    static const std::vector<std::pair<std::string, Record::Type>> type_strings;
+    static const std::vector<std::pair<std::string, Record::BidAsk>> bid_ask_strings;
 
     std::string instrument;
     QDate date;
@@ -58,6 +60,9 @@ public:
     friend std::istream& operator>> (std::istream& in, Record::Type &type);
     friend std::ostream& operator<< (std::ostream &os, const Record::Type &type);
 
+    friend std::istream& operator>> (std::istream &in, Record::BidAsk &bidOrAsk);
+    friend std::ostream& operator<< (std::ostream &os, const Record::BidAsk &bidOrAsk);
+
     Type type() {
         return m_type;
     }
@@ -77,14 +82,6 @@ public:
 
         return false;
     }
-};
-
-const std::vector<std::pair<std::string, Record::Type> > type_strings = {
-    { "ENTER", Record::Type::ENTER },
-    { "AMEND", Record::Type::AMEND },
-    { "DELETE", Record::Type::DELETE },
-    { "TRADE", Record::Type::TRADE },
-    { "OFFTR", Record::Type::OFFTR }
 };
 
 #endif
