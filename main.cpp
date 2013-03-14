@@ -22,11 +22,16 @@ int main(int argc, char **argv) {
         std::cout << r;
 
         if (r.type() == Record::Type::ENTER) {
-            if (r.isAsk()) {
-                askQueue.insert(r);
-            } else {
-                bidQueue.push_back(r);
-            }
+            switch (r.bidOrAsk()) {
+                case Record::BidAsk::Bid:
+                    bidQueue.push_back(r);
+                    break;
+                case Record::BidAsk::Ask:
+                    askQueue.insert(r);
+                    break;
+                case Record::BidAsk::Neither:
+                    break;
+            };
         }
     }
 

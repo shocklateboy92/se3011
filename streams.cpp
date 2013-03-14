@@ -14,8 +14,8 @@ const std::vector<std::pair<std::string, Record::Type>> Record::type_strings = {
 };
 
 const std::vector<std::pair<std::string, Record::BidAsk>> Record::bid_ask_strings = {
-    { "B", Record::Bid },
-    { "A", Record::Ask }
+    { "B", Record::BidAsk::Bid },
+    { "A", Record::BidAsk::Ask }
 };
 
 std::istream& operator>> (std::istream &in, Record &r) {
@@ -42,7 +42,7 @@ std::istream& operator>> (std::istream &in, Record &r) {
     r.transId >>
     r.bidId >>
     r.askId >>
-    r.bidAsk >>
+    r.m_bidAsk >>
     entryTime_string >>
     r.oldPrice >>
     r.oldVolume >>
@@ -71,7 +71,7 @@ std::ostream& operator<<(std::ostream& os, const Record& r)
     "\n\ttransID : " << r.transId <<
     "\n\tbidID : " << r.bidId <<
     "\n\taskID : " << r.askId <<
-    "\n\tbidOrAsk " << r.bidAsk <<
+    "\n\tbidOrAsk : " << r.m_bidAsk <<
     "\n\tentryTime : " << r.entryTime.toString().toStdString() <<
     "\n\toldPrice : " << r.oldPrice <<
     "\n\toldVolume : " << r.oldVolume <<
@@ -129,6 +129,6 @@ std::istream& operator>> (std::istream &in, Record::BidAsk &bidOrAsk) {
         }
     }
 
-    bidOrAsk = Record::Neither;
+    bidOrAsk = Record::BidAsk::Neither;
     return in;
 }

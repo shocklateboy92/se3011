@@ -9,7 +9,7 @@
 class Record {
 
 public:
-    enum BidAsk {
+    enum class BidAsk {
         Bid = 0,
         Ask,
         Neither
@@ -44,7 +44,7 @@ private:
     std::size_t bidId;
     std::size_t askId;
 
-    BidAsk bidAsk;
+    BidAsk m_bidAsk;
     QDateTime entryTime;
 
     double oldPrice;
@@ -67,8 +67,8 @@ public:
         return m_type;
     }
 
-    bool isAsk() {
-        return bidAsk == Ask;
+    Record::BidAsk bidOrAsk() {
+        return m_bidAsk;
     }
 
     bool operator< (const Record &other) const {
