@@ -4,7 +4,6 @@
 #include <iostream>
 #include <sstream>
 
-#include <QDebug>
 #include <QDateTime>
 
 class Record {
@@ -16,7 +15,7 @@ public:
     };
 
     enum class Type {
-        ENTER,
+        ENTER = 0,
         AMEND,
         DELETE,
         TRADE,
@@ -24,6 +23,8 @@ public:
     };
 
 private:
+    static const std::vector<std::pair<std::string, Record::Type> > type_strings;
+
     std::string instrument;
     QDate date;
     QTime time;
@@ -53,6 +54,8 @@ private:
 public:
     friend std::istream& operator>> (std::istream& in, Record &r);
     friend std::ostream& operator<< (std::ostream& os, const Record& r);
+
+    friend std::istream& operator>> (std::istream& in, Record::Type &type);
     friend std::ostream& operator<< (std::ostream &os, const Record::Type &type);
 
     Type type() {
@@ -74,6 +77,14 @@ public:
 
         return false;
     }
+};
+
+const std::vector<std::pair<std::string, Record::Type> > type_strings = {
+    { "ENTER", Record::Type::ENTER },
+    { "AMEND", Record::Type::AMEND },
+    { "DELETE", Record::Type::DELETE },
+    { "TRADE", Record::Type::TRADE },
+    { "OFFTR", Record::Type::OFFTR }
 };
 
 #endif

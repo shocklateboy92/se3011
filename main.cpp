@@ -13,7 +13,6 @@ const std::string bidAskStrings[] = {"BID", "ASK"};
 
 
 std::istream& operator>> (std::istream &in, Record &r) {
-    char buf;
     std::string time_string, entryTime_string;
     std::string date_string, entryDate_string;
     std::string bid_or_ask, type_string;
@@ -23,13 +22,12 @@ std::istream& operator>> (std::istream &in, Record &r) {
 
     buff = QString::fromStdString(buff).replace("\"\"", "\"-1\"").remove('"').replace(',', ' ').toStdString();
 
-//     std::cout << buff << std::endl;
     std::istringstream is(buff);
 
     is >> r.instrument >>
     date_string >>
     time_string >>
-    type_string >>
+    r.m_type >>
     r.price >>
     r.volume >>
     r.undisclosedVolume >>
@@ -48,20 +46,6 @@ std::istream& operator>> (std::istream &in, Record &r) {
     // parse timestring
     r.date = QDate::fromString(QString::fromStdString(date_string), "yyyy-MM-dd");
     r.time = QTime::fromString(QString::fromStdString(time_string), "hh:mm:ss.zzz");
-
-    // switch on type
-    if (type_string == "ENTER")
-        r.m_type = Record::Type::ENTER;
-    else if (type_string == "AMEND")
-        r.m_type = Record::Type::AMEND;
-    else if (type_string == "DELETE")
-        r.m_type = Record::Type::DELETE;
-    else if (type_string == "TRADE")
-        r.m_type = Record::Type::TRADE;
-    else if (type_string == "OFFTR")
-        r.m_type = Record::Type::OFFTR;
-    else
-        qFatal("Uknown Record type encountered ");
 
     // switch on bid/ask
     if (bid_or_ask == "A")
@@ -95,7 +79,9 @@ std::ostream& operator<<(std::ostream& os, const Record& r)
     "\n\toldVolume : " << r.oldVolume <<
     "\n\tbuyerId : " << r.buyerId <<
     "\n\tsellerId : " << r.sellerId <<
-    "\n}" << endl;
+    "\n}";
+
+    return os;
 }
 
 
