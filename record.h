@@ -23,6 +23,19 @@ public:
         OFFTR
     };
 
+    friend std::istream& operator>> (std::istream& in, Record &r);
+    friend std::ostream& operator<< (std::ostream& os, const Record& r);
+
+    friend std::istream& operator>> (std::istream& in, Record::Type &type);
+    friend std::ostream& operator<< (std::ostream &os, const Record::Type &type);
+
+    friend std::istream& operator>> (std::istream &in, Record::BidAsk &bidOrAsk);
+    friend std::ostream& operator<< (std::ostream &os, const Record::BidAsk &bidOrAsk);
+
+    Type type() const;
+    Record::BidAsk bidOrAsk() const;
+    bool operator< (const Record &other) const;
+
 private:
     static const std::vector<std::pair<std::string, Record::Type>> type_strings;
     static const std::vector<std::pair<std::string, Record::BidAsk>> bid_ask_strings;
@@ -52,36 +65,6 @@ private:
 
     std::size_t buyerId;
     std::size_t sellerId;
-
-public:
-    friend std::istream& operator>> (std::istream& in, Record &r);
-    friend std::ostream& operator<< (std::ostream& os, const Record& r);
-
-    friend std::istream& operator>> (std::istream& in, Record::Type &type);
-    friend std::ostream& operator<< (std::ostream &os, const Record::Type &type);
-
-    friend std::istream& operator>> (std::istream &in, Record::BidAsk &bidOrAsk);
-    friend std::ostream& operator<< (std::ostream &os, const Record::BidAsk &bidOrAsk);
-
-    Type type() {
-        return m_type;
-    }
-
-    Record::BidAsk bidOrAsk() {
-        return m_bidAsk;
-    }
-
-    bool operator< (const Record &other) const {
-        if (other.time < time)
-            return true;
-        else if (other.time == time) {
-            if (other.price < this->price) {
-                return true;
-            }
-        }
-
-        return false;
-    }
 };
 
 #endif
