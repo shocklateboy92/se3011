@@ -17,7 +17,9 @@ TEMPLATE = app
 
 SOURCES += \
     main.cpp \
-    record.cpp
+    record.cpp \
+    tradingengine.cpp
+
 
 HEADERS += \
     record.h
