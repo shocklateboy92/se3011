@@ -15,4 +15,8 @@ CONFIG   -= app_bundle
 TEMPLATE = app
 
 
-SOURCES += main.txx
+SOURCES += main.txx \
+    tradingengine.cpp
+
+HEADERS += \
+    tradingengine.h
