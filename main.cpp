@@ -19,7 +19,11 @@ int main(int argc, char **argv) {
     while (!std::cin.eof()) {
         Record r;
         std::cin >> r;
-        std::cout << r;
+
+        if (std::cin.fail()) {
+            std::cerr << "error: malformed record " << std::endl;
+            std::cerr << r;
+        }
 
         if (r.type() == Record::Type::ENTER) {
             switch (r.bidOrAsk()) {

@@ -15,4 +15,9 @@ CONFIG   -= app_bundle
 TEMPLATE = app
 
 
-SOURCES += main.txx
+SOURCES += \
+    main.cpp \
+    record.cpp
+
+HEADERS += \
+    record.h
