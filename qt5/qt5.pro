@@ -18,8 +18,10 @@ TEMPLATE = app
 SOURCES += \
     main.cpp \
     record.cpp \
-    tradingengine.cpp
+    tradingengine.cpp \
+    tradingsignalgenerator.cpp
 
 
 HEADERS += \
-    record.h
+    record.h \
+    tradingsignalgenerator.h
