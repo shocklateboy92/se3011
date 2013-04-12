@@ -1,10 +1,10 @@
 #ifndef TRADINGSIGNALGENERATOR_H
 #define TRADINGSIGNALGENERATOR_H
 
-class tradingSignalGenerator
+class TradingSignalGenerator
 {
 public:
-    tradingSignalGenerator();
+    TradingSignalGenerator();
 };
 
 #endif // TRADINGSIGNALGENERATOR_H

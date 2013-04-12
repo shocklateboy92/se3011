@@ -1,8 +1,6 @@
 #ifndef TRADINGSIGNALGUI_H
 #define TRADINGSIGNALGUI_H
 
-#include <QTabWidget>
-
 namespace Ui {
 class TradingSignalGUI;
 }
@@ -10,11 +8,11 @@ class TradingSignalGUI;
 class TradingSignalGUI : public QTabWidget
 {
     Q_OBJECT
-    
+
 public:
     explicit TradingSignalGUI(QWidget *parent = 0);
     ~TradingSignalGUI();
-    
+
 
 private slots:
     void on_pushButton_3_clicked();

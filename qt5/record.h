@@ -6,6 +6,7 @@
 
 class Record
 {
+public:
     enum class Type {
         TRADE,
         ENTER,
@@ -18,7 +19,6 @@ class Record
         Ask
     };
 
-public:
     Record();
     QDataStream& operator>>(QDataStream &in);
 

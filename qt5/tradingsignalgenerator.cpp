@@ -6,9 +6,3 @@
 TradingSignalGenerator::TradingSignalGenerator()
 {
 }
-
-
-Record createNew() {
-    Record r = new Record();
-    return r
-}
