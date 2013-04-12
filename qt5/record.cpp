@@ -1,5 +1,7 @@
 #include "record.h"
 
+#include <QString>
+
 Record::Record()
 {
 }

@@ -4,13 +4,11 @@
 #
 #-------------------------------------------------
 
-QT       += core
-
-QT       -= gui
+QT       += core gui
 
 TARGET = qt5
-CONFIG   += console
-CONFIG   -= app_bundle
+CONFIG   += console gui
+CONFIG   += app_bundle
 
 TEMPLATE = app
 
@@ -20,14 +18,12 @@ SOURCES += \
     main.cpp \
     record.cpp \
     tradingengine.cpp \
-    tradingsignalgenerator.cpp \
-    tradingsignalgui.cpp
+    tradingsignalgenerator.cpp
 
 
 HEADERS += \
     record.h \
-    tradingsignalgenerator.h \
-    tradingsignalgui.h
+    tradingsignalgenerator.h
 
 FORMS += \
     tradingsignalgui.ui
