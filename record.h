@@ -1,8 +1,10 @@
 #ifndef RECORD_H
 #define RECORD_H
 
-#include <QDataStream>
 #include <QDateTime>
+
+class QTextStream;
+class QDataStream;
 
 class Record
 {
@@ -20,39 +22,34 @@ public:
     };
 
     Record();
-    QDataStream& operator>>(QDataStream &in);
+    bool isValid();
+
+    friend QDataStream& operator >>(QDataStream &in, Record &r);
+    friend QTextStream& operator >>(QTextStream &in, Record &r);
+    friend QDataStream& operator <<(QDataStream &os, const Record &r);
+    friend QTextStream& operator <<(QTextStream &os, const Record &r);
 
     QString instrument() const;
+    QDate   date() const;
+    QTime   time() const;
+    Type    type() const;
+    double  volume() const;
+    double  value() const;
+    long    transactionId() const;
+    long    bidId() const;
+    long    askId() const;
+    BidAsk  bidOrAsk() const;
+
     void setInstrument(const QString &value);
-
-    QDate date() const;
     void setDate(const QDate &value);
-
-    QTime time() const;
     void setTime(const QTime &value);
-
-    Type type() const;
     void setType(const Type &value);
-
-    double volume() const;
     void setVolume(double value);
-
-    double value() const;
     void setValue(double value);
-
-    long transactionId() const;
     void setTransId(long value);
-
-    long bidId() const;
     void setBidId(long value);
-
-    long askId() const;
     void setAskId(long value);
-
-    BidAsk bidOrAsk() const;
     void setBidOrAsk(const BidAsk &value);
-
-    bool isValid();
 
 private:
     QString m_instrument;
