@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include "trading-engine.h"
+#include "trading-file-reader.h"
 #include "trading-signal-generator.h"
 
 #include <QMainWindow>
@@ -20,6 +21,7 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    TradingFileReader *m_reader;
 };
 
 #endif // MAINWINDOW_H
