@@ -1,18 +1,10 @@
 #include "tradingengine.h"
-#include "record.h"
-#include <iostream>
 
-TradingEngine::TradingEngine()
+TradingEngine::TradingEngine(QObject *parent) :
+    QObject(parent)
 {
-
 }
 
-
-void evaluateRecord(Record r) {
-//    if (r.type() == Record::Type::TRADE){
-//        std::cout << r << endl;
-//    } else if (r.type == Record::Type::ENTER && (r.askId() == 0 || r.bidId() == 0)) {
-//        r.type() = Record::Type::TRADE;
-//        std::cout << r << endl;
-//    }
+void TradingEngine::processNewRecord(const Record &r) {
+    // do nothing for now
 }

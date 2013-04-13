@@ -5,6 +5,9 @@ class TradingSignalGenerator
 {
 public:
     TradingSignalGenerator();
+
+Q_SIGNALS:
+    void newRecordGenerated();
 };
 
 #endif // TRADINGSIGNALGENERATOR_H

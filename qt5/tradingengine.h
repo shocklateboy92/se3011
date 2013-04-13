@@ -1,10 +1,21 @@
 #ifndef TRADINGENGINE_H
 #define TRADINGENGINE_H
 
-class TradingEngine
+#include <QObject>
+
+class Record;
+
+class TradingEngine : public QObject
 {
+    Q_OBJECT
 public:
-    TradingEngine();
+    explicit TradingEngine(QObject *parent = 0);
+
+signals:
+
+public slots:
+    void processNewRecord(const Record &r);
+
 };
 
 #endif // TRADINGENGINE_H
