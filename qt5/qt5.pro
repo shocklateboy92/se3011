@@ -26,6 +26,7 @@ SOURCES += \
 
 HEADERS += \
     record.h \
+    tradingengine.h \
     tradingsignalgenerator.h \
     mainwindow.h
 
