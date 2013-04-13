@@ -1,8 +1,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "tradingengine.h"
-#include "tradingsignalgenerator.h"
+#include "trading-engine.h"
+#include "trading-signal-generator.h"
 
 #include <QMainWindow>
 

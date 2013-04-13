@@ -1,5 +1,5 @@
-#include "tradingsignalgeneratorui.h"
-#include "ui_tradingsignalgeneratorui.h"
+#include "trading-signal-generator-ui.h"
+#include "ui_trading-signal-generator-ui.h"
 
 TradingSignalGeneratorUi::TradingSignalGeneratorUi(QWidget *parent) :
     QWidget(parent),

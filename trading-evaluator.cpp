@@ -1,4 +1,4 @@
-#include "tradingevaluator.h"
+#include "trading-evaluator.h"
 
 TradingEvaluator::TradingEvaluator(QObject *parent) :
     QObject(parent)

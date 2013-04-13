@@ -125,7 +125,7 @@
   <customwidget>
    <class>TradingSignalGeneratorUi</class>
    <extends>QWidget</extends>
-   <header>tradingsignalgeneratorui.h</header>
+   <header>trading-signal-generator-ui.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
