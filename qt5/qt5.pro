@@ -20,12 +20,15 @@ SOURCES += \
     main.cpp \
     record.cpp \
     tradingengine.cpp \
-    tradingsignalgenerator.cpp
+    tradingsignalgenerator.cpp \
+    mainwindow.cpp
 
 
 HEADERS += \
     record.h \
-    tradingsignalgenerator.h
+    tradingsignalgenerator.h \
+    mainwindow.h
 
 FORMS += \
-    tradingsignalgui.ui
+    tradingsignalgui.ui \
+    mainwindow.ui
