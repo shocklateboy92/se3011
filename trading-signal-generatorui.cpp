@@ -12,3 +12,7 @@ TradingSignalGeneratorUi::~TradingSignalGeneratorUi()
 {
     delete ui;
 }
+
+void TradingSignalGeneratorUi::manualAddRecord()
+{
+}
