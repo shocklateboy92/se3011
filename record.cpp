@@ -2,7 +2,8 @@
 
 #include <QString>
 
-Record::Record()
+Record::Record() :
+    m_valid(false)
 {
 }
 
@@ -105,4 +106,9 @@ Record::BidAsk Record::bidOrAsk() const
 void Record::setBidOrAsk(const BidAsk &value)
 {
     m_bidOrAsk = value;
+}
+
+bool Record::isValid() {
+    //FIXME: run some sanity checks here
+    return m_valid;
 }

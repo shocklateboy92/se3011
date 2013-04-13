@@ -52,6 +52,8 @@ public:
     BidAsk bidOrAsk() const;
     void setBidOrAsk(const BidAsk &value);
 
+    bool isValid();
+
 private:
     QString m_instrument;
     QDate m_date;
@@ -63,6 +65,8 @@ private:
     long m_bidId;
     long m_askId;
     BidAsk m_bidOrAsk;
+
+    bool m_valid;
 };
 
 typedef Record Trade;
