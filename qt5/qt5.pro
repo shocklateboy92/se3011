@@ -22,7 +22,8 @@ SOURCES += \
     mainwindow.cpp \
     tradingsignalgeneratorui.cpp \
     tradingengine.cpp \
-    tradingsignalgenerator.cpp
+    tradingsignalgenerator.cpp \
+    tradingevaluator.cpp
 
 
 HEADERS += \
@@ -30,7 +31,8 @@ HEADERS += \
     mainwindow.h \
     tradingsignalgeneratorui.h \
     tradingengine.h \
-    tradingsignalgenerator.h
+    tradingsignalgenerator.h \
+    tradingevaluator.h
 
 FORMS += \
     mainwindow.ui \

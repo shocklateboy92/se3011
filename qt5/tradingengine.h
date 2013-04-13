@@ -4,6 +4,7 @@
 #include <QObject>
 
 class Record;
+class Trade;
 
 class TradingEngine : public QObject
 {
@@ -12,6 +13,7 @@ public:
     explicit TradingEngine(QObject *parent = 0);
 
 signals:
+    void newTradeCreated(const Trade &r);
 
 public slots:
     void processNewRecord(const Record &r);

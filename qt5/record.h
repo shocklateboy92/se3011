@@ -65,4 +65,6 @@ private:
     BidAsk m_bidOrAsk;
 };
 
+typedef Record Trade;
+
 #endif // RECORD_H
