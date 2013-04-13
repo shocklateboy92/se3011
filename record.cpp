@@ -1,12 +1,52 @@
 #include "record.h"
 
 #include <QString>
+#include <QStringList>
+#include <QTextStream>
+#include <QDataStream>
+#include <QRegularExpression>
+#include <QDebug>
+#include <unordered_map>
 
 Record::Record() :
     m_valid(false)
 {
 }
 
+bool Record::isValid() {
+    //FIXME: run some sanity checks here
+    return m_valid;
+}
+
+// because QMap doesn't support initializer lists yet
+static const std::unordered_map<std::string, Record::Type> type_strings = {
+    {"ENTER", Record::Type::ENTER},
+    {"AMEND", Record::Type::AMEND},
+    {"TRADE", Record::Type::TRADE},
+    {"DELETE", Record::Type::DELETE}
+};
+
+QTextStream& operator >>(QTextStream &in, Record &r) {
+    static QRegularExpression sep("\",\"");
+    QStringList line = in.readLine().split(sep);
+    line.first().remove(0, 1);
+    line.last().chop(1);
+
+    QStringListIterator it(line);
+
+    r.setInstrument(it.next());
+    r.setDate(QDate::fromString(it.next(), "yyyy-MM-dd"));
+    r.setTime(QTime::fromString(it.next(), "hh:mm:ss.zzz"));
+    r.setType(type_strings.at(it.next().toStdString()));
+//    r.setPrice(it.next().toDouble());
+    it.next(); // not sure what this is
+    r.setVolume(it.next().toDouble());
+    r.setValue(it.next().toDouble());
+    //more stuff
+    //TOOD: Parse the rest of the line
+
+    return in;
+}
 
 QString Record::instrument() const
 {
@@ -106,9 +146,4 @@ Record::BidAsk Record::bidOrAsk() const
 void Record::setBidOrAsk(const BidAsk &value)
 {
     m_bidOrAsk = value;
-}
-
-bool Record::isValid() {
-    //FIXME: run some sanity checks here
-    return m_valid;
 }

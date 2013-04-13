@@ -66,6 +66,8 @@ private:
     bool m_valid;
 };
 
-typedef Record Trade;
+class Trade : public Record
+{
+};
 
 #endif // RECORD_H
