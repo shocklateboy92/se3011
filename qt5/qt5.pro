@@ -19,18 +19,18 @@ QMAKE_CXXFLAGS += -std=c++11
 SOURCES += \
     main.cpp \
     record.cpp \
-    tradingsignalgenerator.cpp \
     mainwindow.cpp \
     tradingsignalgeneratorui.cpp \
-    tradingengine.cpp
+    tradingengine.cpp \
+    tradingsignalgenerator.cpp
 
 
 HEADERS += \
     record.h \
-    tradingsignalgenerator.h \
     mainwindow.h \
     tradingsignalgeneratorui.h \
-    tradingengine.h
+    tradingengine.h \
+    tradingsignalgenerator.h
 
 FORMS += \
     mainwindow.ui \
