@@ -19,7 +19,7 @@ bool Record::isValid() {
 }
 
 // because QMap doesn't support initializer lists yet
-static const std::unordered_map<std::string, Record::Type> type_strings = {
+static std::unordered_map<std::string, Record::Type> type_strings = {
     {"ENTER", Record::Type::ENTER},
     {"AMEND", Record::Type::AMEND},
     {"TRADE", Record::Type::TRADE},
@@ -37,13 +37,13 @@ QTextStream& operator >>(QTextStream &in, Record &r) {
     r.setInstrument(it.next());
     r.setDate(QDate::fromString(it.next(), "yyyy-MM-dd"));
     r.setTime(QTime::fromString(it.next(), "hh:mm:ss.zzz"));
-    r.setType(type_strings.at(it.next().toStdString()));
+    r.setType(type_strings.operator [](it.next().toStdString()));
 //    r.setPrice(it.next().toDouble());
     it.next(); // not sure what this is
     r.setVolume(it.next().toDouble());
     r.setValue(it.next().toDouble());
     //more stuff
-    //TOOD: Parse the rest of the line
+    //TODO: Parse the rest of the line
 
     return in;
 }
