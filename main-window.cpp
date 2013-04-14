@@ -1,11 +1,13 @@
 #include "main-window.h"
 #include "ui_main-window.h"
 #include "trading-file-reader.h"
+#include "trading-files-model.h"
 
 #include <QAction>
 #include <QFile>
 #include <QThread>
 #include <QtConcurrent/QtConcurrent>
+#include <QTableView>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -25,7 +27,6 @@ MainWindow::MainWindow(QWidget *parent) :
     m_evaluatorThread->start();
 
 
-
     connect(ui->actionStart, &QAction::triggered, [&]() {
         QtConcurrent::run([&](){
             QFile file("preview.csv");
@@ -41,6 +42,8 @@ MainWindow::MainWindow(QWidget *parent) :
             m_engine, &TradingEngine::processNewRecord);
     connect(m_engine, &TradingEngine::newTradeCreated,
             m_evaluator, &TradingEvaluator::processNewTrade);
+
+    ui->filesView->setModel(new TradingFilesModel(this));
 }
 
 MainWindow::~MainWindow()
