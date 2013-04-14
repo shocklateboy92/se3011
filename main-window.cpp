@@ -37,7 +37,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(m_engine, &TradingEngine::newTradeCreated,
             m_evaluator, &TradingEvaluator::processNewTrade);
 
-    ui->filesView->setModel(new TradingFilesModel(this));
+    auto model = new TradingFilesModel(this);
+    model->addSource("preview.csv");
+    ui->filesView->setModel(model);
 }
 
 MainWindow::~MainWindow()

@@ -26,3 +26,11 @@ void TradingFileReader::startReading()
         }
     }
 }
+
+bool TradingFileReader::isValid() const {
+    return m_valid;
+}
+
+QString TradingFileReader::inputName() const {
+    return m_fileName;
+}
