@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include "trading-engine.h"
+#include "trading-evaluator.h"
 #include "trading-file-reader.h"
 #include "trading-signal-generator.h"
 
@@ -22,6 +23,8 @@ public:
 private:
     Ui::MainWindow *ui;
     TradingFileReader *m_reader;
+    TradingEngine *m_engine;
+    TradingEvaluator *m_evaluator;
 };
 
 #endif // MAINWINDOW_H
