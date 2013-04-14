@@ -25,7 +25,6 @@ private:
 
     QThread *m_engineThread, *m_evaluatorThread;
 
-    TradingFileReader *m_reader;
     TradingEngine *m_engine;
     TradingEvaluator *m_evaluator;
 };

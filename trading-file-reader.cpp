@@ -1,18 +1,26 @@
 #include "trading-file-reader.h"
 #include <QDebug>
+#include <QFile>
 
-TradingFileReader::TradingFileReader(QObject *parent) :
-    QObject(parent)
+TradingFileReader::TradingFileReader(const QString &fileName, QObject *parent) :
+    QObject(parent), m_fileName(fileName)
 {
+    QFile *file = new QFile(fileName, this);
+    if (!file->open(QIODevice::ReadOnly)) {
+        qWarning() << "failed to open" << fileName << ":" << file->errorString();
+        return;
+    }
+    m_stream.setDevice(file);
+    m_valid = true;
 }
 
 
-void TradingFileReader::startReading(QTextStream &is)
+void TradingFileReader::startReading()
 {
     qDebug();
-    while (!is.atEnd()) {
+    while (!m_stream.atEnd()) {
         Record r;
-        is >> r;
+        m_stream >> r;
         if (r.isValid()) {
             emit newRecordEncountered(r);
         }

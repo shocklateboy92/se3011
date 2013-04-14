@@ -14,7 +14,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow),
     m_engineThread(new QThread(this)),
     m_evaluatorThread(new QThread(this)),
-    m_reader(new TradingFileReader()),
     m_engine(new TradingEngine()),
     m_evaluator(new TradingEvaluator())
 {
@@ -29,17 +28,12 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(ui->actionStart, &QAction::triggered, [&]() {
         QtConcurrent::run([&](){
-            QFile file("preview.csv");
-            file.open(QIODevice::ReadOnly);
-            QTextStream stream(&file);
-            TradingFileReader reader;
+            TradingFileReader reader("preview.csv");
             connect(&reader, &TradingFileReader::newRecordEncountered,
                     m_engine, &TradingEngine::processNewRecord);
-            reader.startReading(stream);
+            reader.startReading();
         });
     });
-    connect(m_reader, &TradingFileReader::newRecordEncountered,
-            m_engine, &TradingEngine::processNewRecord);
     connect(m_engine, &TradingEngine::newTradeCreated,
             m_evaluator, &TradingEvaluator::processNewTrade);
 
@@ -52,6 +46,5 @@ MainWindow::~MainWindow()
     m_evaluatorThread->quit();
     m_engine->deleteLater();
     m_evaluator->deleteLater();
-    m_reader->deleteLater();
     delete ui;
 }
