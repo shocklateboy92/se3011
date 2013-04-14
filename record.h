@@ -68,6 +68,15 @@ private:
 
 class Trade : public Record
 {
+public:
+    Trade(const Record &other) {
+        *dynamic_cast<Record*>(this) = other;
+    }
+    Trade() = default;
 };
+
+Q_DECLARE_METATYPE(Record)
+Q_DECLARE_METATYPE(Trade)
+
 
 #endif // RECORD_H

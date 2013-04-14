@@ -1,4 +1,7 @@
 #include "trading-engine.h"
+#include "record.h"
+
+#include <QDebug>
 
 TradingEngine::TradingEngine(QObject *parent) :
     QObject(parent)
@@ -6,5 +9,7 @@ TradingEngine::TradingEngine(QObject *parent) :
 }
 
 void TradingEngine::processNewRecord(const Record &r) {
-    // do nothing for now
+    if (r.type() == Record::Type::TRADE) {
+        emit newTradeCreated(Trade(r));
+    }
 }

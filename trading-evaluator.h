@@ -15,6 +15,9 @@ signals:
 
 public slots:
     void processNewTrade(const Trade &trade);
+
+private:
+    int tradeCount;
 };
 
 #endif // TRADINGEVALUATOR_H

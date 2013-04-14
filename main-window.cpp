@@ -4,21 +4,38 @@
 
 #include <QAction>
 #include <QFile>
+#include <QThread>
+#include <QtConcurrent/QtConcurrent>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    m_reader(new TradingFileReader(this)),
-    m_engine(new TradingEngine(this)),
-    m_evaluator(new TradingEvaluator(this))
+    m_engineThread(new QThread(this)),
+    m_evaluatorThread(new QThread(this)),
+    m_reader(new TradingFileReader()),
+    m_engine(new TradingEngine()),
+    m_evaluator(new TradingEvaluator())
 {
     ui->setupUi(this);
 
+    m_engine->moveToThread(m_engineThread);
+    m_evaluator->moveToThread(m_evaluatorThread);
+
+    m_engineThread->start();
+    m_evaluatorThread->start();
+
+
+
     connect(ui->actionStart, &QAction::triggered, [&]() {
-        QFile file("preview.csv");
-        file.open(QIODevice::ReadOnly);
-        QTextStream stream(&file);
-        m_reader->startReading(stream);
+        QtConcurrent::run([&](){
+            QFile file("preview.csv");
+            file.open(QIODevice::ReadOnly);
+            QTextStream stream(&file);
+            TradingFileReader reader;
+            connect(&reader, &TradingFileReader::newRecordEncountered,
+                    m_engine, &TradingEngine::processNewRecord);
+            reader.startReading(stream);
+        });
     });
     connect(m_reader, &TradingFileReader::newRecordEncountered,
             m_engine, &TradingEngine::processNewRecord);
@@ -28,5 +45,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
+    m_engineThread->quit();
+    m_evaluatorThread->quit();
+    m_engine->deleteLater();
+    m_evaluator->deleteLater();
+    m_reader->deleteLater();
     delete ui;
 }

@@ -45,6 +45,9 @@ QTextStream& operator >>(QTextStream &in, Record &r) {
     //more stuff
     //TODO: Parse the rest of the line
 
+    //FIXME - sooo not true!
+    r.m_valid = true;
+
     return in;
 }
 
@@ -147,3 +150,6 @@ void Record::setBidOrAsk(const BidAsk &value)
 {
     m_bidOrAsk = value;
 }
+
+int rd = qRegisterMetaType<Record>("Record");
+int fd = qRegisterMetaType<Trade>("Trade");
