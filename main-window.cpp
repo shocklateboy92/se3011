@@ -2,6 +2,7 @@
 #include "ui_main-window.h"
 #include "trading-file-reader.h"
 #include "trading-files-model.h"
+#include "trading-files-widget.h"
 
 #include <QAction>
 #include <QFile>
@@ -39,7 +40,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     auto model = new TradingFilesModel(this);
     model->addSource("preview.csv");
-    ui->filesView->setModel(model);
+    addDockWidget(Qt::LeftDockWidgetArea, new TradingFilesWidget(model, this));
 }
 
 MainWindow::~MainWindow()
