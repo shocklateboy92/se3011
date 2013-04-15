@@ -21,6 +21,7 @@ signals:
 
 public slots:
     bool addSource(QString path);
+    bool removeRow(int row, const QModelIndex &parent = QModelIndex());
 
 private:
     class DataSource;

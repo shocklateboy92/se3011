@@ -91,6 +91,18 @@ bool TradingFilesModel::addSource(QString path) {
     }
 }
 
+bool TradingFilesModel::removeRow(int row, const QModelIndex &parent) {
+    if (0 > row || row >= rowCount(parent)) {
+        return false;
+    }
+
+    beginRemoveRows(parent, row, row);
+    m_data.removeAt(row);
+    endRemoveRows();
+
+    return true;
+}
+
 TradingFilesModel::~TradingFilesModel() {
     for (auto p : m_data) {
         delete p->reader;
