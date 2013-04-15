@@ -6,6 +6,7 @@
 #include <QDragEnterEvent>
 #include <QMimeData>
 #include <QUrl>
+#include <QFileDialog>
 
 TradingFilesWidget::TradingFilesWidget(TradingFilesModel *model,
                                        QWidget *parent) :
@@ -16,12 +17,13 @@ TradingFilesWidget::TradingFilesWidget(TradingFilesModel *model,
     ui->setupUi(this);
     ui->tableView->setModel(model);
     connect(ui->tableView->selectionModel(),
-            &QItemSelectionModel::selectionChanged,
-            this,
+            &QItemSelectionModel::selectionChanged, this,
             &TradingFilesWidget::onSelectionChanged);
 
     connect(ui->removeButton, &QAbstractButton::clicked, this,
             &TradingFilesWidget::onRemovebuttonClicked);
+    connect(ui->addButton, &QAbstractButton::clicked, this,
+            &TradingFilesWidget::onAddbuttonClicked);
 }
 
 TradingFilesWidget::~TradingFilesWidget()
@@ -64,3 +66,15 @@ void TradingFilesWidget::dragEnterEvent(QDragEnterEvent *e) {
     }
 }
 
+
+void TradingFilesWidget::onAddbuttonClicked()
+{
+    auto files = QFileDialog::getOpenFileNames(
+            this, "Choose a file to import",
+            QString(), "CSV Files (*.csv);;All Files (*)"
+    );
+
+    for (QString file : files) {
+        m_model->addSource(file);
+    }
+}

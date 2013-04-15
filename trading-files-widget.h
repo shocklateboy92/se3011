@@ -26,6 +26,8 @@ private slots:
     void onSelectionChanged();
     void onRemovebuttonClicked();
 
+    void onAddbuttonClicked();
+
 private:
     TradingFilesModel *m_model;
     Ui::TradingFilesWidget *ui;
