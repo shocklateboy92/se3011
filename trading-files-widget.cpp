@@ -3,6 +3,9 @@
 
 #include <QDebug>
 #include <QPushButton>
+#include <QDragEnterEvent>
+#include <QMimeData>
+#include <QUrl>
 
 TradingFilesWidget::TradingFilesWidget(TradingFilesModel *model,
                                        QWidget *parent) :
@@ -42,3 +45,22 @@ void TradingFilesWidget::onRemovebuttonClicked()
     m_model->removeRow(ui->tableView->selectionModel()->
                        selection().indexes().first().row());
 }
+
+void TradingFilesWidget::dropEvent(QDropEvent *e) {
+    qDebug() << e;
+    for (QUrl url : e->mimeData()->urls()) {
+        if (url.isLocalFile()) {
+            m_model->addSource(url.path());
+        } else {
+            qWarning() << "ignoring" << url << "becuase it's not a local file";
+        }
+    }
+}
+
+void TradingFilesWidget::dragEnterEvent(QDragEnterEvent *e) {
+    qDebug() << e->mimeData()->text();
+    if (e->mimeData()->hasUrls()) {
+        e->acceptProposedAction();
+    }
+}
+

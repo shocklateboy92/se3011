@@ -82,8 +82,10 @@ bool TradingFilesModel::addSource(QString path) {
             endResetModel();
         });
 
-
+        beginInsertRows(QModelIndex(), m_data.size(), m_data.size());
         m_data.append(source);
+        endInsertRows();
+
         return true;
     } else {
         delete reader;

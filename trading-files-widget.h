@@ -18,6 +18,10 @@ public:
     explicit TradingFilesWidget(TradingFilesModel *m_model, QWidget *parent = 0);
     ~TradingFilesWidget();
 
+protected:
+    void dropEvent(QDropEvent *e);
+    void dragEnterEvent(QDragEnterEvent *e);
+
 private slots:
     void onSelectionChanged();
     void onRemovebuttonClicked();
