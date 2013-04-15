@@ -16,7 +16,20 @@
   <widget class="QWidget" name="dockWidgetContents">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="QTableView" name="tableView"/>
+     <widget class="QTableView" name="tableView">
+      <property name="selectionMode">
+       <enum>QAbstractItemView::SingleSelection</enum>
+      </property>
+      <property name="selectionBehavior">
+       <enum>QAbstractItemView::SelectRows</enum>
+      </property>
+      <attribute name="horizontalHeaderStretchLastSection">
+       <bool>true</bool>
+      </attribute>
+      <attribute name="verticalHeaderVisible">
+       <bool>false</bool>
+      </attribute>
+     </widget>
     </item>
     <item>
      <widget class="QPushButton" name="removeButton">
@@ -34,11 +47,6 @@
     </item>
    </layout>
   </widget>
-  <action name="actionRemoveFile">
-   <property name="text">
-    <string>Remove File</string>
-   </property>
-  </action>
  </widget>
  <resources/>
  <connections/>

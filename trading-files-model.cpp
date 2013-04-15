@@ -27,6 +27,25 @@ int TradingFilesModel::rowCount(const QModelIndex &parent) const
     return m_data.count();
 }
 
+QVariant TradingFilesModel::headerData(
+        int section, Qt::Orientation orientation, int role) const
+{
+    QVariant data;
+    if (orientation == Qt::Horizontal&&
+            role == Qt::DisplayRole) {
+
+        switch (section) {
+        case Name:
+            data = "File Name";
+            break;
+        case RecordCount:
+            data = "Records Read";
+            break;
+        }
+    }
+    return data;
+}
+
 QVariant TradingFilesModel::data(const QModelIndex &index, int role) const
 {
     QVariant data;
