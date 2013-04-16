@@ -2,7 +2,7 @@
 #include "ui_trading-signal-widget.h"
 
 TradingSignalWidget::TradingSignalWidget(QWidget *parent) :
-    QDockWidget(parent),
+    QWidget(parent),
     ui(new Ui::TradingSignalWidget)
 {
     ui->setupUi(this);
@@ -11,4 +11,8 @@ TradingSignalWidget::TradingSignalWidget(QWidget *parent) :
 TradingSignalWidget::~TradingSignalWidget()
 {
     delete ui;
+}
+
+void TradingSignalWidget::manualAddRecord() {
+
 }

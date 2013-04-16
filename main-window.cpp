@@ -3,6 +3,9 @@
 #include "trading-file-reader.h"
 #include "trading-files-model.h"
 #include "trading-files-widget.h"
+#include "trading-signal-results-widget.h"
+#include "trading-signal-widget.h"
+
 
 #include <QAction>
 #include <QFile>
@@ -29,6 +32,8 @@ MainWindow::MainWindow(QWidget *parent) :
     auto model = new TradingFilesModel(this);
     model->addSource("preview.csv");
     addDockWidget(Qt::LeftDockWidgetArea, new TradingFilesWidget(model, this));
+
+    addDockWidget(Qt::RightDockWidgetArea, new TradingSignalResultsWidget(this));
 
     connect(model, &TradingFilesModel::newRecordEncountered,
             m_engine, &TradingEngine::processNewRecord);

@@ -27,11 +27,11 @@ SOURCES += \
     trading-engine.cpp \
     trading-evaluator.cpp \
     trading-signal-generator.cpp \
-    trading-signal-generatorui.cpp \
     trading-file-reader.cpp \
     trading-files-model.cpp \
     trading-files-widget.cpp \
-    trading-signal-widget.cpp
+    trading-signal-widget.cpp \
+    trading-signal-results-widget.cpp
 
 
 HEADERS += \
@@ -40,14 +40,14 @@ HEADERS += \
     trading-engine.h \
     trading-evaluator.h \
     trading-signal-generator.h \
-    trading-signal-generator-ui.h \
     trading-file-reader.h \
     trading-files-model.h \
     trading-files-widget.h \
-    trading-signal-widget.h
+    trading-signal-widget.h \
+    trading-signal-results-widget.h
 
 FORMS += \
     main-window.ui \
-    trading-signal-generator-ui.ui \
     trading-files-widget.ui \
+    trading-signal-results-widget.ui \
     trading-signal-widget.ui
