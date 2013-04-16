@@ -2,6 +2,7 @@
 #define TRADINGSIGNALRESULTSWIDGET_H
 
 #include <QDockWidget>
+#include <QAbstractTableModel>
 
 namespace Ui {
 class TradingSignalResultsWidget;
@@ -12,10 +13,12 @@ class TradingSignalResultsWidget : public QDockWidget
     Q_OBJECT
     
 public:
-    explicit TradingSignalResultsWidget(QWidget *parent = 0);
+    explicit TradingSignalResultsWidget(QAbstractTableModel *model,
+                                        QWidget *parent = 0);
     ~TradingSignalResultsWidget();
     
 private:
+    QAbstractTableModel *m_model;
     Ui::TradingSignalResultsWidget *ui;
 };
 

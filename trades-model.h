@@ -20,7 +20,7 @@ public:
 signals:
     
 public slots:
-    void storeNewRecord(const Record &r);
+    void addRecord(const Record &r);
     
 private:
     QList<Record> m_data;

@@ -12,11 +12,12 @@ TradesModel::TradesModel(QObject *parent) :
 {
 }
 
-void TradesModel::storeNewRecord(const Record &r)
+void TradesModel::addRecord(const Record &r)
 {
     if (!r.isValid()) {
         qWarning() << "Attempting to store invalid record " << r;
-        return;
+        // fuck it - store it anyway
+//        return;
     }
 
     beginInsertRows(QModelIndex(), m_data.count(), m_data.count());
