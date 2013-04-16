@@ -15,61 +15,71 @@
   </property>
   <layout class="QFormLayout" name="formLayout">
    <item row="1" column="1">
-    <widget class="QLineEdit" name="lineEdit"/>
+    <widget class="QLineEdit" name="company_text"/>
    </item>
    <item row="1" column="0">
-    <widget class="QLabel" name="label">
+    <widget class="QLabel" name="company_label">
      <property name="text">
       <string>Company</string>
      </property>
     </widget>
    </item>
    <item row="2" column="0">
-    <widget class="QLabel" name="label_2">
+    <widget class="QLabel" name="quantity_label">
      <property name="text">
       <string>Quantity</string>
      </property>
     </widget>
    </item>
    <item row="2" column="1">
-    <widget class="QLineEdit" name="lineEdit_2"/>
+    <widget class="QLineEdit" name="quantity_text"/>
    </item>
    <item row="3" column="0">
-    <widget class="QLabel" name="label_3">
+    <widget class="QLabel" name="price_label">
      <property name="text">
       <string>Price</string>
      </property>
     </widget>
    </item>
    <item row="3" column="1">
-    <widget class="QLineEdit" name="lineEdit_3"/>
+    <widget class="QLineEdit" name="price_text"/>
    </item>
-   <item row="6" column="1">
-    <widget class="QPushButton" name="pushButton">
+   <item row="9" column="1">
+    <widget class="QPushButton" name="manualAdd">
      <property name="text">
       <string>Add to List</string>
      </property>
     </widget>
    </item>
    <item row="4" column="1">
-    <widget class="QComboBox" name="comboBox"/>
+    <widget class="QComboBox" name="type_dropdown"/>
    </item>
    <item row="4" column="0">
-    <widget class="QLabel" name="label_4">
+    <widget class="QLabel" name="type_label">
      <property name="text">
       <string>Type</string>
      </property>
     </widget>
    </item>
-   <item row="5" column="1">
-    <widget class="QDateTimeEdit" name="dateTimeEdit"/>
-   </item>
    <item row="5" column="0">
-    <widget class="QLabel" name="label_5">
+    <widget class="QLabel" name="bid_ask_label">
+     <property name="text">
+      <string>Bid/Ask</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="1">
+    <widget class="QComboBox" name="bid_ask_text"/>
+   </item>
+   <item row="6" column="0">
+    <widget class="QLabel" name="time_label">
      <property name="text">
       <string>Time</string>
      </property>
     </widget>
+   </item>
+   <item row="6" column="1">
+    <widget class="QDateTimeEdit" name="time_text"/>
    </item>
   </layout>
  </widget>
