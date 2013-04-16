@@ -5,7 +5,7 @@
 #include "trading-files-widget.h"
 #include "trading-signal-results-widget.h"
 #include "trading-signal-widget.h"
-#include "trades-model.h"
+#include "records-model.h"
 
 #include <QAction>
 #include <QFile>
@@ -33,7 +33,7 @@ MainWindow::MainWindow(QWidget *parent) :
     model->addSource("preview.csv");
     addDockWidget(Qt::LeftDockWidgetArea, new TradingFilesWidget(model, this));
 
-    auto results = new TradesModel(this);
+    auto results = new RecordsModel(this);
     addDockWidget(Qt::RightDockWidgetArea,
                   new TradingSignalResultsWidget(results, this));
 
@@ -44,7 +44,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionStart, &QAction::triggered, model,
             &TradingFilesModel::dataProcessingRequested);
     connect(ui->centralwidget, &TradingSignalWidget::newRecordCreated,
-            results, &TradesModel::addRecord);
+            results, &RecordsModel::addRecord);
 }
 
 MainWindow::~MainWindow()

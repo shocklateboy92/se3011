@@ -5,11 +5,11 @@
 
 #include <QAbstractTableModel>
 
-class TradesModel : public QAbstractTableModel
+class RecordsModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:
-    explicit TradesModel(QObject *parent = 0);
+    explicit RecordsModel(QObject *parent = 0);
 
     int rowCount(const QModelIndex &parent) const;
     int columnCount(const QModelIndex &parent) const;

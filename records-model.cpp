@@ -1,4 +1,4 @@
-#include "trades-model.h"
+#include "records-model.h"
 
 #include <QDebug>
 #include <map>
@@ -7,12 +7,12 @@ enum ColumnNames {
 
 };
 
-TradesModel::TradesModel(QObject *parent) :
+RecordsModel::RecordsModel(QObject *parent) :
     QAbstractTableModel(parent)
 {
 }
 
-void TradesModel::addRecord(const Record &r)
+void RecordsModel::addRecord(const Record &r)
 {
     if (!r.isValid()) {
         qWarning() << "Attempting to store invalid record " << r;
@@ -26,20 +26,20 @@ void TradesModel::addRecord(const Record &r)
 }
 
 
-int TradesModel::rowCount(const QModelIndex &parent) const
+int RecordsModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
     return m_data.count();
 }
 
-int TradesModel::columnCount(const QModelIndex &parent) const
+int RecordsModel::columnCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
     //TODO: update this when I print ALL the info
     return 7;
 }
 
-QVariant TradesModel::headerData(int section, Qt::Orientation orientation, int role) const
+QVariant RecordsModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     QVariant data;
     if (orientation == Qt::Horizontal && role == Qt::DisplayRole) {
@@ -48,7 +48,7 @@ QVariant TradesModel::headerData(int section, Qt::Orientation orientation, int r
     return data;
 }
 
-QVariant TradesModel::data(const QModelIndex &index, int role) const
+QVariant RecordsModel::data(const QModelIndex &index, int role) const
 {
     return "lol";
 }

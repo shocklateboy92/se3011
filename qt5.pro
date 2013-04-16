@@ -32,7 +32,7 @@ SOURCES += \
     trading-files-widget.cpp \
     trading-signal-widget.cpp \
     trading-signal-results-widget.cpp \
-    trades-model.cpp
+    records-model.cpp
 
 
 HEADERS += \
@@ -46,7 +46,7 @@ HEADERS += \
     trading-files-widget.h \
     trading-signal-widget.h \
     trading-signal-results-widget.h \
-    trades-model.h
+    records-model.h
 
 FORMS += \
     main-window.ui \
