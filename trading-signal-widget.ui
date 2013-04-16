@@ -52,7 +52,23 @@
     </widget>
    </item>
    <item row="4" column="1">
-    <widget class="QComboBox" name="type_dropdown"/>
+    <widget class="QComboBox" name="type_dropdown">
+     <item>
+      <property name="text">
+       <string>ENTER</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>AMEND</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>DELETE</string>
+      </property>
+     </item>
+    </widget>
    </item>
    <item row="4" column="0">
     <widget class="QLabel" name="type_label">
@@ -69,7 +85,18 @@
     </widget>
    </item>
    <item row="5" column="1">
-    <widget class="QComboBox" name="bid_ask_text"/>
+    <widget class="QComboBox" name="bid_ask_text">
+     <item>
+      <property name="text">
+       <string>Bid</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Ask</string>
+      </property>
+     </item>
+    </widget>
    </item>
    <item row="6" column="0">
     <widget class="QLabel" name="time_label">
