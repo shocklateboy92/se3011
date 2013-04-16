@@ -30,7 +30,8 @@ SOURCES += \
     trading-signal-generatorui.cpp \
     trading-file-reader.cpp \
     trading-files-model.cpp \
-    trading-files-widget.cpp
+    trading-files-widget.cpp \
+    trading-signal-widget.cpp
 
 
 HEADERS += \
@@ -42,9 +43,11 @@ HEADERS += \
     trading-signal-generator-ui.h \
     trading-file-reader.h \
     trading-files-model.h \
-    trading-files-widget.h
+    trading-files-widget.h \
+    trading-signal-widget.h
 
 FORMS += \
     main-window.ui \
     trading-signal-generator-ui.ui \
-    trading-files-widget.ui
+    trading-files-widget.ui \
+    trading-signal-widget.ui
