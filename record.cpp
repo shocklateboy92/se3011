@@ -38,8 +38,8 @@ QTextStream& operator >>(QTextStream &in, Record &r) {
     r.setDate(QDate::fromString(it.next(), "yyyy-MM-dd"));
     r.setTime(QTime::fromString(it.next(), "hh:mm:ss.zzz"));
     r.setType(type_strings.operator [](it.next().toStdString()));
-//    r.setPrice(it.next().toDouble());
-    it.next(); // not sure what this is
+    r.setPrice(it.next().toDouble());
+    //it.next(); // not sure what this is
     r.setVolume(it.next().toDouble());
     r.setValue(it.next().toDouble());
     //more stuff
@@ -53,6 +53,11 @@ QTextStream& operator >>(QTextStream &in, Record &r) {
 
 QDebug operator << (QDebug os, const Record &r) {
     os << r.instrument();
+    os << r.price();
+    os << r.volume();
+    os << r.value();
+    os << r.date();
+    os << r.time();
     return os;
 }
 
@@ -105,6 +110,16 @@ double Record::volume() const
 void Record::setVolume(double value)
 {
     m_volume = value;
+}
+
+double Record::price() const
+{
+    return m_price;
+}
+
+void Record::setPrice(double value)
+{
+    m_price = value;
 }
 
 double Record::value() const

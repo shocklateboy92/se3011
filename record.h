@@ -34,6 +34,7 @@ public:
     QTime   time() const;
     Type    type() const;
     double  volume() const;
+    double  price() const;
     double  value() const;
     long    transactionId() const;
     long    bidId() const;
@@ -45,6 +46,7 @@ public:
     void setTime(const QTime &value);
     void setType(const Type &value);
     void setVolume(double value);
+    void setPrice(double value);
     void setValue(double value);
     void setTransId(long value);
     void setBidId(long value);
@@ -57,6 +59,7 @@ private:
     QTime m_time;
     Type m_type;
     double m_volume;
+    double m_price;
     double m_value;
     long m_transId;
     long m_bidId;
