@@ -26,21 +26,16 @@ MainWindow::MainWindow(QWidget *parent) :
     m_engineThread->start();
     m_evaluatorThread->start();
 
-
-    connect(ui->actionStart, &QAction::triggered, [&]() {
-        QtConcurrent::run([&](){
-            TradingFileReader reader("preview.csv");
-            connect(&reader, &TradingFileReader::newRecordEncountered,
-                    m_engine, &TradingEngine::processNewRecord);
-            reader.startReading();
-        });
-    });
-    connect(m_engine, &TradingEngine::newTradeCreated,
-            m_evaluator, &TradingEvaluator::processNewTrade);
-
     auto model = new TradingFilesModel(this);
     model->addSource("preview.csv");
     addDockWidget(Qt::LeftDockWidgetArea, new TradingFilesWidget(model, this));
+
+    connect(model, &TradingFilesModel::newRecordEncountered,
+            m_engine, &TradingEngine::processNewRecord);
+    connect(m_engine, &TradingEngine::newTradeCreated,
+            m_evaluator, &TradingEvaluator::processNewTrade);
+    connect(ui->actionStart, &QAction::triggered, model,
+            &TradingFilesModel::dataProcessingRequested);
 }
 
 MainWindow::~MainWindow()

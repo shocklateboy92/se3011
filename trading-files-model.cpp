@@ -70,17 +70,15 @@ bool TradingFilesModel::addSource(QString path) {
     if (reader->isValid()) {
         auto source = new DataSource;
         source->thread = new QThread(this);
+        source->thread->start();
 
         reader->moveToThread(source->thread);
         source->reader = reader;
 
-        source->recordCount = 0;
-        connect(source->reader,
-                &TradingFileReader::newRecordEncountered, [&]() {
-            beginResetModel();
-            source->recordCount++;
-            endResetModel();
-        });
+        connect(this, &TradingFilesModel::dataProcessingRequested,
+                source->reader, &TradingFileReader::startReading);
+        connect(source->reader, &TradingFileReader::newRecordEncountered,
+                this, &TradingFilesModel::newRecordEncountered);
 
         beginInsertRows(QModelIndex(), m_data.size(), m_data.size());
         m_data.append(source);
@@ -99,7 +97,9 @@ bool TradingFilesModel::removeRow(int row, const QModelIndex &parent) {
     }
 
     beginRemoveRows(parent, row, row);
-    m_data.removeAt(row);
+    DataSource *source = m_data.takeAt(row);
+    delete source->reader;
+    delete source;
     endRemoveRows();
 
     return true;
