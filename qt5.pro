@@ -31,7 +31,8 @@ SOURCES += \
     trading-files-model.cpp \
     trading-files-widget.cpp \
     trading-signal-widget.cpp \
-    trading-signal-results-widget.cpp
+    trading-signal-results-widget.cpp \
+    trades-model.cpp
 
 
 HEADERS += \
@@ -44,7 +45,8 @@ HEADERS += \
     trading-files-model.h \
     trading-files-widget.h \
     trading-signal-widget.h \
-    trading-signal-results-widget.h
+    trading-signal-results-widget.h \
+    trades-model.h
 
 FORMS += \
     main-window.ui \
