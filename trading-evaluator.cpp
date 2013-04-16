@@ -1,4 +1,5 @@
 #include "trading-evaluator.h"
+#include "record.h"
 #include <QDebug>
 #include <QString>
 
@@ -10,4 +11,5 @@ TradingEvaluator::TradingEvaluator(QObject *parent) :
 void TradingEvaluator::processNewTrade(const Trade &trade) {
     // also do nothing
     qDebug() << QStringLiteral("evaluating trade #%1...").arg(tradeCount++);
+    qDebug() <<*((Record*)&trade);
 }

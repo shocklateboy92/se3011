@@ -27,7 +27,7 @@ public:
     friend QDataStream& operator >>(QDataStream &in, Record &r);
     friend QTextStream& operator >>(QTextStream &in, Record &r);
     friend QDataStream& operator <<(QDataStream &os, const Record &r);
-    friend QTextStream& operator <<(QTextStream &os, const Record &r);
+    friend QDebug operator <<(QDebug os, const Record &r);
 
     QString instrument() const;
     QDate   date() const;

@@ -51,6 +51,12 @@ QTextStream& operator >>(QTextStream &in, Record &r) {
     return in;
 }
 
+QDebug operator << (QDebug os, const Record &r) {
+    os << r.instrument();
+    return os;
+}
+
+
 QString Record::instrument() const
 {
     return m_instrument;
