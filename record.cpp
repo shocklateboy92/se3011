@@ -13,7 +13,7 @@ Record::Record() :
 {
 }
 
-bool Record::isValid() {
+bool Record::isValid() const {
     //FIXME: run some sanity checks here
     return m_valid;
 }

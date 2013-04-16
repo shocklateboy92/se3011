@@ -22,7 +22,7 @@ public:
     };
 
     Record();
-    bool isValid();
+    bool isValid() const;
 
     friend QDataStream& operator >>(QDataStream &in, Record &r);
     friend QTextStream& operator >>(QTextStream &in, Record &r);
