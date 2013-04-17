@@ -8,6 +8,14 @@
 #include <QDebug>
 #include <unordered_map>
 
+// because QMap doesn't support initializer lists yet
+static std::unordered_map<std::string, Record::Type> type_strings = {
+    {"ENTER", Record::Type::ENTER},
+    {"AMEND", Record::Type::AMEND},
+    {"TRADE", Record::Type::TRADE},
+    {"DELETE", Record::Type::DELETE}
+};
+
 Record::Record() :
     m_valid(false)
 {
@@ -18,13 +26,6 @@ bool Record::isValid() const {
     return m_valid;
 }
 
-// because QMap doesn't support initializer lists yet
-static std::unordered_map<std::string, Record::Type> type_strings = {
-    {"ENTER", Record::Type::ENTER},
-    {"AMEND", Record::Type::AMEND},
-    {"TRADE", Record::Type::TRADE},
-    {"DELETE", Record::Type::DELETE}
-};
 
 QTextStream& operator >>(QTextStream &in, Record &r) {
     static QRegularExpression sep("\",\"");
