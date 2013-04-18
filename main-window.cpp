@@ -4,6 +4,7 @@
 #include "trading-files-model.h"
 #include "trading-files-widget.h"
 #include "trading-signal-results-widget.h"
+#include "trading-evaluator-widget.h"
 #include "trading-signal-widget.h"
 #include "records-model.h"
 
@@ -36,6 +37,9 @@ MainWindow::MainWindow(QWidget *parent) :
     auto results = new RecordsModel(this);
     addDockWidget(Qt::RightDockWidgetArea,
                   new TradingSignalResultsWidget(results, this));
+
+    addDockWidget(Qt::BottomDockWidgetArea,
+                  new TradingEvaluatorWidget(this));
 
     connect(model, &TradingFilesModel::newRecordEncountered,
             m_engine, &TradingEngine::processNewRecord);
