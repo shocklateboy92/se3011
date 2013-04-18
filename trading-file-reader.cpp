@@ -18,6 +18,10 @@ TradingFileReader::TradingFileReader(const QString &fileName, QObject *parent) :
 void TradingFileReader::startReading()
 {
     qDebug() << "GAH!";
+
+    // in case we've read the file before
+    m_stream.seek(0);
+
     while (!m_stream.atEnd()) {
         Record r;
         m_stream >> r;
