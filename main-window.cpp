@@ -38,8 +38,10 @@ MainWindow::MainWindow(QWidget *parent) :
     addDockWidget(Qt::RightDockWidgetArea,
                   new TradingSignalResultsWidget(results, this));
 
+    auto mytrades = new RecordsModel(this);
+    auto alltrades = new RecordsModel(this);
     addDockWidget(Qt::BottomDockWidgetArea,
-                  new TradingEvaluatorWidget(this));
+                  new TradingEvaluatorWidget(mytrades, alltrades, this));
 
     connect(model, &TradingFilesModel::newRecordEncountered,
             m_engine, &TradingEngine::processNewRecord);
