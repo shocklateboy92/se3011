@@ -21,9 +21,9 @@ void TradingSignalWidget::manualAddRecord() {
     r.setInstrument(ui->company_text->text());
     r.setDate(ui->time_text->date());
     r.setTime(ui->time_text->time());
-    if(ui->type_dropdown->currentText() =="Enter") {
+    if(ui->type_dropdown->currentText() =="ENTER") {
         r.setType(Record::Type::ENTER);
-    } else if (ui->type_dropdown->currentText() =="Amend") {
+    } else if (ui->type_dropdown->currentText() =="AMEND") {
         r.setType(Record::Type::AMEND);
     } else {
         r.setType(Record::Type::DELETE);
