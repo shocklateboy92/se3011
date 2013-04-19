@@ -12,8 +12,10 @@ public:
     explicit TradingSignalGenerator(QObject *parent = 0);
 
 signals:
-    void newRecordGenerated(Record &r);
+    void newRecordGenerated(const Record &r);
+
 public slots:
+    void processNewRecord(const Record &r);
 
 };
 

@@ -6,6 +6,7 @@
 #include "trading-signal-results-widget.h"
 #include "trading-evaluator-widget.h"
 #include "trading-signal-widget.h"
+#include "trading-signal-generator.h"
 #include "records-model.h"
 
 #include <QAction>
@@ -19,16 +20,21 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow),
     m_engineThread(new QThread(this)),
     m_evaluatorThread(new QThread(this)),
+    m_signal_generatorThread(new QThread(this)),
     m_engine(new TradingEngine()),
-    m_evaluator(new TradingEvaluator())
+    m_evaluator(new TradingEvaluator()),
+    m_signal_generator(new TradingSignalGenerator())
 {
     ui->setupUi(this);
 
     m_engine->moveToThread(m_engineThread);
     m_evaluator->moveToThread(m_evaluatorThread);
+    m_signal_generator->moveToThread(m_signal_generatorThread);
+
 
     m_engineThread->start();
     m_evaluatorThread->start();
+    m_signal_generatorThread->start();
 
     auto model = new TradingFilesModel(this);
     model->addSource("preview.csv");
@@ -47,9 +53,16 @@ MainWindow::MainWindow(QWidget *parent) :
             m_engine, &TradingEngine::processNewRecord);
     connect(m_engine, &TradingEngine::newTradeCreated,
             m_evaluator, &TradingEvaluator::processNewTrade);
+
+    //this is wrong as it isnt processing the signal generator
     connect(ui->actionStart, &QAction::triggered, model,
             &TradingFilesModel::dataProcessingRequested);
+
+
     connect(ui->centralwidget, &TradingSignalWidget::newRecordCreated,
+            m_signal_generator, &TradingSignalGenerator::processNewRecord);
+
+    connect(m_signal_generator, &TradingSignalGenerator::newRecordGenerated,
             results, &RecordsModel::addRecord);
 
     //this is probably wrong or not?

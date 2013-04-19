@@ -25,10 +25,11 @@ public:
 private:
     Ui::MainWindow *ui;
 
-    QThread *m_engineThread, *m_evaluatorThread;
+    QThread *m_engineThread, *m_evaluatorThread, *m_signal_generatorThread;
 
     TradingEngine *m_engine;
     TradingEvaluator *m_evaluator;
+    TradingSignalGenerator *m_signal_generator;
 };
 
 #endif // MAINWINDOW_H
