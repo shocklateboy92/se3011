@@ -23,6 +23,9 @@
      </widget>
     </item>
     <item>
+     <widget class="QTextBrowser" name="stats_text"/>
+    </item>
+    <item>
      <widget class="QLabel" name="my_trades_label">
       <property name="text">
        <string>My Trades:</string>

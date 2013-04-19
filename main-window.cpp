@@ -45,8 +45,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     auto mytrades = new RecordsModel(this);
     auto alltrades = new RecordsModel(this);
-    addDockWidget(Qt::BottomDockWidgetArea,
-                  new TradingEvaluatorWidget(mytrades, alltrades, this));
+    auto evalwidget = new TradingEvaluatorWidget(mytrades, alltrades, this);
+    addDockWidget(Qt::BottomDockWidgetArea,evalwidget);
 
     connect(model, &TradingFilesModel::newRecordEncountered,
             m_engine, &TradingEngine::processNewRecord);
@@ -70,6 +70,9 @@ MainWindow::MainWindow(QWidget *parent) :
     //This is really slow
     connect(m_engine, &TradingEngine::newTradeCreated, alltrades, &RecordsModel::addRecord);
     connect(m_evaluator, &TradingEvaluator::signalTradeEncountered, mytrades, &RecordsModel::addRecord);
+
+    connect(m_evaluator, &TradingEvaluator::currentEval, evalwidget, &TradingEvaluatorWidget::printCurrentEval);
+
 
 }
 

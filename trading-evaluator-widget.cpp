@@ -17,7 +17,11 @@ TradingEvaluatorWidget::~TradingEvaluatorWidget()
     delete ui;
 }
 
-void TradingEvaluatorWidget::currentEval(float moneySpent, float moneyGained) {
+void TradingEvaluatorWidget::printCurrentEval(float moneySpent, float moneyGained) {
+    ui->stats_text->clear();
+    ui->stats_text->append("Money Gained: " + QString::number(moneyGained));
+    ui->stats_text->append("Money Spent: " + QString::number(moneySpent));
+    ui->stats_text->append("Profit: " + QString::number(moneyGained - moneySpent));
 
 }
 
