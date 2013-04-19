@@ -15,7 +15,10 @@ class TradingEvaluatorWidget : public QDockWidget
 public:
     explicit TradingEvaluatorWidget(QAbstractTableModel *my, QAbstractTableModel *all,QWidget *parent = 0);
     ~TradingEvaluatorWidget();
-    
+
+public slots:
+    void currentEval(float moneySpent, float moneyGained);
+
 private:
     QAbstractTableModel *my_model;
     QAbstractTableModel *all_model;

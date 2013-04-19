@@ -6,6 +6,9 @@
 TradingEvaluator::TradingEvaluator(QObject *parent) :
     QObject(parent), tradeCount(0)
 {
+    moneySpent = 0;
+    moneyGained = 0;
+
 }
 
 void TradingEvaluator::processNewTrade(const Trade &trade) {
@@ -13,7 +16,15 @@ void TradingEvaluator::processNewTrade(const Trade &trade) {
     qDebug() << QStringLiteral("evaluating trade #%1...").arg(tradeCount++);
     qDebug() <<*((Record*)&trade);
 
-    if (trade.askId() == 6666 || trade.bidId() == 6666) {
-            emit signalTradeEncountered(trade);
+    if (trade.askId() == 6666) {
+        moneySpent += trade.value();
+        emit signalTradeEncountered(trade);
+
+    } else if (trade.bidId() == 6666) {
+
+        moneyGained += trade.value();
+        emit signalTradeEncountered(trade);
     }
+
+    emit currentEval(moneySpent, moneyGained);
 }

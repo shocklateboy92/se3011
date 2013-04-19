@@ -16,3 +16,8 @@ TradingEvaluatorWidget::~TradingEvaluatorWidget()
 {
     delete ui;
 }
+
+void TradingEvaluatorWidget::currentEval(float moneySpent, float moneyGained) {
+
+}
+

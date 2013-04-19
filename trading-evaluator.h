@@ -13,12 +13,15 @@ public:
 
 signals:
     void signalTradeEncountered(const Trade &r);
+    void currentEval(float moneySpent, float moneyGained);
 
 public slots:
     void processNewTrade(const Trade &trade);
 
 private:
     int tradeCount;
+    float moneySpent;
+    float moneyGained;
 };
 
 #endif // TRADINGEVALUATOR_H
