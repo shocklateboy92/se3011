@@ -110,6 +110,15 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>company_text</tabstop>
+  <tabstop>quantity_text</tabstop>
+  <tabstop>price_text</tabstop>
+  <tabstop>type_dropdown</tabstop>
+  <tabstop>bid_ask_text</tabstop>
+  <tabstop>time_text</tabstop>
+  <tabstop>manualAdd</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
