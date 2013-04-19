@@ -60,7 +60,7 @@ MainWindow::MainWindow(QWidget *parent) :
             &TradingSignalGenerator::dataProcessingRequested);
 
     //this crashes why?
-    //connect(m_signal_generator, &TradingSignalGenerator::nextRecord,m_engine, &TradingEngine::processNewRecord);
+    connect(m_signal_generator, &TradingSignalGenerator::nextRecord,m_engine, &TradingEngine::processNewRecord);
 
     connect(ui->centralwidget, &TradingSignalWidget::newRecordCreated,
             m_signal_generator, &TradingSignalGenerator::processNewRecord);

@@ -9,14 +9,14 @@ TradingSignalGenerator::TradingSignalGenerator(QObject *parent) :
 }
 
 void TradingSignalGenerator::processNewRecord(const Record &r) {
-    m_records.push_back(&r);
+    m_records.append(r);
     emit newRecordGenerated(r);
 }
 
 void TradingSignalGenerator::dataProcessingRequested() {
     while(!m_records.isEmpty()) {
-        const Record *r = m_records.takeFirst();
+        auto r = m_records.takeFirst();
         qDebug() << r;
-        emit nextRecord(*r);
+        emit nextRecord(r);
     }
 }

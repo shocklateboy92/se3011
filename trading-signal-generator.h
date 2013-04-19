@@ -1,11 +1,10 @@
 #ifndef TRADINGSIGNALGENERATOR_H
 #define TRADINGSIGNALGENERATOR_H
 
+#include "record.h"
+
 #include <QObject>
 #include <QList>
-
-
-class Record;
 
 class TradingSignalGenerator : public QObject
 {
@@ -22,7 +21,7 @@ public slots:
     void dataProcessingRequested();
 
 private:
-    QList<const Record*> m_records;
+    QList<Record> m_records;
 
 };
 
