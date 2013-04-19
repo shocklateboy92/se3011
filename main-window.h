@@ -3,10 +3,9 @@
 
 #include "trading-engine.h"
 #include "trading-evaluator.h"
-#include "trading-file-reader.h"
+#include "trading-files-model.h"
 #include "trading-signal-generator.h"
 #include "trading-signal-widget.h"
-
 
 #include <QMainWindow>
 
@@ -25,11 +24,13 @@ public:
 private:
     Ui::MainWindow *ui;
 
-    QThread *m_engineThread, *m_evaluatorThread, *m_signal_generatorThread;
+    QThread *m_engineThread, *m_evaluatorThread,
+            *m_signal_generatorThread, *m_inputThread;
 
     TradingEngine *m_engine;
     TradingEvaluator *m_evaluator;
     TradingSignalGenerator *m_signal_generator;
+    TradingFilesModel *m_inputModel;
 };
 
 #endif // MAINWINDOW_H
