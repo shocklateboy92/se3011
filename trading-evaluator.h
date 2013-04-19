@@ -12,6 +12,7 @@ public:
     explicit TradingEvaluator(QObject *parent = 0);
 
 signals:
+    void signalTradeEncountered(const Trade &r);
 
 public slots:
     void processNewTrade(const Trade &trade);

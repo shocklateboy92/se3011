@@ -52,8 +52,10 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->centralwidget, &TradingSignalWidget::newRecordCreated,
             results, &RecordsModel::addRecord);
 
-    //this is probably wrong
+    //this is probably wrong or not?
     connect(m_engine, &TradingEngine::newTradeCreated, alltrades, &RecordsModel::addRecord);
+    connect(m_evaluator, &TradingEvaluator::signalTradeEncountered, mytrades, &RecordsModel::addRecord);
+
 }
 
 MainWindow::~MainWindow()

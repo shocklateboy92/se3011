@@ -25,6 +25,11 @@ void TradingSignalWidget::manualAddRecord() {
     r.setPrice(ui->price_text->text().toDouble());
     r.setVolume(ui->quantity_text->text().toDouble());
     r.setValue(ui->price_text->text().toDouble()*ui->quantity_text->text().toDouble());
+    if(ui->bid_ask_text->currentText() == "Bid") {
+        r.setBidId(6666);
+    } else {
+        r.setAskId(6666);
+    }
     qDebug() <<r;
     emit newRecordCreated(r);
 }
