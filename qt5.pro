@@ -15,9 +15,6 @@ CONFIG   += app_bundle
 TEMPLATE = app
 
 QMAKE_CXXFLAGS += -std=c++11
-QMAKE_CXX = g++-4.8
-QMAKE_CC = gcc-4.8
-QMAKE_LINK = g++-4.8
 
 
 SOURCES += \
