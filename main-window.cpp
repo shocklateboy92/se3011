@@ -75,7 +75,9 @@ MainWindow::~MainWindow()
 {
     m_engineThread->quit();
     m_evaluatorThread->quit();
+    m_signal_generatorThread->quit();
     m_engine->deleteLater();
     m_evaluator->deleteLater();
+    m_signal_generator->deleteLater();
     delete ui;
 }
