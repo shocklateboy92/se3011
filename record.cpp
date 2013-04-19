@@ -17,7 +17,7 @@ static std::unordered_map<std::string, Record::Type> type_strings = {
 };
 
 Record::Record() :
-    m_valid(false)
+    m_valid(true)
 {
 }
 

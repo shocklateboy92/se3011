@@ -2,6 +2,8 @@
 #define TRADINGSIGNALGENERATOR_H
 
 #include <QObject>
+#include <QList>
+
 
 class Record;
 
@@ -13,9 +15,14 @@ public:
 
 signals:
     void newRecordGenerated(const Record &r);
+    void nextRecord(const Record &r);
 
 public slots:
     void processNewRecord(const Record &r);
+    void dataProcessingRequested();
+
+private:
+    QList<const Record*> m_records;
 
 };
 

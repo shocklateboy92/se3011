@@ -54,10 +54,13 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(m_engine, &TradingEngine::newTradeCreated,
             m_evaluator, &TradingEvaluator::processNewTrade);
 
-    //this is wrong as it isnt processing the signal generator
     connect(ui->actionStart, &QAction::triggered, model,
             &TradingFilesModel::dataProcessingRequested);
+    connect(ui->actionStart, &QAction::triggered, m_signal_generator,
+            &TradingSignalGenerator::dataProcessingRequested);
 
+    //this crashes why?
+    //connect(m_signal_generator, &TradingSignalGenerator::nextRecord,m_engine, &TradingEngine::processNewRecord);
 
     connect(ui->centralwidget, &TradingSignalWidget::newRecordCreated,
             m_signal_generator, &TradingSignalGenerator::processNewRecord);
