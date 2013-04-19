@@ -11,13 +11,15 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = qt5
 CONFIG   += console gui
 CONFIG   += app_bundle
+CONFIG   += thread
 
 TEMPLATE = app
 
 QMAKE_CXXFLAGS += -std=c++11
 
-DEFINES += QT_NO_DEBUG
-DEFINES += QT_NO_DEBUG_OUTPUT
+CONFIG (release, debug|release) {
+    DEFINES += QT_NO_DEBUG_OUTPUT
+}
 
 SOURCES += \
     main.cpp \
