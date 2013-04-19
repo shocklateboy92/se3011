@@ -30,6 +30,13 @@ bool Record::isValid() const {
 QTextStream& operator >>(QTextStream &in, Record &r) {
     static QRegularExpression sep("\",\"");
     QStringList line = in.readLine().split(sep);
+
+    if (line.first().startsWith('#')) {
+        r.m_valid = false;
+        qDebug() << "invalid record line:" << line;
+        return in;
+    }
+
     line.first().remove(0, 1);
     line.last().chop(1);
 
