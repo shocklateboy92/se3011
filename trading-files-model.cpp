@@ -69,7 +69,7 @@ bool TradingFilesModel::addSource(QString path) {
     TradingFileReader *reader = new TradingFileReader(path);
     if (reader->isValid()) {
         auto source = new DataSource;
-        source->thread = new QThread(this);
+        source->thread = new QThread();
         source->thread->start();
 
         reader->moveToThread(source->thread);
@@ -106,7 +106,10 @@ bool TradingFilesModel::removeRow(int row, const QModelIndex &parent) {
 }
 
 TradingFilesModel::~TradingFilesModel() {
-    for (auto p : m_data) {
+    for (DataSource *p : m_data) {
+        p->thread->quit();
+        p->thread->wait();
+        delete p->thread;
         delete p->reader;
         delete p;
     }

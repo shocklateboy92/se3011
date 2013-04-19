@@ -86,9 +86,17 @@ MainWindow::~MainWindow()
     m_engineThread->quit();
     m_evaluatorThread->quit();
     m_signal_generatorThread->quit();
+    m_inputThread->quit();
+
+    m_engineThread->wait();
+    m_evaluatorThread->wait();
+    m_signal_generatorThread->wait();
+    m_inputThread->wait();
+
     m_engine->deleteLater();
     m_evaluator->deleteLater();
     m_signal_generator->deleteLater();
     m_inputModel->deleteLater();
+
     delete ui;
 }
