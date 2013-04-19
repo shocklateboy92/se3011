@@ -37,7 +37,6 @@ MainWindow::MainWindow(QWidget *parent) :
     m_signal_generatorThread->start();
 
     auto model = new TradingFilesModel(this);
-    model->addSource("preview.csv");
     addDockWidget(Qt::LeftDockWidgetArea, new TradingFilesWidget(model, this));
 
     auto results = new RecordsModel(this);
@@ -68,7 +67,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(m_signal_generator, &TradingSignalGenerator::newRecordGenerated,
             results, &RecordsModel::addRecord);
 
-    //this is probably wrong or not?
+    //This is really slow
     connect(m_engine, &TradingEngine::newTradeCreated, alltrades, &RecordsModel::addRecord);
     connect(m_evaluator, &TradingEvaluator::signalTradeEncountered, mytrades, &RecordsModel::addRecord);
 

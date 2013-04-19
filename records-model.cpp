@@ -103,9 +103,19 @@ QVariant RecordsModel::data(const QModelIndex &index, int role) const
         case ColumnName::Time:
             data = r.time();
             break;
-//        case RecordType:
-//            data = r.type();
-//            break;
+        case ColumnName::RecordType:
+            if (r.type() == Record::Type::AMEND) {
+                data = "Amend";
+            } else if (r.type() == Record::Type::ENTER) {
+                data = "Enter";
+            } else if (r.type() == Record::Type::DELETE) {
+                data = "Delete";
+            } else if (r.type() == Record::Type::TRADE) {
+                data = "Trade";
+            } else {
+                data = "UNKNOWN";
+            }
+            break;
         case ColumnName::Price:
             data = r.price();
             break;
