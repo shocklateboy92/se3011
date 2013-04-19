@@ -28,7 +28,7 @@ bool Record::isValid() const {
 
 
 QTextStream& operator >>(QTextStream &in, Record &r) {
-    static QRegularExpression sep("\",\"");
+    static QRegularExpression sep(",");
     QStringList line = in.readLine().split(sep);
 
     if (line.first().startsWith('#')) {
