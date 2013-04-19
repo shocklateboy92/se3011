@@ -21,6 +21,8 @@ void TradingFileReader::startReading()
 
     // in case we've read the file before
     m_stream.seek(0);
+    //ignore header line
+    m_stream.readLine();
 
     while (!m_stream.atEnd()) {
         Record r;
