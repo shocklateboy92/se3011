@@ -28,6 +28,7 @@ MainWindow::MainWindow(QWidget *parent) :
     m_inputModel(new TradingFilesModel())
 {
     ui->setupUi(this);
+    setTabPosition(Qt::AllDockWidgetAreas, QTabWidget::North);
 
     m_engine->moveToThread(m_engineThread);
     m_inputModel->moveToThread(m_inputThread);
