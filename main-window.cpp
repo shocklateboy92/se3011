@@ -76,7 +76,7 @@ MainWindow::MainWindow(QWidget *parent) :
 //    connect(m_engine, &TradingEngine::newTradeCreated, alltrades, &RecordsModel::addRecord);
     connect(m_evaluator, &TradingEvaluator::signalTradeEncountered, mytrades, &RecordsModel::addRecord);
 
-//    connect(m_evaluator, &TradingEvaluator::currentEval, evalwidget, &TradingEvaluatorWidget::printCurrentEval);
+    connect(m_evaluator, &TradingEvaluator::currentEval, evalwidget, &TradingEvaluatorWidget::printCurrentEval);
 
 
 }

@@ -17,14 +17,16 @@ void TradingEvaluator::processNewTrade(const Trade &trade) {
     qDebug() <<*((Record*)&trade);
 
     if (trade.askId() == 6666) {
-        moneySpent += trade.value();
         emit signalTradeEncountered(trade);
+
+        moneySpent += trade.value();
+        emit currentEval(moneySpent, moneyGained);
 
     } else if (trade.bidId() == 6666) {
+        emit signalTradeEncountered(trade);
 
         moneyGained += trade.value();
-        emit signalTradeEncountered(trade);
+        emit currentEval(moneySpent, moneyGained);
     }
 
-    emit currentEval(moneySpent, moneyGained);
 }
