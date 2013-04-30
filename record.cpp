@@ -37,9 +37,6 @@ QTextStream& operator >>(QTextStream &in, Record &r) {
         return in;
     }
 
-    line.first().remove(0, 1);
-    line.last().chop(1);
-
     QStringListIterator it(line);
 
     r.setInstrument(it.next());
