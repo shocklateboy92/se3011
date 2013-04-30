@@ -74,7 +74,7 @@ MainWindow::MainWindow(QWidget *parent) :
             results, &RecordsModel::addRecord);
 
     //This is really slow
-//    connect(m_engine, &TradingEngine::newTradeCreated, alltrades, &RecordsModel::addRecord);
+    connect(m_engine, &TradingEngine::newTradeCreated, alltrades, &RecordsModel::addRecord);
     connect(m_evaluator, &TradingEvaluator::signalTradeEncountered, mytrades, &RecordsModel::addRecord);
 
     connect(m_evaluator, &TradingEvaluator::currentEval, evalwidget, &TradingEvaluatorWidget::printCurrentEval);

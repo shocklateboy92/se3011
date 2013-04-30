@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>TradingSignalMomentum</class>
+ <widget class="QDockWidget" name="TradingSignalMomentum">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>TradingSignalMomentum</string>
+  </property>
+  <widget class="QWidget" name="dockWidgetContents">
+   <layout class="QFormLayout" name="formLayout">
+    <item row="0" column="0">
+     <widget class="QLabel" name="instrument_label">
+      <property name="text">
+       <string>Instrument</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QLineEdit" name="instrument_text"/>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="change_label">
+      <property name="text">
+       <string>Change</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0" colspan="2">
+     <widget class="QTableWidget" name="tableWidget">
+      <column>
+       <property name="text">
+        <string>Instrument</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Change</string>
+       </property>
+      </column>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QLineEdit" name="change_text"/>
+    </item>
+    <item row="2" column="1">
+     <widget class="QPushButton" name="momentum_add">
+      <property name="text">
+       <string>Add Momentum</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
