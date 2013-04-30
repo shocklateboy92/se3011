@@ -30,42 +30,44 @@ void TradingSignalGenerator::processMomentum(const QString &instrument, const QS
 }
 
 void TradingSignalGenerator::processTrade(const Trade &t) {
-    MomentumData &data = m_momentums[t.instrument()];
-    if (t.volume() >= data.previousVolume) {
-        if (data.isRising == false) {
-            data.currentConsecutiveChanges = 0;
-        }
-        data.isRising = true;
-    } else {
-        if (data.isRising == true) {
-            data.currentConsecutiveChanges = 0;
-        }
-        data.isRising = false;
-    }
-
-    data.previousPrice = t.price();
-    data.previousVolume = t.volume();
-
-    data.currentConsecutiveChanges++;
-
-    if (data.consecutiveChangesRequired <= data.currentConsecutiveChanges) {
-        data.currentConsecutiveChanges = 0;
-        auto r = Record();
-        if (data.isRising) {
-            r.setBidId(6666);
-            r.setBidOrAsk(Record::BidAsk::Bid);
+    if(m_momentums.contains(t.instrument())) {
+        MomentumData &data = m_momentums[t.instrument()];
+        if (t.volume() >= data.previousVolume) {
+            if (data.isRising == false) {
+                data.currentConsecutiveChanges = 0;
+            }
+            data.isRising = true;
         } else {
-            r.setAskId(6666);
-            r.setBidOrAsk(Record::BidAsk::Ask);
+            if (data.isRising == true) {
+                data.currentConsecutiveChanges = 0;
+            }
+            data.isRising = false;
         }
-        r.setBidOrAsk(data.isRising ? Record::BidAsk::Bid : Record::BidAsk::Ask);
-        r.setDate(QDate::currentDate());
-        r.setTime(QTime::currentTime());
-        r.setInstrument(t.instrument());
-        r.setType(Record::Type::ENTER);
-        r.setVolume(t.volume());
-        r.setPrice(t.price());
-        r.setValue(r.price() * r.volume());
-        emit nextRecord(r);
+
+        data.previousPrice = t.price();
+        data.previousVolume = t.volume();
+
+        data.currentConsecutiveChanges++;
+
+        if (data.consecutiveChangesRequired <= data.currentConsecutiveChanges) {
+            data.currentConsecutiveChanges = 0;
+            auto r = Record();
+            if (data.isRising) {
+                r.setBidId(6666);
+                r.setBidOrAsk(Record::BidAsk::Bid);
+            } else {
+                r.setAskId(6666);
+                r.setBidOrAsk(Record::BidAsk::Ask);
+            }
+            r.setBidOrAsk(data.isRising ? Record::BidAsk::Bid : Record::BidAsk::Ask);
+            r.setDate(QDate::currentDate());
+            r.setTime(QTime::currentTime());
+            r.setInstrument(t.instrument());
+            r.setType(Record::Type::ENTER);
+            r.setVolume(t.volume());
+            r.setPrice(t.price());
+            r.setValue(r.price() * r.volume());
+            emit nextRecord(r);
+        }
     }
 }
