@@ -7,6 +7,8 @@
 #include "trading-evaluator-widget.h"
 #include "trading-signal-widget.h"
 #include "trading-signal-generator.h"
+#include "trading-signal-momentum.h"
+
 #include "records-model.h"
 
 #include <QAction>
@@ -47,6 +49,9 @@ MainWindow::MainWindow(QWidget *parent) :
     auto results = new RecordsModel(this);
     addDockWidget(Qt::RightDockWidgetArea,
                   new TradingSignalResultsWidget(results, this));
+
+    addDockWidget(Qt::BottomDockWidgetArea, new TradingSignalMomentum(this));
+
 
     auto mytrades = new RecordsModel(this);
     auto alltrades = new RecordsModel(this);
