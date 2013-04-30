@@ -30,7 +30,7 @@ void TradingSignalGenerator::processMomentum(const QString &instrument, const QS
 }
 
 void TradingSignalGenerator::processTrade(const Trade &t) {
-    MomentumData data = m_momentums[t.instrument()];
+    MomentumData &data = m_momentums[t.instrument()];
     if (t.price() >= data.previousPrice) {
         if (data.isRising == false) {
             data.currentConsecutiveChanges = 0;
@@ -43,13 +43,19 @@ void TradingSignalGenerator::processTrade(const Trade &t) {
         data.isRising = false;
     }
 
+    data.previousPrice = t.price();
     data.currentConsecutiveChanges++;
 
     if (data.consecutiveChangesRequired <= data.currentConsecutiveChanges) {
         data.currentConsecutiveChanges = 0;
         auto r = Record();
-        r.setAskId(6666);
-        r.setBidId(6666);
+        if (data.isRising) {
+            r.setBidId(6666);
+            r.setBidOrAsk(Record::BidAsk::Bid);
+        } else {
+            r.setAskId(6666);
+            r.setBidOrAsk(Record::BidAsk::Ask);
+        }
         r.setBidOrAsk(data.isRising ? Record::BidAsk::Bid : Record::BidAsk::Ask);
         r.setDate(QDate::currentDate());
         r.setTime(QTime::currentTime());

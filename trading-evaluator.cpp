@@ -13,8 +13,8 @@ TradingEvaluator::TradingEvaluator(QObject *parent) :
 
 void TradingEvaluator::processNewTrade(const Trade &trade) {
     // also do nothing
-    qDebug() << QStringLiteral("evaluating trade #%1...").arg(tradeCount++);
-    qDebug() <<*((Record*)&trade);
+//    qDebug() << QStringLiteral("evaluating trade #%1...").arg(tradeCount++);
+//    qDebug() <<*((Record*)&trade);
 
     if (trade.askId() == 6666) {
         emit signalTradeEncountered(trade);
