@@ -49,8 +49,8 @@ MainWindow::MainWindow(QWidget *parent) :
     auto results = new RecordsModel(this);
     addDockWidget(Qt::RightDockWidgetArea,
                   new TradingSignalResultsWidget(results, this));
-
-    addDockWidget(Qt::BottomDockWidgetArea, new TradingSignalMomentum(this));
+    auto momentum = new TradingSignalMomentum(this);
+    addDockWidget(Qt::BottomDockWidgetArea,momentum  );
 
 
     auto mytrades = new RecordsModel(this);
@@ -78,8 +78,12 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(m_signal_generator, &TradingSignalGenerator::newRecordGenerated,
             results, &RecordsModel::addRecord);
 
+    connect( momentum,&TradingSignalMomentum::newMomentum , m_signal_generator, &TradingSignalGenerator::processMomentum);
+    connect(m_engine, &TradingEngine::newTradeCreated,m_signal_generator, &TradingSignalGenerator::processTrade);
+
+
     //This is really slow
-    connect(m_engine, &TradingEngine::newTradeCreated, alltrades, &RecordsModel::addRecord);
+    //connect(m_engine, &TradingEngine::newTradeCreated, alltrades, &RecordsModel::addRecord);
     connect(m_evaluator, &TradingEvaluator::signalTradeEncountered, mytrades, &RecordsModel::addRecord);
 
     connect(m_evaluator, &TradingEvaluator::currentEval, evalwidget, &TradingEvaluatorWidget::printCurrentEval);

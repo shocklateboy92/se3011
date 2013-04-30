@@ -22,4 +22,6 @@ void TradingSignalMomentum::addMomentum() {
     ui->tableWidget->insertRow(ui->tableWidget->rowCount());
     ui->tableWidget->setItem(ui->tableWidget->rowCount()-1, 0, instrument);
     ui->tableWidget->setItem(ui->tableWidget->rowCount()-1, 1, change);
+
+    emit newMomentum(ui->instrument_text->text(), ui->change_text->text());
 }

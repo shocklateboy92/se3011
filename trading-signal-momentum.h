@@ -15,6 +15,9 @@ public:
     explicit TradingSignalMomentum(QWidget *parent = 0);
     ~TradingSignalMomentum();
 
+signals:
+    void newMomentum(const QString &instrument, const QString &change);
+
 public slots:
     void addMomentum();
     
