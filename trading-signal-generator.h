@@ -35,16 +35,16 @@ class TradingSignalGenerator::MomentumData {
 public:
     bool isRising;
     double previousPrice;
+    double previousVolume;
     int currentConsecutiveChanges;
     int consecutiveChangesRequired;
-    double tradeVolume;
 
     MomentumData() :
         isRising(false),
-        previousPrice(std::numeric_limits<double>::max()),
+        previousPrice(0),
+        previousVolume(0),
         currentConsecutiveChanges(-1),
-        consecutiveChangesRequired(7),
-        tradeVolume(25)
+        consecutiveChangesRequired(3)
     {}
 };
 

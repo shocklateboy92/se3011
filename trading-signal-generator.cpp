@@ -31,7 +31,7 @@ void TradingSignalGenerator::processMomentum(const QString &instrument, const QS
 
 void TradingSignalGenerator::processTrade(const Trade &t) {
     MomentumData &data = m_momentums[t.instrument()];
-    if (t.price() >= data.previousPrice) {
+    if (t.volume() >= data.previousVolume) {
         if (data.isRising == false) {
             data.currentConsecutiveChanges = 0;
         }
@@ -44,6 +44,8 @@ void TradingSignalGenerator::processTrade(const Trade &t) {
     }
 
     data.previousPrice = t.price();
+    data.previousVolume = t.volume();
+
     data.currentConsecutiveChanges++;
 
     if (data.consecutiveChangesRequired <= data.currentConsecutiveChanges) {
@@ -61,7 +63,7 @@ void TradingSignalGenerator::processTrade(const Trade &t) {
         r.setTime(QTime::currentTime());
         r.setInstrument(t.instrument());
         r.setType(Record::Type::ENTER);
-        r.setVolume(data.tradeVolume);
+        r.setVolume(t.volume());
         r.setPrice(t.price());
         r.setValue(r.price() * r.volume());
         emit nextRecord(r);
