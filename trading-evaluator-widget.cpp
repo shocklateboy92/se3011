@@ -8,7 +8,7 @@ TradingEvaluatorWidget::TradingEvaluatorWidget(QAbstractTableModel *my, QAbstrac
     ui(new Ui::TradingEvaluatorWidget)
 {
     ui->setupUi(this);
-    ui->all_trades->setModel(all);
+    //ui->all_trades->setModel(all);
     ui->my_trades->setModel(my);
 }
 
