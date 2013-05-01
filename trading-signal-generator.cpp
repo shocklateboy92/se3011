@@ -32,6 +32,10 @@ void TradingSignalGenerator::processMomentum(const QString &instrument, const QS
 void TradingSignalGenerator::processTrade(const Trade &t) {
     if(m_momentums.contains(t.instrument())) {
         MomentumData &data = m_momentums[t.instrument()];
+
+        qDebug() << "prev = " << data.previousPrice;
+        qDebug() << "curr = " << t.price();
+
         if (t.volume() >= data.previousVolume) {
             if (data.isRising == false) {
                 data.currentConsecutiveChanges = 0;

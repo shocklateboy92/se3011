@@ -15,6 +15,7 @@ void TradingEngine::processNewRecord(const Record &r) {
         qDebug() << "Found one of our trades: " << r;
         Trade t(r);
         t.setType(Record::Type::TRADE);
+        t.setPrice(r.price());
         emit newTradeCreated(t);
     }
 }

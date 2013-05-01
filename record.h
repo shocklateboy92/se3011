@@ -10,6 +10,7 @@ class Record
 {
 public:
     enum class Type {
+        UNKNOWN,
         TRADE,
         ENTER,
         AMEND,
