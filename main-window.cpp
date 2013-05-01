@@ -50,7 +50,7 @@ MainWindow::MainWindow(QWidget *parent) :
     addDockWidget(Qt::RightDockWidgetArea,
                   new TradingSignalResultsWidget(results, this));
     auto momentum = new TradingSignalMomentum(this);
-    addDockWidget(Qt::BottomDockWidgetArea,momentum  );
+    addDockWidget(Qt::RightDockWidgetArea,momentum  );
 
 
     auto mytrades = new RecordsModel(this);
