@@ -21,6 +21,9 @@ signals:
 public slots:
     void addMomentum();
     
+private slots:
+    void onPushbuttonClicked();
+
 private:
     Ui::TradingSignalMomentum *ui;
 };

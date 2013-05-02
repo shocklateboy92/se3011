@@ -14,26 +14,61 @@
    <string>TradingSignalMomentum</string>
   </property>
   <widget class="QWidget" name="dockWidgetContents">
-   <layout class="QFormLayout" name="formLayout">
-    <item row="0" column="0">
-     <widget class="QLabel" name="instrument_label">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <layout class="QFormLayout" name="formLayout">
+      <property name="fieldGrowthPolicy">
+       <enum>QFormLayout::ExpandingFieldsGrow</enum>
+      </property>
+      <item row="0" column="0">
+       <widget class="QLabel" name="instrument_label">
+        <property name="text">
+         <string>Instrument</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="instrument_text"/>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="change_text"/>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="change_label">
+        <property name="text">
+         <string>Change</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <widget class="QPushButton" name="momentum_add">
       <property name="text">
-       <string>Instrument</string>
+       <string>Add Momentum</string>
       </property>
      </widget>
     </item>
-    <item row="0" column="1">
-     <widget class="QLineEdit" name="instrument_text"/>
-    </item>
-    <item row="1" column="0">
-     <widget class="QLabel" name="change_label">
-      <property name="text">
-       <string>Change</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="0" colspan="2">
+    <item>
      <widget class="QTableWidget" name="tableWidget">
+      <property name="selectionMode">
+       <enum>QAbstractItemView::SingleSelection</enum>
+      </property>
+      <property name="selectionBehavior">
+       <enum>QAbstractItemView::SelectRows</enum>
+      </property>
+      <attribute name="horizontalHeaderCascadingSectionResizes">
+       <bool>true</bool>
+      </attribute>
+      <attribute name="horizontalHeaderHighlightSections">
+       <bool>false</bool>
+      </attribute>
+      <attribute name="horizontalHeaderStretchLastSection">
+       <bool>true</bool>
+      </attribute>
+      <attribute name="verticalHeaderVisible">
+       <bool>false</bool>
+      </attribute>
       <column>
        <property name="text">
         <string>Instrument</string>
@@ -46,13 +81,10 @@
       </column>
      </widget>
     </item>
-    <item row="1" column="1">
-     <widget class="QLineEdit" name="change_text"/>
-    </item>
-    <item row="2" column="1">
-     <widget class="QPushButton" name="momentum_add">
+    <item>
+     <widget class="QPushButton" name="removeButton">
       <property name="text">
-       <string>Add Momentum</string>
+       <string>Remove Momentum</string>
       </property>
      </widget>
     </item>

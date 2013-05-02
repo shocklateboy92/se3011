@@ -6,8 +6,10 @@ TradingSignalMomentum::TradingSignalMomentum(QWidget *parent) :
     ui(new Ui::TradingSignalMomentum)
 {
     ui->setupUi(this);
-    connect(ui->momentum_add, &QAbstractButton::clicked, this, &TradingSignalMomentum::addMomentum);
-
+    connect(ui->momentum_add, &QAbstractButton::clicked,
+            this, &TradingSignalMomentum::addMomentum);
+    connect(ui->removeButton, &QAbstractButton::clicked,
+            this, &TradingSignalMomentum::onPushbuttonClicked);
 }
 
 TradingSignalMomentum::~TradingSignalMomentum()
@@ -24,4 +26,13 @@ void TradingSignalMomentum::addMomentum() {
     ui->tableWidget->setItem(ui->tableWidget->rowCount()-1, 1, change);
 
     emit newMomentum(ui->instrument_text->text(), ui->change_text->text());
+}
+
+void TradingSignalMomentum::onPushbuttonClicked()
+{
+    QModelIndexList indexes = ui->tableWidget->selectionModel()
+                                ->selection().indexes();
+    if (!indexes.isEmpty()) {
+        ui->tableWidget->removeRow(indexes.first().row());
+    }
 }
