@@ -17,6 +17,9 @@ public:
                                         QWidget *parent = 0);
     ~TradingSignalResultsWidget();
     
+private slots:
+    void onRemovebuttonClicked();
+
 private:
     QAbstractTableModel *m_model;
     Ui::TradingSignalResultsWidget *ui;

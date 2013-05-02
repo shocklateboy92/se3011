@@ -141,3 +141,22 @@ QVariant RecordsModel::data(const QModelIndex &index, int role) const
 
     return data;
 }
+
+bool RecordsModel::removeRows(int row, int count, const QModelIndex &parent)
+{
+    Q_UNUSED(parent);
+    qDebug() << row << ',' << count;
+
+    if (row + count > m_data.size()) {
+        return false;
+    }
+
+    beginRemoveRows(QModelIndex(), row, row + count -1);
+    while (count) {
+        m_data.removeAt(row);
+        count--;
+    }
+    endRemoveRows();
+
+    return true;
+}

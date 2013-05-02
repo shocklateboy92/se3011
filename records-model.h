@@ -21,6 +21,7 @@ signals:
     
 public slots:
     void addRecord(const Record &r);
+    bool removeRows(int row, int count, const QModelIndex &parent);
     
 private:
     QList<Record> m_data;
