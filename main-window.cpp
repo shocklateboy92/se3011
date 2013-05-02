@@ -47,10 +47,11 @@ MainWindow::MainWindow(QWidget *parent) :
                   new TradingFilesWidget(m_inputModel, this));
 
     auto results = new RecordsModel(this);
-    addDockWidget(Qt::RightDockWidgetArea,
-                  new TradingSignalResultsWidget(results, this));
+    auto resultsWidget = new TradingSignalResultsWidget(results, this);
+    addDockWidget(Qt::RightDockWidgetArea, resultsWidget);
     auto momentum = new TradingSignalMomentum(this);
-    addDockWidget(Qt::RightDockWidgetArea,momentum  );
+    addDockWidget(Qt::RightDockWidgetArea, momentum);
+    tabifyDockWidget(resultsWidget, momentum);
 
 
     auto mytrades = new RecordsModel(this);
