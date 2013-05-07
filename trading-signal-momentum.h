@@ -16,7 +16,7 @@ public:
     ~TradingSignalMomentum();
 
 signals:
-    void newMomentum(const QString &instrument, const QString &change);
+    void newMomentum(const QString &instrument, const QString &volume, const QString &change);
 
 public slots:
     void addMomentum();

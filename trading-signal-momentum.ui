@@ -40,6 +40,16 @@
         </property>
        </widget>
       </item>
+      <item row="2" column="1">
+       <widget class="QLineEdit" name="volume_text"/>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="volume_label">
+        <property name="text">
+         <string>Volume</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </item>
     <item>
@@ -72,6 +82,11 @@
       <column>
        <property name="text">
         <string>Instrument</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Volume</string>
        </property>
       </column>
       <column>

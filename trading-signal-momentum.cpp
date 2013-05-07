@@ -19,13 +19,19 @@ TradingSignalMomentum::~TradingSignalMomentum()
 
 void TradingSignalMomentum::addMomentum() {
     QTableWidgetItem* instrument = new QTableWidgetItem(ui->instrument_text->text());
+    QTableWidgetItem* volume = new QTableWidgetItem(ui->volume_text->text());
     QTableWidgetItem* change = new QTableWidgetItem(ui->change_text->text());
 
     ui->tableWidget->insertRow(ui->tableWidget->rowCount());
     ui->tableWidget->setItem(ui->tableWidget->rowCount()-1, 0, instrument);
-    ui->tableWidget->setItem(ui->tableWidget->rowCount()-1, 1, change);
+    ui->tableWidget->setItem(ui->tableWidget->rowCount()-1, 1, volume);
+    ui->tableWidget->setItem(ui->tableWidget->rowCount()-1, 2, change);
 
-    emit newMomentum(ui->instrument_text->text(), ui->change_text->text());
+    emit newMomentum(ui->instrument_text->text(), ui->volume_text->text(), ui->change_text->text());
+
+    ui->instrument_text->clear();
+    ui->volume_text->clear();
+    ui->change_text->clear();
 }
 
 void TradingSignalMomentum::onPushbuttonClicked()
@@ -34,5 +40,6 @@ void TradingSignalMomentum::onPushbuttonClicked()
                                 ->selection().indexes();
     if (!indexes.isEmpty()) {
         ui->tableWidget->removeRow(indexes.first().row());
+
     }
 }

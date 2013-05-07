@@ -20,7 +20,7 @@ signals:
 
 public slots:
     void processNewRecord(const Record &r);
-    void processMomentum(const QString &instrument, const QString &change);
+    void processMomentum(const QString &instrument, const QString &volume, const QString &change);
     void dataProcessingRequested();
     void processTrade(const Trade &t);
 
@@ -36,15 +36,21 @@ public:
     bool isRising;
     double previousPrice;
     double previousVolume;
+    double volume;
     int currentConsecutiveChanges;
     int consecutiveChangesRequired;
+    bool bought;
+    bool sold;
 
     MomentumData() :
         isRising(false),
         previousPrice(0),
         previousVolume(0),
+        volume(0),
         currentConsecutiveChanges(-1),
-        consecutiveChangesRequired(3)
+        consecutiveChangesRequired(3),
+        bought(false),
+        sold(false)
     {}
 };
 

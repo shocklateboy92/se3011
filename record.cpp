@@ -52,7 +52,7 @@ QTextStream& operator >>(QTextStream &in, Record &r) {
     r.setPrice(it.next().toDouble(&ok));
     if (!ok) {
         r.setPrice(0);
-        qWarning() << "failed to parse: " << line;
+        //qWarning() << "failed to parse: " << line;
     }
     //it.next(); // not sure what this is
     r.setVolume(it.next().toDouble());
