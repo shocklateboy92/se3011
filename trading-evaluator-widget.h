@@ -17,7 +17,7 @@ public:
     ~TradingEvaluatorWidget();
 
 public slots:
-    void printCurrentEval(float moneySpent, float moneyGained);
+    void printCurrentEval(float moneySpent, float moneyGained, float stocksSold, float stocksPurchased);
 
 private:
     QAbstractTableModel *all_model;

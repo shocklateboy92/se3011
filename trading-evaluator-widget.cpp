@@ -17,11 +17,14 @@ TradingEvaluatorWidget::~TradingEvaluatorWidget()
     delete ui;
 }
 
-void TradingEvaluatorWidget::printCurrentEval(float moneySpent, float moneyGained) {
+void TradingEvaluatorWidget::printCurrentEval(float moneySpent, float moneyGained, float stocksSold, float stocksPurchased) {
     ui->stats_text->clear();
     ui->stats_text->append("Money Gained: " + QString::number(moneyGained));
     ui->stats_text->append("Money Spent: " + QString::number(moneySpent));
-    ui->stats_text->append("Profit: " + QString::number(moneyGained - moneySpent));
+    ui->stats_text->append("Stocks Purchased: " + QString::number(stocksPurchased));
+    ui->stats_text->append("Stocks Sold: " + QString::number(stocksSold));
+    ui->stats_text->append("Stocks Remaining: " + QString::number(stocksPurchased - stocksSold));
+    ui->stats_text->append("Cash Profit: " + QString::number(moneyGained - moneySpent));
 
 }
 

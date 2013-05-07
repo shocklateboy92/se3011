@@ -8,6 +8,8 @@ TradingEvaluator::TradingEvaluator(QObject *parent) :
 {
     moneySpent = 0;
     moneyGained = 0;
+    stocksPurchased = 0;
+    stocksSold = 0;
 
 }
 
@@ -20,13 +22,15 @@ void TradingEvaluator::processNewTrade(const Trade &trade) {
         emit signalTradeEncountered(trade);
 
         moneySpent += trade.value();
-        emit currentEval(moneySpent, moneyGained);
+        stocksPurchased += trade.volume();
+        emit currentEval(moneySpent, moneyGained, stocksSold, stocksPurchased);
 
     } else if (trade.bidId() == 6666) {
         emit signalTradeEncountered(trade);
 
         moneyGained += trade.value();
-        emit currentEval(moneySpent, moneyGained);
+        stocksSold += trade.volume();
+        emit currentEval(moneySpent, moneyGained, stocksSold, stocksPurchased);
     }
 
 }
