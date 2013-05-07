@@ -42,15 +42,16 @@ QTextStream& operator >>(QTextStream &in, Record &r) {
     bool ok = false;
 
     r.setInstrument(it.next());
-    r.setDate(QDate::fromString(it.next(), "yyyy-MM-dd"));
+    r.setDate(QDate::fromString(it.next(), "yyyyMMdd"));
     r.setTime(QTime::fromString(it.next(), "hh:mm:ss.zzz"));
     if (!type_strings.count(line[3].toStdString())) {
         r.m_valid = false;
         return in;
     }
     r.setType(type_strings.operator [](it.next().toStdString()));
-    r.setPrice(line[4].toDouble(&ok));
+    r.setPrice(it.next().toDouble(&ok));
     if (!ok) {
+        r.setPrice(0);
         qWarning() << "failed to parse: " << line;
     }
     //it.next(); // not sure what this is
