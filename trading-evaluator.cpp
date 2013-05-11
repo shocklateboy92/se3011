@@ -1,5 +1,6 @@
 #include "trading-evaluator.h"
 #include "record.h"
+#include "order.h"
 #include <QDebug>
 #include <QString>
 

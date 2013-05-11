@@ -2,6 +2,7 @@
 #define TRADINGSIGNALGENERATOR_H
 
 #include "record.h"
+#include "order.h"
 #include <tuple>
 
 #include <QObject>

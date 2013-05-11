@@ -2,6 +2,7 @@
 #define TRADINGENGINE_H
 
 #include "record.h"
+#include "order.h"
 
 #include <QObject>
 #include <QSet>
