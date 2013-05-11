@@ -18,6 +18,14 @@ signals:
 public slots:
     void processNewRecord(const Record &r);
 
+    void enterBid(const Bid &bid);
+    void enterAsk(const Ask &ask);
+
+    void removeBid(long bidId);
+    void removeAsk(long askId);
+
+    void modifyBid(long bidId, double newPrice, double newVolume);
+    void modifyAsk(long askId, double newPrice, double newVolume);
 };
 
 #endif // TRADINGENGINE_H

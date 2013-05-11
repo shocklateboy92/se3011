@@ -38,10 +38,10 @@ void TradingEngine::processNewRecord(const Record &r) {
     case Record::Type::AMEND:
         switch (r.bidOrAsk()) {
         case Record::BidAsk::Bid:
-            amendBid(r.bidId(), r.price(), r.volume());
+            modifyBid(r.bidId(), r.price(), r.volume());
             break;
         case Record::BidAsk::Ask:
-            amendAsk(r.askId(), r.price(), r.volume());
+            modifyBid(r.askId(), r.price(), r.volume());
             break;
         default:
             qWarning() << "trying to amend a record that is neither a Bid nor Ask";
