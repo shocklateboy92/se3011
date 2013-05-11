@@ -126,3 +126,41 @@ void TradingEngine::modifyBid(Bid bid) {
 void TradingEngine::modifyAsk(Ask ask) {
     modifyOrder(m_askQueue, ask);
 }
+
+void TradingEngine::performMatching() {
+    for (Ask a : m_askQueue) {
+        for (Bid b : m_bidQueue) {
+            // if buyer is willing to pay more than
+            // seller asked for, make the trade
+            if (b.price() >= a.price()) {
+                if (b.volume() == a.volume()) {
+                    // buyer's buying exactly what seller is selling,
+                    // both orders are done.
+                    m_askQueue.erase(a);
+                    m_bidQueue.erase(b);
+                }
+                // otherwise, a partial trade occurs
+                else if (b.volume() > a.volume()) {
+                    // buyer wants more, but seller is done
+                    b.setVolume(b.volume() - a.volume());
+                    m_askQueue.erase(a);
+                }
+                else {
+                    // seller has more, buyer is done
+                    a.setVolume(a.volume() - b.volume());
+                    m_bidQueue.erase(b);
+                }
+
+                createTrade(a, b);
+            }
+        }
+    }
+}
+
+void TradingEngine::createTrade(const Ask &ask, const Bid &bid) {
+    emit newTradeCreated(Trade(ask, bid));
+}
+
+void TradingEngine::createTrade(const Trade &existing) {
+    emit newTradeCreated(existing);
+}
