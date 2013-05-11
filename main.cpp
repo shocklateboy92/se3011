@@ -40,6 +40,21 @@ QVariant mVar5(std::function<Return(const Object&)> f, Object *o) {
     return QVariant(f(*o));
 }
 
+template <typename T>
+std::function<QVariant(Record *r)>
+O_(std::function<T(const Record&)> f) {
+    return std::bind(&mVar5<T, Record>, f, std::placeholders::_1);
+}
+
+QList<std::function<QVariant(Record *r)>> fields = {
+        O_<bool>(&Record::isValid),
+        O_<QString>(&Record::instrument),
+        O_<QDate>(&Record::date),
+        O_<QTime>(&Record::time),
+        O_<double>(&Record::price),
+        O_<qint64>(&Record::bidId)
+};
+
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
@@ -66,12 +81,23 @@ int main(int argc, char *argv[])
 
     l.append(std::bind(&mVar5<QString, QVariant>, &QVariant::toString, &vt));
 
+    std::function<QVariant(MainWindow*)> kl =
+            std::bind(&mVar4<QString>, &MainWindow::objectName, std::placeholders::_1);
+
+
     for (auto v : l) {
         qDebug() << v();
     }
 
     window.setAcceptDrops(true);
     qDebug() << l[3]();
+    qDebug() << kl(&window);
+
+
+    Record r;
+    for (auto &field : fields) {
+        qDebug() << field(&r);
+    }
 
 //    QVariant v1 = b();
 
