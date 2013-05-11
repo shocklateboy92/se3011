@@ -189,3 +189,15 @@ void Record::setBidOrAsk(const BidAsk &value)
 
 int rd = qRegisterMetaType<Record>("Record");
 int fd = qRegisterMetaType<Trade>("Trade");
+
+
+bool Order::operator ==(const Order &other) const
+{
+    return id() == other.id() && m_record == other.m_record;
+}
+
+
+bool Ask::operator ==(const Ask &other) const
+{
+    return record()->askId() == other.record()->askId();
+}

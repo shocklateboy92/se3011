@@ -74,7 +74,20 @@ class Order {
 public:
     Order(const Record &record);
 
-    virtual long id() = 0;
+    virtual long id() const = 0;
+    bool operator==(const Order &other) const;
+
+    Record* record() const;
+
+    double  price();
+    double  volume();
+    QTime   time();
+    QDate   date();
+
+    void setPrice(double price);
+    void setVolume(double volume);
+    void setTime(QTime time);
+    void setDate(QDate date);
 
 private:
     QSharedPointer<Record> m_record;
@@ -83,14 +96,18 @@ private:
 class Ask : virtual public Order {
 public:
     Ask(const Record &record);
+    long id() const;
 
-    long id();
+    bool operator<(const Ask &other) const;
+    bool operator==(const Ask &other) const;
 };
 
 class Bid : virtual public Order {
 public:
     Bid(const Record &record);
-    long id();
+    long id() const;
+
+    bool operator<(const Bid &other) const;
 };
 
 class Trade : public Record
