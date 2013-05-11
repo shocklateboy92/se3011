@@ -70,6 +70,29 @@ private:
     bool m_valid;
 };
 
+class Order {
+public:
+    Order(const Record &record);
+
+    virtual long id() = 0;
+
+private:
+    QSharedPointer<Record> m_record;
+};
+
+class Ask : virtual public Order {
+public:
+    Ask(const Record &record);
+
+    long id();
+};
+
+class Bid : virtual public Order {
+public:
+    Bid(const Record &record);
+    long id();
+};
+
 class Trade : public Record
 {
 public:

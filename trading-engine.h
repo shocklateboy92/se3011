@@ -3,8 +3,7 @@
 
 #include <QObject>
 
-class Record;
-class Trade;
+#include "record.h"
 
 class TradingEngine : public QObject
 {
@@ -26,6 +25,9 @@ public slots:
 
     void modifyBid(long bidId, double newPrice, double newVolume);
     void modifyAsk(long askId, double newPrice, double newVolume);
+
+    void createTrade(const Ask &ask, const Bid &bid);
+    void createTrade(const Trade &existing);
 };
 
 #endif // TRADINGENGINE_H
