@@ -8,7 +8,8 @@ TradingEngine::TradingEngine(QObject *parent) :
 {
 }
 
-void TradingEngine::processNewRecord(const Record &r) {
+void TradingEngine::processNewRecord(const Record &record) {
+    Record r = record;
     switch (r.type()) {
 
     case Record::Type::ENTER:

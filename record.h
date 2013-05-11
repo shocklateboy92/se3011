@@ -72,17 +72,17 @@ private:
 
 class Order {
 public:
-    Order(const Record &record);
+    Order(Record &record);
 
     virtual long id() const = 0;
     bool operator==(const Order &other) const;
 
     Record* record() const;
 
-    double  price();
-    double  volume();
-    QTime   time();
-    QDate   date();
+    double  price() const;
+    double  volume() const;
+    QTime   time() const;
+    QDate   date() const;
 
     void setPrice(double price);
     void setVolume(double volume);
@@ -95,7 +95,7 @@ private:
 
 class Ask : virtual public Order {
 public:
-    Ask(const Record &record);
+    Ask(Record &record);
     long id() const;
 
     bool operator<(const Ask &other) const;
@@ -104,7 +104,7 @@ public:
 
 class Bid : virtual public Order {
 public:
-    Bid(const Record &record);
+    Bid(Record &record);
     long id() const;
 
     bool operator<(const Bid &other) const;
@@ -116,6 +116,7 @@ public:
     Trade(const Record &other) {
         *dynamic_cast<Record*>(this) = other;
     }
+    Trade(Ask ask, Bid bid);
     Trade() = default;
 };
 
