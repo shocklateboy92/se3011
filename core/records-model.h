@@ -5,7 +5,7 @@
 
 #include <QAbstractTableModel>
 
-class RecordsModel : public QAbstractTableModel
+class GROUP8_CORE RecordsModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:

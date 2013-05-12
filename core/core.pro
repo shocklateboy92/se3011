@@ -20,6 +20,8 @@ CONFIG (release, debug|release) {
     DEFINES += QT_NO_DEBUG_OUTPUT
 }
 
+DEFINES += GROUP8_CORE_LIBRARY
+
 SOURCES += \
     record.cpp \
     trading-engine.cpp \
@@ -39,5 +41,6 @@ HEADERS += \
     trading-files-model.h \
     records-model.h \
     trading-signal-generator.h \
-    order.h
+    order.h \
+    common.h
 

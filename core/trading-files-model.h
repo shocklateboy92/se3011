@@ -5,7 +5,7 @@
 
 #include <QAbstractTableModel>
 
-class TradingFilesModel : public QAbstractTableModel
+class GROUP8_CORE TradingFilesModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:

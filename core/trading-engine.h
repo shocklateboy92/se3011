@@ -8,7 +8,7 @@
 #include <QSet>
 #include <set>
 
-class TradingEngine : public QObject
+class GROUP8_CORE TradingEngine : public QObject
 {
     Q_OBJECT
 public:

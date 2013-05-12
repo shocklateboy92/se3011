@@ -9,7 +9,7 @@
 #include <QList>
 #include <QMap>
 
-class TradingSignalGenerator : public QObject
+class GROUP8_CORE TradingSignalGenerator : public QObject
 {
     Q_OBJECT
 public:

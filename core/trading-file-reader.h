@@ -3,10 +3,9 @@
 
 #include "record.h"
 
-#include <QObject>
 #include <QTextStream>
 
-class TradingFileReader : public QObject
+class GROUP8_CORE  TradingFileReader : public QObject
 {
     Q_OBJECT
 public:

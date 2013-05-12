@@ -1,11 +1,9 @@
 #ifndef TRADINGEVALUATOR_H
 #define TRADINGEVALUATOR_H
 
-#include <QObject>
+#include "order.h"
 
-class Trade;
-
-class TradingEvaluator : public QObject
+class GROUP8_CORE TradingEvaluator : public QObject
 {
     Q_OBJECT
 public:

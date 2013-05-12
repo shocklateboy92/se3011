@@ -1,6 +1,7 @@
+#include <record.h>
+
 #include <QString>
 #include <QtTest>
-#include <record.h>
 
 class RecordParsingTests : public QObject
 {

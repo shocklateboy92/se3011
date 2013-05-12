@@ -1,12 +1,14 @@
 #ifndef RECORD_H
 #define RECORD_H
 
+#include "common.h"
+
 #include <QDateTime>
 
 class QTextStream;
 class QDataStream;
 
-class Record
+class GROUP8_CORE Record
 {
 public:
     enum class Type {
@@ -47,10 +49,10 @@ public:
     Record();
     bool isValid() const;
 
-    friend QDataStream& operator >>(QDataStream &in, Record &r);
-    friend QTextStream& operator >>(QTextStream &in, Record &r);
-    friend QDataStream& operator <<(QDataStream &os, const Record &r);
-    friend QDebug operator <<(QDebug os, const Record &r);
+    friend QDataStream& GROUP8_CORE operator >>(QDataStream &in, Record &r);
+    friend QTextStream& GROUP8_CORE operator >>(QTextStream &in, Record &r);
+    friend QDataStream& GROUP8_CORE operator <<(QDataStream &os, const Record &r);
+    friend QDebug GROUP8_CORE operator <<(QDebug os, const Record &r);
 
     QString instrument() const;
     QDate   date() const;
