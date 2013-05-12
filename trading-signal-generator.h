@@ -22,14 +22,21 @@ signals:
 public slots:
     void processNewRecord(const Record &r);
     void processMomentum(const QString &instrument, const QString &volume, const QString &change);
+    void removeMomentum(const QString &instrument);
+
     void dataProcessingRequested();
     void processTrade(const Trade &t);
 
+    void processMagic(const QString &instrument);
+    void removeMagic(const QString &instrument);
+
 private:
     class MomentumData;
+    class MagicData;
 
     QList<Record> m_records;
     QMap<QString, MomentumData> m_momentums;
+    QMap<QString, MagicData> m_magic;
 };
 
 class TradingSignalGenerator::MomentumData {
@@ -52,6 +59,25 @@ public:
         consecutiveChangesRequired(3),
         bought(false),
         sold(false)
+    {}
+};
+
+class TradingSignalGenerator::MagicData {
+public:
+    bool isRising;
+    double previousPrice;
+    double previousVolume;
+    int currentConsecutiveChanges;
+    double totalBought;
+    double totalSold;
+
+    MagicData() :
+        isRising(false),
+        previousPrice(0),
+        previousVolume(0),
+        currentConsecutiveChanges(-1),
+        totalBought(0),
+        totalSold(0)
     {}
 };
 

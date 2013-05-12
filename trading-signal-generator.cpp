@@ -30,6 +30,20 @@ void TradingSignalGenerator::processMomentum(const QString &instrument, const QS
     m_momentums.insert(instrument, data);
 }
 
+void TradingSignalGenerator::removeMomentum(const QString &instrument) {
+    m_momentums.remove(instrument);
+}
+
+void TradingSignalGenerator::processMagic(const QString &instrument) {
+    MagicData data;
+    m_magic.insert(instrument, data);
+}
+
+void TradingSignalGenerator::removeMagic(const QString &instrument) {
+    m_magic.remove(instrument);
+
+}
+
 
 
 void TradingSignalGenerator::processTrade(const Trade &t) {

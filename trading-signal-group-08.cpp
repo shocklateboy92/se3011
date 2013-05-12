@@ -1,6 +1,9 @@
 #include "trading-signal-group-08.h"
 #include "ui_trading-signal-group-08.h"
 
+#include <QDebug>
+
+
 TradingSignalGroup08::TradingSignalGroup08(QWidget *parent) :
     QDockWidget(parent),
     ui(new Ui::TradingSignalGroup08)
@@ -34,9 +37,13 @@ void TradingSignalGroup08::removeMagic()
 {
     QModelIndexList indexes = ui->instrument_table->selectionModel()
                                 ->selection().indexes();
+
+
     if (!indexes.isEmpty()) {
         ui->instrument_table->removeRow(indexes.first().row());
-        //emit deleteMagic(indexes.first());
+
+        //lasath check this
+        //emit deleteMagic(ui->instrument_table->selectedItems().first()->text());
 
     }
 }

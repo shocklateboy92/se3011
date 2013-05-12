@@ -73,7 +73,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionStart, &QAction::triggered, m_signal_generator,
             &TradingSignalGenerator::dataProcessingRequested);
 
-    //this crashes why?
     connect(m_signal_generator, &TradingSignalGenerator::nextRecord,
             m_engine, &TradingEngine::processNewRecord);
 
@@ -83,7 +82,12 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(m_signal_generator, &TradingSignalGenerator::newRecordGenerated,
             results, &RecordsModel::addRecord);
 
-    connect( momentum,&TradingSignalMomentum::newMomentum , m_signal_generator, &TradingSignalGenerator::processMomentum);
+    connect(momentum,&TradingSignalMomentum::newMomentum , m_signal_generator, &TradingSignalGenerator::processMomentum);
+    connect(momentum, &TradingSignalMomentum::deleteMomentum, m_signal_generator, &TradingSignalGenerator::removeMomentum);
+
+    connect(magic, &TradingSignalGroup08::newMagic, m_signal_generator, &TradingSignalGenerator::processMagic);
+    connect(magic, &TradingSignalGroup08::deleteMagic, m_signal_generator, &TradingSignalGenerator::removeMagic);
+
     connect(m_engine, &TradingEngine::newTradeCreated,m_signal_generator, &TradingSignalGenerator::processTrade);
 
 

@@ -17,6 +17,7 @@ public:
 
 signals:
     void newMomentum(const QString &instrument, const QString &volume, const QString &change);
+    void deleteMomentum(const QString &instrument);
 
 public slots:
     void addMomentum();

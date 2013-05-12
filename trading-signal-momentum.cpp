@@ -41,5 +41,8 @@ void TradingSignalMomentum::onPushbuttonClicked()
     if (!indexes.isEmpty()) {
         ui->tableWidget->removeRow(indexes.first().row());
 
+        //lasath check this
+        //emit deleteMomentum(ui->instrument_table->selectedItems().first()->text());
+
     }
 }
