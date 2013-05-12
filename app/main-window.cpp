@@ -1,7 +1,7 @@
 #include "main-window.h"
 #include "ui_main-window.h"
 #include "trading-file-reader.h"
-#include "trading-files-model.h"
+#include <trading-files-model.h>
 #include "trading-files-widget.h"
 #include "trading-signal-results-widget.h"
 #include "trading-evaluator-widget.h"

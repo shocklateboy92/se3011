@@ -1,7 +1,7 @@
 #ifndef TRADINGFILESWIDGET_H
 #define TRADINGFILESWIDGET_H
 
-#include "trading-files-model.h"
+#include <trading-files-model.h>
 
 #include <QDockWidget>
 #include <QTableView>

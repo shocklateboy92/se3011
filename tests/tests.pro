@@ -13,8 +13,6 @@ CONFIG   += c++11
 
 TEMPLATE = app
 
-#include(../common.pri)
-
 SOURCES += tst_record-parsing-tests.cpp
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
