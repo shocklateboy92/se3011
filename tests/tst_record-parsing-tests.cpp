@@ -20,17 +20,47 @@ RecordParsingTests::RecordParsingTests()
 
 void RecordParsingTests::parseLine()
 {
-    QFETCH(QString, data);
-    QVERIFY2(true, "Failure");
+    QFETCH(QByteArray, line);
+    QFETCH(QString, instrument);
+    QFETCH(QDate, date);
+    QFETCH(QTime, time);
+    QFETCH(Record::Type, type);
+    QFETCH(double, price);
+    QFETCH(double, volume);
+    QFETCH(double, value);
+
     Record r;
+    QTextStream ts(line);
+    ts >> r;
+
+    QCOMPARE(r.instrument(), instrument);
+    QCOMPARE(r.date(), date);
+    QCOMPARE(r.time(), time);
+    QCOMPARE(r.type(), type);
+    QCOMPARE(r.price(), price);
+    QCOMPARE(r.volume(), volume);
+    QCOMPARE(r.value(), value);
 }
 
 void RecordParsingTests::parseLine_data()
 {
+    QTest::addColumn<QByteArray>("line");
     QTest::addColumn<QString>("instrument");
     QTest::addColumn<QDate>("date");
     QTest::addColumn<QTime>("time");
-    QTest::newRow({"BHP"});
+    QTest::addColumn<Record::Type>("type");
+    QTest::addColumn<double>("price");
+    QTest::addColumn<double>("volume");
+    QTest::addColumn<double>("value");
+
+    QTest::newRow("GUD1") << QByteArray("GUD,20130102,10:04:32.025,TRADE,8.750,1,8.75,,,,,,,AC XT")
+                          << "GUD"
+                          << QDate(2013, 01, 02)
+                          << QTime(10, 4, 32, 25)
+                          << Record::Type::TRADE
+                          << 8.75
+                          << 1.0
+                          << 8.75;
 }
 
 QTEST_APPLESS_MAIN(RecordParsingTests)

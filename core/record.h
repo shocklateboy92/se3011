@@ -99,6 +99,7 @@ private:
 };
 
 Q_DECLARE_METATYPE(Record)
+Q_DECLARE_METATYPE(Record::Type)
 
 
 #endif // RECORD_H
