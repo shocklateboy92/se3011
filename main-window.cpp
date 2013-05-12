@@ -8,6 +8,7 @@
 #include "trading-signal-widget.h"
 #include "trading-signal-generator.h"
 #include "trading-signal-momentum.h"
+#include "trading-signal-group-08.h"
 
 #include "records-model.h"
 
@@ -51,8 +52,11 @@ MainWindow::MainWindow(QWidget *parent) :
     addDockWidget(Qt::RightDockWidgetArea, resultsWidget);
     auto momentum = new TradingSignalMomentum(this);
     addDockWidget(Qt::RightDockWidgetArea, momentum);
-    tabifyDockWidget(resultsWidget, momentum);
+    auto magic = new TradingSignalGroup08(this);
+    addDockWidget(Qt::RightDockWidgetArea, magic);
 
+    tabifyDockWidget(resultsWidget, momentum);
+    tabifyDockWidget(momentum,magic);
 
     auto mytrades = new RecordsModel(this);
     auto alltrades = new RecordsModel(this);

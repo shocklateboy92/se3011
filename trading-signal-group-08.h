@@ -14,6 +14,14 @@ class TradingSignalGroup08 : public QDockWidget
 public:
     explicit TradingSignalGroup08(QWidget *parent = 0);
     ~TradingSignalGroup08();
+
+signals:
+    void newMagic(const QString &instrument);
+    void deleteMagic(const QString &instrument);
+
+public slots:
+    void addMagic();
+    void removeMagic();
     
 private:
     Ui::TradingSignalGroup08 *ui;
