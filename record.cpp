@@ -8,12 +8,80 @@
 #include <QDebug>
 #include <unordered_map>
 
-// because QMap doesn't support initializer lists yet
-static std::unordered_map<std::string, Record::Type> type_strings = {
+// Hashing functions - have to be at the top for everything else to work
+namespace std {
+template <>
+struct hash<QString> {
+    std::size_t operator ()(const QString &str) const {
+        return qHash(str);
+    }
+};
+template <>
+struct hash<Record::Type> {
+    std::size_t operator ()(Record::Type t) const {
+        return hash<int>()(static_cast<int>(t));
+    }
+};
+template <>
+struct hash<Record::Field> {
+    std::size_t operator()(Record::Field n) const {
+        return std::hash<int>()(static_cast<int>(n));
+    }
+};
+}
+template <typename T>
+constexpr std::function<QVariant(const Record *r)>
+O_(std::function<T(const Record&)> f) {
+    return [=](const Record* r)-> QVariant {return f(*r);};
+}
+
+static const std::unordered_map<QString, Record::Type> type_strings = {
     {"ENTER", Record::Type::ENTER},
     {"AMEND", Record::Type::AMEND},
     {"TRADE", Record::Type::TRADE},
     {"DELETE", Record::Type::DELETE}
+};
+
+static const std::unordered_map<Record::Type, QString> type_strings_reverse = {
+    {Record::Type::ENTER, "ENTER"},
+    {Record::Type::AMEND, "AMEND"},
+    {Record::Type::TRADE, "TRADE"},
+    {Record::Type::DELETE, "DELETE"}
+};
+
+static const std::unordered_map<Record::Field, QString> field_names= {
+    {Record::Field::Instrument,         "Instrument"},
+    {Record::Field::Date,               "Date"},
+    {Record::Field::Time,               "Time"},
+    {Record::Field::RecordType,         "Record Type"},
+    {Record::Field::Price,              "Price"},
+    {Record::Field::Volume,             "Volume"},
+    {Record::Field::UndisclosedVolume,  "Undisclosed Volume"},
+    {Record::Field::Value,              "Value"},
+    {Record::Field::Qualifiers,         "Qualifiers"},
+    {Record::Field::TransID,            "Trans ID"},
+    {Record::Field::BidID,              "Bid ID"},
+    {Record::Field::AskID,              "Ask ID"},
+    {Record::Field::BidAsk,             "Bid/Ask"},
+    {Record::Field::EntryTime,          "Entry Time"},
+    {Record::Field::OldPrice,           "Old Price"},
+    {Record::Field::OldVolume,          "Old Volume"},
+    {Record::Field::BuyerBrokerID,      "Buyer Broker ID"},
+    {Record::Field::SellerBrokerID,     "Seller Broker ID"}
+};
+
+static const std::unordered_map<Record::Field,
+std::function<QVariant(const Record*)>> field_getters  {
+    {Record::Field::Instrument, O_<QString>(&Record::instrument)},
+    {Record::Field::Date,       O_<QDate>(&Record::date)},
+    {Record::Field::Time,       O_<QTime>(&Record::time)},
+    {Record::Field::RecordType, O_<QString>(&Record::typeName)},
+    {Record::Field::Price,      O_<double>(&Record::price)},
+    {Record::Field::Volume,     O_<double>(&Record::volume)},
+    {Record::Field::Value,      O_<double>(&Record::value)},
+    {Record::Field::TransID,    O_<qint64>(&Record::transactionId)},
+    {Record::Field::BidID,      O_<qint64>(&Record::bidId)},
+    {Record::Field::AskID,      O_<qint64>(&Record::askId)}
 };
 
 Record::Record() :
@@ -44,11 +112,11 @@ QTextStream& operator >>(QTextStream &in, Record &r) {
     r.setInstrument(it.next());
     r.setDate(QDate::fromString(it.next(), "yyyyMMdd"));
     r.setTime(QTime::fromString(it.next(), "hh:mm:ss.zzz"));
-    if (!type_strings.count(line[3].toStdString())) {
+    if (!type_strings.count(line[3])) {
         r.m_valid = false;
         return in;
     }
-    r.setType(type_strings.operator [](it.next().toStdString()));
+    r.setType(type_strings.at(it.next()));
     r.setPrice(it.next().toDouble(&ok));
     if (!ok) {
         r.setPrice(0);
@@ -188,3 +256,34 @@ void Record::setBidOrAsk(const BidAsk &value)
 }
 
 int rd = qRegisterMetaType<Record>("Record");
+
+
+QVariant Record::fieldValue(Record::Field field) const
+{
+    if (field_getters.count(field) > 0) {
+        return field_getters.at(field)(this);
+    } else {
+        return QVariant();
+    }
+}
+
+QString Record::typeName() const
+{
+    if (type_strings_reverse.count(type()) > 0) {
+        return type_strings_reverse.at(type());
+    } else {
+        return QStringLiteral("UNKOWN");
+    }
+}
+
+std::size_t Record::numFields()
+{
+    // hack, since fields are numbered sequentially
+    return static_cast<int>(Field::NotAField);
+}
+
+QString Record::fieldName(Field field)
+{
+    Q_ASSERT (field_names.count(field) > 0);
+    return field_names.at(field);
+}

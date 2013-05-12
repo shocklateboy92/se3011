@@ -22,6 +22,28 @@ public:
         Ask
     };
 
+    enum class Field {
+        Instrument = 0,
+        Date,
+        Time,
+        RecordType,
+        Price,
+        Volume,
+        UndisclosedVolume,
+        Value,
+        Qualifiers,
+        TransID,
+        BidID,
+        AskID,
+        BidAsk,
+        EntryTime,
+        OldPrice,
+        OldVolume,
+        BuyerBrokerID,
+        SellerBrokerID,
+        NotAField
+    };
+
     Record();
     bool isValid() const;
 
@@ -53,6 +75,12 @@ public:
     void setBidId(long value);
     void setAskId(long value);
     void setBidOrAsk(const BidAsk &value);
+
+    static QString fieldName(Field field);
+    QVariant fieldValue(Field field) const;
+    QString typeName() const;
+
+    static std::size_t numFields();
 
 private:
     QString m_instrument;
