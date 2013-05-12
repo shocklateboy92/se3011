@@ -113,5 +113,62 @@ void TradingSignalGenerator::processTrade(const Trade &t) {
 
 
         }
+    } else if (m_magic.contains(t.instrument())) {
+        MagicData &data = m_magic[t.instrument()];
+
+        if (t.price() >= data.previousPrice) {
+            if (data.isRising == false) {
+                data.currentConsecutiveChanges = 0;
+            }
+            data.isRising = true;
+        } else {
+            if (data.isRising == true) {
+                data.currentConsecutiveChanges = 0;
+            }
+            data.isRising = false;
+        }
+
+        data.previousPrice = t.price();
+        data.previousVolume = t.volume();
+
+        data.currentConsecutiveChanges++;
+
+        if (5 <= data.currentConsecutiveChanges) {
+            data.currentConsecutiveChanges = 0;
+
+                if (data.isRising) {
+                        auto r = Record();
+                        r.setBidId(6666);
+                        r.setAskId(0);
+                        r.setBidOrAsk(Record::BidAsk::Bid);
+                        r.setDate(QDate::currentDate());
+                        r.setTime(QTime::currentTime());
+                        r.setInstrument(t.instrument());
+                        r.setType(Record::Type::ENTER);
+                        r.setVolume(data.previousVolume);
+                        r.setPrice(t.price());
+                        r.setValue(r.price() * r.volume());
+                        emit nextRecord(r);
+                        qDebug() << "created a bid";
+                } else {
+                       auto r = Record();
+                        r.setAskId(6666);
+                        r.setBidId(0);
+                        r.setBidOrAsk(Record::BidAsk::Ask);
+                        r.setDate(QDate::currentDate());
+                        r.setTime(QTime::currentTime());
+                        r.setInstrument(t.instrument());
+                        r.setType(Record::Type::ENTER);
+                        r.setVolume(data.totalBought-data.totalSold);
+                        r.setPrice(t.price());
+                        r.setValue(r.price() * r.volume());
+                        emit nextRecord(r);
+
+                        qDebug() << "created a ask";
+
+                }
+
+
+        }
     }
 }
