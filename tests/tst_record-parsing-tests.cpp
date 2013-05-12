@@ -1,5 +1,6 @@
 #include <QString>
 #include <QtTest>
+#include <record.h>
 
 class RecordParsingTests : public QObject
 {
@@ -21,6 +22,7 @@ void RecordParsingTests::parseLine()
 {
     QFETCH(QString, data);
     QVERIFY2(true, "Failure");
+    Record r;
 }
 
 void RecordParsingTests::parseLine_data()

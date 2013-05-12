@@ -8,14 +8,13 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = qt5
+TARGET = core
 CONFIG   += console gui
-CONFIG   += app_bundle
+CONFIG   += lib_bundle
 CONFIG   += thread
+CONFIG   += c++11
 
-TEMPLATE = app
-
-QMAKE_CXXFLAGS += -std=c++11
+TEMPLATE = lib
 
 CONFIG (release, debug|release) {
     DEFINES += QT_NO_DEBUG_OUTPUT
