@@ -57,6 +57,7 @@ void TradingEngine::processNewRecord(const Record &record) {
     default:
         break;
     }
+
     if (r.type() == Record::Type::TRADE) {
         emit newTradeCreated(Trade(r));
     } else if (r.type() == Record::Type::ENTER && (r.askId() == 6666 || r.bidId() == 6666)) {
