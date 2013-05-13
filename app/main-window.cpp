@@ -5,6 +5,7 @@
 #include "trading-files-widget.h"
 #include "trading-signal-results-widget.h"
 #include "trading-evaluator-widget.h"
+#include "trading-evaluator-graph.h"
 #include "trading-signal-widget.h"
 #include "trading-signal-generator.h"
 #include "trading-signal-momentum.h"
@@ -62,6 +63,9 @@ MainWindow::MainWindow(QWidget *parent) :
     auto alltrades = new RecordsModel(this);
     auto evalwidget = new TradingEvaluatorWidget(mytrades, alltrades, this);
     addDockWidget(Qt::BottomDockWidgetArea, evalwidget);
+
+    auto graph = new TradingEvaluatorGraph(this);
+    addDockWidget(Qt::BottomDockWidgetArea, graph);
 
     connect(m_inputModel, &TradingFilesModel::newRecordEncountered,
             m_engine, &TradingEngine::processNewRecord);

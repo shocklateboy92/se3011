@@ -18,7 +18,8 @@ SOURCES += \
     trading-evaluator-widget.cpp \
     trading-signal-momentum.cpp \
     trading-signal-group-08.cpp \
-    qcustomplot.cpp
+    qcustomplot.cpp \
+    trading-evaluator-graph.cpp
 
 
 HEADERS += \
@@ -29,7 +30,8 @@ HEADERS += \
     trading-evaluator-widget.h \
     trading-signal-momentum.h \
     trading-signal-group-08.h \
-    qcustomplot.h
+    qcustomplot.h \
+    trading-evaluator-graph.h
 
 FORMS += \
     main-window.ui \
@@ -38,7 +40,8 @@ FORMS += \
     trading-signal-widget.ui \
     trading-evaluator-widget.ui \
     trading-signal-momentum.ui \
-    trading-signal-group-08.ui
+    trading-signal-group-08.ui \
+    trading-evaluator-graph.ui
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../core/release/ -lcore
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../core/debug/ -lcore
