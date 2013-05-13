@@ -80,8 +80,8 @@ void TradingSignalGenerator::processTrade(const Trade &t) {
                         r.setBidId(6666);
                         r.setAskId(0);
                         r.setBidOrAsk(Record::BidAsk::Bid);
-                        r.setDate(QDate::currentDate());
-                        r.setTime(QTime::currentTime());
+                        r.setDate(t.date());
+                        r.setTime(t.time());
                         r.setInstrument(t.instrument());
                         r.setType(Record::Type::ENTER);
                         r.setVolume(data.volume);
@@ -99,8 +99,8 @@ void TradingSignalGenerator::processTrade(const Trade &t) {
                         r.setAskId(6666);
                         r.setBidId(0);
                         r.setBidOrAsk(Record::BidAsk::Ask);
-                        r.setDate(QDate::currentDate());
-                        r.setTime(QTime::currentTime());
+                        r.setDate(t.date());
+                        r.setTime(t.time());
                         r.setInstrument(t.instrument());
                         r.setType(Record::Type::ENTER);
                         r.setVolume(data.volume);
@@ -142,8 +142,8 @@ void TradingSignalGenerator::processTrade(const Trade &t) {
                         r.setBidId(6666);
                         r.setAskId(0);
                         r.setBidOrAsk(Record::BidAsk::Bid);
-                        r.setDate(QDate::currentDate());
-                        r.setTime(QTime::currentTime());
+                        r.setDate(t.date());
+                        r.setTime(t.time());
                         r.setInstrument(t.instrument());
                         r.setType(Record::Type::ENTER);
                         r.setVolume(data.previousVolume);
@@ -156,8 +156,8 @@ void TradingSignalGenerator::processTrade(const Trade &t) {
                         r.setAskId(6666);
                         r.setBidId(0);
                         r.setBidOrAsk(Record::BidAsk::Ask);
-                        r.setDate(QDate::currentDate());
-                        r.setTime(QTime::currentTime());
+                        r.setDate(t.date());
+                        r.setTime(t.time());
                         r.setInstrument(t.instrument());
                         r.setType(Record::Type::ENTER);
                         r.setVolume(data.totalBought-data.totalSold);
