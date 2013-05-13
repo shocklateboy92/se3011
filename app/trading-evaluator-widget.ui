@@ -14,26 +14,79 @@
    <string>Evaluator</string>
   </property>
   <widget class="QWidget" name="dockWidgetContents">
-   <layout class="QVBoxLayout" name="verticalLayout">
-    <item>
-     <widget class="QLabel" name="stats_label">
+   <layout class="QFormLayout" name="formLayout">
+    <property name="fieldGrowthPolicy">
+     <enum>QFormLayout::FieldsStayAtSizeHint</enum>
+    </property>
+    <item row="1" column="0">
+     <widget class="QLabel" name="money_spent_label">
       <property name="text">
-       <string>Stats:</string>
+       <string>Money Spent</string>
       </property>
      </widget>
     </item>
-    <item>
-     <widget class="QTextBrowser" name="stats_text"/>
+    <item row="3" column="0">
+     <widget class="QLabel" name="money_gained_label">
+      <property name="text">
+       <string>Money Gained</string>
+      </property>
+     </widget>
     </item>
-    <item>
+    <item row="3" column="1">
+     <widget class="QLineEdit" name="money_gained"/>
+    </item>
+    <item row="8" column="0">
      <widget class="QLabel" name="my_trades_label">
       <property name="text">
        <string>My Trades:</string>
       </property>
      </widget>
     </item>
-    <item>
+    <item row="8" column="1">
      <widget class="QTableView" name="my_trades"/>
+    </item>
+    <item row="1" column="1">
+     <widget class="QLineEdit" name="money_spent"/>
+    </item>
+    <item row="4" column="0">
+     <widget class="QLabel" name="profit_label">
+      <property name="text">
+       <string>Profit</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="1">
+     <widget class="QLineEdit" name="profit"/>
+    </item>
+    <item row="5" column="1">
+     <widget class="QLineEdit" name="stocks_sold"/>
+    </item>
+    <item row="6" column="0">
+     <widget class="QLabel" name="stocks_bought_label">
+      <property name="text">
+       <string>Stocks Bought</string>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="1">
+     <widget class="QLineEdit" name="stocks_bought"/>
+    </item>
+    <item row="5" column="0">
+     <widget class="QLabel" name="stocks_sold_label">
+      <property name="text">
+       <string>Stocks Sold</string>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="0">
+     <widget class="QLabel" name="stocks_remaining_label">
+      <property name="text">
+       <string>Stocks Remaining</string>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="1">
+     <widget class="QLineEdit" name="lineEdit_6"/>
     </item>
    </layout>
   </widget>
