@@ -67,6 +67,8 @@ MainWindow::MainWindow(QWidget *parent) :
     auto graph = new TradingEvaluatorGraph(this);
     addDockWidget(Qt::BottomDockWidgetArea, graph);
 
+    tabifyDockWidget(evalwidget, graph);
+
     connect(m_inputModel, &TradingFilesModel::newRecordEncountered,
             m_engine, &TradingEngine::processNewRecord);
     connect(m_engine, &TradingEngine::newTradeCreated,
