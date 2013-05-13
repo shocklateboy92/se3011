@@ -18,7 +18,7 @@ TradingEvaluatorGraph::TradingEvaluatorGraph(QWidget *parent) :
     customPlot->graph(0)->setData(times, costs);
     // give the axes some labels:
     customPlot->xAxis->setLabel("Time");
-    customPlot->yAxis->setLabel("Profit");
+    customPlot->yAxis->setLabel("Price");
     // set axes ranges, so we see all data:
     customPlot->xAxis->setRangeLower(0);
     customPlot->yAxis->setRangeLower(0);
@@ -37,17 +37,17 @@ void TradingEvaluatorGraph::plotNew(const Trade &trade)
 
 
     //this line is some how broken
-    double time = QTime(0,0).secsTo(trade.time());
+    double time = QTime(0,0).msecsTo(trade.time());
     // end this line
 
 
     double price = trade.price();
     costs.append(price);
     times.append(time);
-    qDebug() << "Should plot a point";
-    qDebug() << trade.time();
-    qDebug() << time;
-    qDebug() << price;
+    //qDebug() << "Should plot a point";
+    //qDebug() << trade.time();
+    //qDebug() << time;
+    //qDebug() << price;
     customPlot->graph(0)->addData(time,price);
 
     if(customPlot->yAxis->range().upper <= price) {
