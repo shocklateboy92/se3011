@@ -131,17 +131,14 @@ QTextStream& operator >>(QTextStream &in, Record &r) {
     r.setTransId(it.next().toLong());
     r.setBidId(it.next().toLong());
     r.setAskId(it.next().toLong());
-    char ba = it.next()[0].toLatin1();
-    switch (ba) {
-    case 'A':
+
+    QString bidOrAskStr = it.next();
+    if (bidOrAskStr == "A") {
         r.setBidOrAsk(Record::BidAsk::Ask);
-        break;
-    case 'B':
+    } else if (bidOrAskStr == "B") {
         r.setBidOrAsk(Record::BidAsk::Bid);
-        break;
-    default:
+    } else {
         r.setBidOrAsk(Record::BidAsk::Neither);
-        break;
     }
 
     //FIXME - sooo not true!

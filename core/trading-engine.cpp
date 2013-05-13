@@ -11,53 +11,20 @@ TradingEngine::TradingEngine(QObject *parent) :
 void TradingEngine::processNewRecord(const Record &record) {
     Record r = record;
 
-    if (r.type() == Record::Type::ENTER && (r.askId() == 6666 || r.bidId() == 6666)) {
-        qDebug() << "Found one of our trades: " << r;
-        Trade t(r);
-        t.setType(Record::Type::TRADE);
-        t.setPrice(r.price());
-        emit newTradeCreated(t);
-        return;
-    }
-
     switch (r.type()) {
 
     case Record::Type::ENTER:
-        switch (r.bidOrAsk()) {
-        case Record::BidAsk::Bid:
-            enterBid(Bid(r));
-            break;
-        case Record::BidAsk::Ask:
-            enterAsk(Ask(r));
-            break;
-        default:
-            qWarning() << "encountered record with Type ENTER, but is neither a Bid nor Ask";
+        if (r.askId() == 6666 || r.bidId() == 6666) {
+            qDebug() << "Found one of our trades: " << r;
+            Trade t(r);
+            t.setType(Record::Type::TRADE);
+            t.setPrice(r.price());
+            emit newTradeCreated(t);
         }
         break;
     case Record::Type::DELETE:
-        switch (r.bidOrAsk()) {
-        case Record::BidAsk::Ask:
-            removeAsk(Ask(r));
-            break;
-        case Record::BidAsk::Bid:
-            removeBid(Bid(r));
-            break;
-        default:
-            qWarning() << "trying to delete a record that is neither a Bid nor Ask";
-        }
-        break;
     case Record::Type::AMEND:
-        switch (r.bidOrAsk()) {
-        case Record::BidAsk::Ask:
-            modifyAsk(Ask(r));
-            break;
-        case Record::BidAsk::Bid:
-            modifyBid(Bid(r));
-            break;
-        default:
-            qWarning() << "trying to amend a record that is neither a Bid nor Ask";
-            break;
-        }
+//        qDebug() << "ignoring record of type" << r.typeName();
         break;
 
     case Record::Type::TRADE:
