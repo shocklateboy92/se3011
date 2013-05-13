@@ -103,6 +103,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(m_evaluator, &TradingEvaluator::currentEval, evalwidget, &TradingEvaluatorWidget::printCurrentEval);
 
+    connect(m_evaluator, &TradingEvaluator::signalTradeEncountered, graph, &TradingEvaluatorGraph::plotNew);
+
 
 }
 

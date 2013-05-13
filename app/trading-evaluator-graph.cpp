@@ -9,21 +9,19 @@ TradingEvaluatorGraph::TradingEvaluatorGraph(QWidget *parent) :
 
     auto customPlot = ui->dockWidgetContents;
 
-    QVector<double> x(101), y(101); // initialize with entries 0..100
-    for (int i=0; i<101; ++i)
-    {
-      x[i] = i/50.0 - 1; // x goes from -1 to 1
-      y[i] = x[i]*x[i]; // let's plot a quadratic function
-    }
+
     // create graph and assign data to it:
     customPlot->addGraph();
-    customPlot->graph(0)->setData(x, y);
+
+
+
+    //customPlot->graph(0)->setData(times, costs);
     // give the axes some labels:
-    customPlot->xAxis->setLabel("x");
-    customPlot->yAxis->setLabel("y");
+    customPlot->xAxis->setLabel("Time");
+    customPlot->yAxis->setLabel("Profit");
     // set axes ranges, so we see all data:
-    customPlot->xAxis->setRange(-1, 1);
-    customPlot->yAxis->setRange(0, 1);
+   // customPlot->xAxis->setRange(-1, 1);
+    //customPlot->yAxis->setRange(0, 1);
     customPlot->replot();
 
 }
@@ -35,7 +33,11 @@ TradingEvaluatorGraph::~TradingEvaluatorGraph()
 
 void TradingEvaluatorGraph::plotNew(const Trade &trade)
 {
+    double time = trade.time().msec();
+    double price = trade.price();
+    costs.append(price);
+    times.append(time);
 
-
+    ui->dockWidgetContents->graph(0)->addData(time,price );
 
 }

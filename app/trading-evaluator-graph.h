@@ -23,7 +23,8 @@ public slots:
 
 private:
     Ui::TradingEvaluatorGraph *ui;
-    QMap<QTime, float> *profits;
+    QVector<double> costs;
+    QVector<double> times;
 };
 
 #endif // TRADINGEVALUATORGRAPH_H
