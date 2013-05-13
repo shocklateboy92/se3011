@@ -11,6 +11,8 @@ public:
     RecordParsingTests();
     
 private Q_SLOTS:
+    void simpleParseTest();
+
     void parseLine();
     void parseLine_data();
 };
@@ -19,8 +21,25 @@ RecordParsingTests::RecordParsingTests()
 {
 }
 
+//#Instrument,Date,Time,Record Type,Price,Volume,Undisclosed Volume,Value,Qualifiers,Trans ID,Bid ID,Ask ID,Bid/Ask,Entry Time,Old Price,Old Volume,Buyer Broker ID,Seller Broker ID
+void RecordParsingTests::simpleParseTest() {
+    QTextStream ts(QByteArray("BHP,20130501,00:00:00.000,ENTER,32.600,160,0,5216,,0,6263684926150135747,,B,,,,406,"));
+    Record r;
+    ts >> r;
+    QCOMPARE(r.instrument(), QStringLiteral("BHP"));
+    QCOMPARE(r.date(), QDate(2013, 5, 1));
+    QCOMPARE(r.time(), QTime(0, 0, 0, 0));
+    QCOMPARE(r.type(), Record::Type::ENTER);
+    QCOMPARE(r.price(), 32.6);
+    QCOMPARE(r.volume(), 160.0);
+    QCOMPARE(r.value(), 5216.0);
+    QCOMPARE(r.bidId(), 6263684926150135747);
+    QCOMPARE(r.bidOrAsk(), Record::BidAsk::Bid);
+}
+
 void RecordParsingTests::parseLine()
 {
+    QFAIL("Test not legit.");
     QFETCH(QByteArray, line);
     QFETCH(QString, instrument);
     QFETCH(QDate, date);
@@ -52,29 +71,18 @@ void RecordParsingTests::parseLine_data()
     QTest::addColumn<Record::Type>("type");
     QTest::addColumn<double>("price");
     QTest::addColumn<double>("volume");
+    QTest::addColumn<double>("undisclosedVolume");
     QTest::addColumn<double>("value");
+    QTest::addColumn<QByteArray>("qualifiers");
+    QTest::addColumn<long>("transactionID");
+    QTest::addColumn<long>("bidID");
+    QTest::addColumn<long>("askID");
+    QTest::addColumn<Record::BidAsk>("bidOrAsk");
 
-    QTest::newRow("GUD1") << QByteArray("GUD,20130102,10:04:32.025,TRADE,8.750,1,8.75,,,,,,,AC XT")
-                          << "GUD"
-                          << QDate(2013, 01, 02)
-                          << QTime(10, 4, 32, 25)
-                          << Record::Type::TRADE
-                          << 8.75
-                          << 1.0
-                          << 8.75;
+//    QTest::newRow("BHP1") << QByteArray("BHP,20130501,00:00:00.000,ENTER,32.600,160,0,5216,,0,6263684926150135747,,B,,,,406,") <<
+//                             "BHP" << QDate(2013, 5, 1) << QTime(0, 0, 0, 0) << Record::Type::ENTER << 32.600 << 160.0 << 0.0 << 5216.0 << 0 << 6263684926150135747 << 0 << 0 << Record::BidAsk::Bid << 0 << 0 << 0 << 406;
 }
 
 QTEST_APPLESS_MAIN(RecordParsingTests)
 
 #include "tst_record-parsing-tests.moc"
-//#Instrument,  Date,Time,Record Type,Price,Volume,Value,Bid Price,Bid Size,Ask Price,Ask Size,Spread,Relative Spread,Qualifiers
-//GUD,20130102,10:04:32.025,TRADE,8.750,1,8.75,,,,,,,AC XT
-//GUD,20130102,10:04:32.025,TRADE,8.750,10,87.5,,,,,,,AC
-//GUD,20130102,10:04:32.025,TRADE,8.750,145,1268.75,,,,,,,AC
-//GUD,20130102,10:04:32.025,TRADE,8.750,59,516.25,,,,,,,AC
-//GUD,20130102,10:04:32.025,TRADE,8.750,50,437.5,,,,,,,AC XT
-//GUD,20130102,10:04:32.025,TRADE,8.750,224,1960,,,,,,,AC
-//GUD,20130102,10:04:32.025,TRADE,8.750,1,8.75,,,,,,,AC XT
-//GUD,20130102,10:04:32.025,TRADE,8.750,25,218.75,,,,,,,AC
-//GUD,20130102,10:04:32.025,TRADE,8.750,50,437.5,,,,,,,AC
-//GUD,20130102,10:04:32.025,TRADE,8.750,50,437.5,,,,,,,AC

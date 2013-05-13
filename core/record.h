@@ -21,7 +21,8 @@ public:
 
     enum class BidAsk {
         Bid,
-        Ask
+        Ask,
+        Neither
     };
 
     enum class Field {
@@ -102,6 +103,7 @@ private:
 
 Q_DECLARE_METATYPE(Record)
 Q_DECLARE_METATYPE(Record::Type)
+Q_DECLARE_METATYPE(Record::BidAsk)
 
 
 #endif // RECORD_H

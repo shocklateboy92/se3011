@@ -122,11 +122,27 @@ QTextStream& operator >>(QTextStream &in, Record &r) {
         r.setPrice(0);
         //qWarning() << "failed to parse: " << line;
     }
-    //it.next(); // not sure what this is
+
     r.setVolume(it.next().toDouble());
+    it.next(); // don't care about undisclosedVolume
     r.setValue(it.next().toDouble());
-    //more stuff
-    //TODO: Parse the rest of the line
+    it.next(); // don't care about qualifiers
+
+    r.setTransId(it.next().toLong());
+    r.setBidId(it.next().toLong());
+    r.setAskId(it.next().toLong());
+    char ba = it.next()[0].toLatin1();
+    switch (ba) {
+    case 'A':
+        r.setBidOrAsk(Record::BidAsk::Ask);
+        break;
+    case 'B':
+        r.setBidOrAsk(Record::BidAsk::Bid);
+        break;
+    default:
+        r.setBidOrAsk(Record::BidAsk::Neither);
+        break;
+    }
 
     //FIXME - sooo not true!
     r.m_valid = true;
