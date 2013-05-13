@@ -21,7 +21,7 @@ TradingEvaluatorGraph::TradingEvaluatorGraph(QWidget *parent) :
     customPlot->yAxis->setLabel("Profit");
     // set axes ranges, so we see all data:
    // customPlot->xAxis->setRange(-1, 1);
-    //customPlot->yAxis->setRange(0, 1);
+    customPlot->yAxis->setRange(0, 1);
     customPlot->replot();
 
 }
@@ -37,7 +37,8 @@ void TradingEvaluatorGraph::plotNew(const Trade &trade)
     double price = trade.price();
     costs.append(price);
     times.append(time);
-
-    ui->dockWidgetContents->graph(0)->addData(time,price );
+    qDebug() << "Should plot a point";
+    ui->dockWidgetContents->graph(0)->setData(times,costs );
+    ui->dockWidgetContents->replot();
 
 }
