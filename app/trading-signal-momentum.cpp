@@ -39,10 +39,8 @@ void TradingSignalMomentum::onPushbuttonClicked()
     QModelIndexList indexes = ui->tableWidget->selectionModel()
                                 ->selection().indexes();
     if (!indexes.isEmpty()) {
+        emit deleteMomentum(ui->tableWidget->selectedItems().first()->text());
         ui->tableWidget->removeRow(indexes.first().row());
-
-        //lasath check this
-        //emit deleteMomentum(ui->instrument_table->selectedItems().first()->text());
 
     }
 }

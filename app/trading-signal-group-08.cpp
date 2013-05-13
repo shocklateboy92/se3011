@@ -40,10 +40,9 @@ void TradingSignalGroup08::removeMagic()
 
 
     if (!indexes.isEmpty()) {
+        emit deleteMagic(ui->instrument_table->selectedItems().first()->text());
         ui->instrument_table->removeRow(indexes.first().row());
 
-        //lasath check this
-        //emit deleteMagic(ui->instrument_table->selectedItems().first()->text());
 
     }
 }

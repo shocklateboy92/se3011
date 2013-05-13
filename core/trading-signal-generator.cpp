@@ -40,6 +40,7 @@ void TradingSignalGenerator::processMagic(const QString &instrument) {
 }
 
 void TradingSignalGenerator::removeMagic(const QString &instrument) {
+    Q_ASSERT(m_magic.contains(instrument));
     m_magic.remove(instrument);
 
 }
