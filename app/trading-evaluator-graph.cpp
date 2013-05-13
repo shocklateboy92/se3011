@@ -35,7 +35,12 @@ void TradingEvaluatorGraph::plotNew(const Trade &trade)
 {
     auto customPlot = ui->dockWidgetContents;
 
-    double time = QTime().secsTo(trade.time());
+
+    //this line is some how broken
+    double time = QTime(0,0).secsTo(trade.time());
+    // end this line
+
+
     double price = trade.price();
     costs.append(price);
     times.append(time);
