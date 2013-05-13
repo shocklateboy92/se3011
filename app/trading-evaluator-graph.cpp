@@ -15,13 +15,13 @@ TradingEvaluatorGraph::TradingEvaluatorGraph(QWidget *parent) :
 
 
 
-    //customPlot->graph(0)->setData(times, costs);
+    customPlot->graph(0)->setData(times, costs);
     // give the axes some labels:
     customPlot->xAxis->setLabel("Time");
     customPlot->yAxis->setLabel("Profit");
     // set axes ranges, so we see all data:
-   // customPlot->xAxis->setRange(-1, 1);
-    customPlot->yAxis->setRange(0, 1);
+    customPlot->xAxis->setRangeLower(0);
+    customPlot->yAxis->setRangeLower(0);
     customPlot->replot();
 
 }
@@ -33,12 +33,30 @@ TradingEvaluatorGraph::~TradingEvaluatorGraph()
 
 void TradingEvaluatorGraph::plotNew(const Trade &trade)
 {
-    double time = trade.time().msec();
+    auto customPlot = ui->dockWidgetContents;
+
+    double time = QTime().secsTo(trade.time());
     double price = trade.price();
     costs.append(price);
     times.append(time);
     qDebug() << "Should plot a point";
-    ui->dockWidgetContents->graph(0)->setData(times,costs );
+    qDebug() << trade.time();
+    qDebug() << time;
+    qDebug() << price;
+    customPlot->graph(0)->addData(time,price);
+
+    if(customPlot->yAxis->range().upper <= price) {
+        customPlot->yAxis->setRangeUpper(price + 1.0);
+    }
+
+    if(customPlot->xAxis->range().upper <= time) {
+        customPlot->xAxis->setRangeUpper(time + 1.0);
+    }
+
+//    ui->dockWidgetContents->graph(0)->addData(0.5,1.0 );
+//    ui->dockWidgetContents->graph(0)->addData(0.5,0.5 );
+//    ui->dockWidgetContents->graph(0)->addData(5.0,5.0 );
+
     ui->dockWidgetContents->replot();
 
 }
