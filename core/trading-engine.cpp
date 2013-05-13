@@ -10,6 +10,16 @@ TradingEngine::TradingEngine(QObject *parent) :
 
 void TradingEngine::processNewRecord(const Record &record) {
     Record r = record;
+
+    if (r.type() == Record::Type::ENTER && (r.askId() == 6666 || r.bidId() == 6666)) {
+        qDebug() << "Found one of our trades: " << r;
+        Trade t(r);
+        t.setType(Record::Type::TRADE);
+        t.setPrice(r.price());
+        emit newTradeCreated(t);
+        return;
+    }
+
     switch (r.type()) {
 
     case Record::Type::ENTER:
@@ -56,16 +66,6 @@ void TradingEngine::processNewRecord(const Record &record) {
 
     default:
         break;
-    }
-
-    if (r.type() == Record::Type::TRADE) {
-        emit newTradeCreated(Trade(r));
-    } else if (r.type() == Record::Type::ENTER && (r.askId() == 6666 || r.bidId() == 6666)) {
-        qDebug() << "Found one of our trades: " << r;
-        Trade t(r);
-        t.setType(Record::Type::TRADE);
-        t.setPrice(r.price());
-        emit newTradeCreated(t);
     }
 }
 
@@ -160,7 +160,9 @@ void TradingEngine::performMatching() {
 }
 
 void TradingEngine::createTrade(const Ask &ask, const Bid &bid) {
-    emit newTradeCreated(Trade(ask, bid));
+    auto trade = Trade(ask, bid);
+    qDebug() << "Created New Trade: " << trade;
+    emit newTradeCreated(trade);
 }
 
 void TradingEngine::createTrade(const Trade &existing) {
