@@ -2,6 +2,7 @@
 #include "ui_trading-evaluator-widget.h"
 
 #include <QTableView>
+#include <QDebug>
 
 TradingEvaluatorWidget::TradingEvaluatorWidget(QAbstractTableModel *my, QAbstractTableModel *all,QWidget *parent) :
     QDockWidget(parent),all_model(my),my_model(all),
@@ -18,12 +19,11 @@ TradingEvaluatorWidget::~TradingEvaluatorWidget()
 }
 
 void TradingEvaluatorWidget::printCurrentEval(float moneySpent, float moneyGained, float stocksSold, float stocksPurchased) {
-    ui->money_gained->text() = QString::number(moneyGained);
-    ui->money_spent->text() = QString::number(moneySpent);
-    ui->stocks_bought->text() = QString::number(stocksPurchased);
-    ui->stocks_sold->text() = QString::number(stocksSold);
-    ui->stocks_remaining->text() =  QString::number(stocksPurchased - stocksSold);
-    ui->profit->text() =  QString::number(moneyGained - moneySpent);
-
+    ui->money_gained->setText(QString::number(moneyGained));
+    ui->money_spent->setText(QString::number(moneySpent));
+    ui->stocks_bought->setText(QString::number(stocksPurchased));
+    ui->stocks_sold->setText(QString::number(stocksSold));
+    ui->stocks_remaining->setText(QString::number(stocksPurchased - stocksSold));
+    ui->profit->setText(QString::number(moneyGained - moneySpent));
 }
 
