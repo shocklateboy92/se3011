@@ -221,7 +221,7 @@ void Record::setPrice(double value)
 
 double Record::value() const
 {
-    return m_value;
+    return m_price * m_volume;
 }
 
 void Record::setValue(double value)

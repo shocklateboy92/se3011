@@ -7,9 +7,6 @@ class Order {
 public:
     Order(QSharedPointer<Record> record);
 
-    virtual long id() const = 0;
-    bool operator==(const Order &other) const;
-
     Record* record() const;
 
     double  price() const;
@@ -33,8 +30,8 @@ public:
     long id() const;
     long brokerId() const;
 
-    bool operator<(const Ask &other) const;
-    bool operator==(const Ask &other) const;
+    bool operator <(const Ask &other) const;
+    bool operator ==(const Ask &other) const;
 
     Ask createPartial(double newVolume);
 };
@@ -45,7 +42,8 @@ public:
     long id() const;
     long brokerId() const;
 
-    bool operator<(const Bid &other) const;
+    bool operator <(const Bid &other) const;
+    bool operator ==(const Bid &other) const;
 
     Bid createPartial(double newVolume);
 };

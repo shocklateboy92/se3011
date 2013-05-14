@@ -1,11 +1,5 @@
 #include "order.h"
 
-bool Order::operator ==(const Order &other) const
-{
-    return id() == other.id() && m_record == other.m_record;
-}
-
-
 bool Ask::operator ==(const Ask &other) const
 {
     return record()->askId() == other.record()->askId();
@@ -99,7 +93,12 @@ bool Bid::operator <(const Bid &other) const
 {
     return date() < other.date() &&
             time() < other.time() &&
-             price() < other.price();
+            price() > other.price();
+}
+
+bool Bid::operator ==(const Bid &other) const
+{
+    return record()->bidId() == other.record()->bidId();
 }
 
 bool Ask::operator <(const Ask &other) const

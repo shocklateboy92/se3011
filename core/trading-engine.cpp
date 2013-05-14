@@ -32,6 +32,7 @@ void TradingEngine::processNewRecord(const Record &record) {
             break;
         default:
             qWarning() << "encountered record with Type ENTER, but is neither a Bid nor Ask";
+            break;
         }
         break;
     case Record::Type::DELETE:
@@ -44,6 +45,7 @@ void TradingEngine::processNewRecord(const Record &record) {
             break;
         default:
             qWarning() << "trying to delete a record that is neither a Bid nor Ask";
+            break;
         }
         break;
     case Record::Type::AMEND:
@@ -111,9 +113,8 @@ void TradingEngine::enterBid(Bid bid) {
 
     // if we're still here, we weren't able to fully
     // process the bid
-    m_bidQueue.insert(std::lower_bound(m_bidQueue.begin(),
-                                       m_bidQueue.end(), bid),
-                      bid);
+    auto pos = std::lower_bound(m_bidQueue.begin(), m_bidQueue.end(), bid);
+    m_bidQueue.insert(pos, bid);
 }
 
 void TradingEngine::enterAsk(Ask ask) {
@@ -148,7 +149,12 @@ void TradingEngine::enterAsk(Ask ask) {
             ++it;
         }
     }
-    m_askQueue.append(ask);
+
+    m_askQueue.insert(std::lower_bound(
+                          m_askQueue.begin(),
+                          m_askQueue.end(),
+                          ask),
+                      ask);
 }
 
 void TradingEngine::removeBid(Bid bid) {

@@ -20,9 +20,6 @@ private slots:
         m_engine = new TradingEngine();
     }
 
-    void bidTimeOrderTest() {
-    }
-
     void testEnterBid() {
         Ask a1 = createAsk();
         a1.setPrice(10);
