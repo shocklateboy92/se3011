@@ -110,6 +110,23 @@ void TradingEngine::enterBid(Bid bid) {
 
 void TradingEngine::enterAsk(Ask ask) {
     Q_ASSERT (m_askQueue.count(ask) == 0);
+
+    for (Bid bid : m_bidQueue) {
+        if (bid.price() >= ask.price()) {
+
+            if (bid.volume() != ask.volume()) {
+                if (bid.volume() > ask.volume()) {
+                    Bid b = bid.createPartial(bid.volume() - ask.volume());
+                    createTrade(ask, b);
+                } else {
+                    Ask a = ask.createPartial(ask.volume() - bid.volume());
+                    createTrade(a, bid);
+                }
+            } else {
+                createTrade(ask, bid);
+            }
+        }
+    }
     m_askQueue.append(ask);
 }
 
