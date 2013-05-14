@@ -101,5 +101,25 @@ bool Ask::operator <(const Ask &other) const
              price() < other.price();
 }
 
+template <typename BidAsk>
+inline BidAsk createPartialBidOrAsk(BidAsk &ba, double newVolume) {
+    Q_ASSERT (ba.volume() > newVolume);
+
+    ba.setVolume(ba.volume() - newVolume);
+
+    Record *r = new Record(*ba.record());
+    BidAsk a(*r);
+
+    a.setVolume(newVolume);
+    return a;
+}
+
+Ask Ask::createPartial(double newVolume) {
+    return createPartialBidOrAsk(*this, newVolume);
+}
+
+Bid Bid::createPartial(double newVolume) {
+    return createPartialBidOrAsk(*this, newVolume);
+}
 
 int fd = qRegisterMetaType<Trade>("Trade");

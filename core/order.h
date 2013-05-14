@@ -33,6 +33,8 @@ public:
 
     bool operator<(const Ask &other) const;
     bool operator==(const Ask &other) const;
+
+    Ask createPartial(double newVolume);
 };
 
 class Bid : virtual public Order {
@@ -41,6 +43,8 @@ public:
     long id() const;
 
     bool operator<(const Bid &other) const;
+
+    Bid createPartial(double newVolume);
 };
 
 class Trade : public Record
