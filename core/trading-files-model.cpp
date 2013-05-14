@@ -18,7 +18,7 @@ TradingFilesModel::TradingFilesModel(QObject *parent) :
 int TradingFilesModel::columnCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
-    return 2;
+    return 1;
 }
 
 int TradingFilesModel::rowCount(const QModelIndex &parent) const
@@ -38,9 +38,9 @@ QVariant TradingFilesModel::headerData(
         case Name:
             data = "File Name";
             break;
-        case RecordCount:
-            data = "Records Read";
-            break;
+//        case RecordCount:
+//            data = "Records Read";
+//            break;
         }
     }
     return data;
@@ -56,9 +56,9 @@ QVariant TradingFilesModel::data(const QModelIndex &index, int role) const
         case Name:
             data = source->reader->inputName();
             break;
-        case RecordCount:
-            data = source->recordCount;
-            break;
+//        case RecordCount:
+//            data = source->recordCount;
+//            break;
         };
     }
 
