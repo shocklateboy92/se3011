@@ -73,26 +73,33 @@ void TradingEngine::enterBid(Bid bid) {
     Q_ASSERT (!m_bidQueue.contains(bid));
 
     // find a seller for less than we're offering
-    for (Ask &ask : m_askQueue) {
+    for (auto it = m_askQueue.begin(); it != m_askQueue.end(); ) {
+        Ask ask = *it;
         if (ask.price() <= bid.price()) {
 
             // if we have to make a partial trade
             if (ask.volume() != bid.volume()) {
 
                 // seller has more than we want
+                // leaves sell in queue with smaller volume
                 if (ask.volume() > bid.volume()) {
                     Ask a = ask.createPartial(bid.volume());
                     createTrade(a, bid);
+                    ++it;
 
                 // we want more from another seller
+                // removes sell, as it's completed
                 } else {
                     Bid b = bid.createPartial(ask.volume());
+                    it = m_askQueue.erase(it);
                     createTrade(ask, b);
                 }
             } else {
-                m_askQueue.removeAll(ask);
+                it = m_askQueue.erase(it);
                 createTrade(ask, bid);
             }
+        } else {
+            ++it;
         }
 
         // if we've completely gone through the bid, there's
@@ -112,19 +119,24 @@ void TradingEngine::enterBid(Bid bid) {
 void TradingEngine::enterAsk(Ask ask) {
     Q_ASSERT (!m_askQueue.contains(ask));
 
-    for (Bid bid : m_bidQueue) {
+    auto it = m_bidQueue.begin();
+    while (it != m_bidQueue.end()) {
+        Bid bid = *it;
+
         if (bid.price() >= ask.price()) {
 
             if (bid.volume() != ask.volume()) {
                 if (bid.volume() > ask.volume()) {
                     Bid b = bid.createPartial(ask.volume());
+                    ++it;
                     createTrade(ask, b);
                 } else {
                     Ask a = ask.createPartial(bid.volume());
+                    it = m_bidQueue.erase(it);
                     createTrade(a, bid);
                 }
             } else {
-                m_bidQueue.removeAll(bid);
+                it = m_bidQueue.erase(it);
                 createTrade(ask, bid);
             }
 
@@ -132,6 +144,8 @@ void TradingEngine::enterAsk(Ask ask) {
                 // already been fully processed
                 return;
             }
+        } else {
+            ++it;
         }
     }
     m_askQueue.append(ask);

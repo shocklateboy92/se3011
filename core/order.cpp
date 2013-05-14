@@ -110,12 +110,12 @@ bool Ask::operator <(const Ask &other) const
 }
 
 template <typename BidAsk>
-inline BidAsk createPartialBidOrAsk(BidAsk &ba, double newVolume) {
-    Q_ASSERT (ba.volume() >= newVolume);
+inline BidAsk createPartialBidOrAsk(BidAsk *ba, double newVolume) {
+    Q_ASSERT (ba->volume() >= newVolume);
 
-    ba.setVolume(ba.volume() - newVolume);
+    ba->setVolume(ba->volume() - newVolume);
 
-    QSharedPointer<Record> r(new Record(*ba.record()));
+    QSharedPointer<Record> r(new Record(*ba->record()));
     BidAsk a(r);
 
     a.setVolume(newVolume);
@@ -123,11 +123,11 @@ inline BidAsk createPartialBidOrAsk(BidAsk &ba, double newVolume) {
 }
 
 Ask Ask::createPartial(double newVolume) {
-    return createPartialBidOrAsk(*this, newVolume);
+    return createPartialBidOrAsk(this, newVolume);
 }
 
 Bid Bid::createPartial(double newVolume) {
-    return createPartialBidOrAsk(*this, newVolume);
+    return createPartialBidOrAsk(this, newVolume);
 }
 
 Trade::Trade(Ask ask, Bid bid) {

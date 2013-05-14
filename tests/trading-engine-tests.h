@@ -20,47 +20,62 @@ private slots:
         m_engine = new TradingEngine();
     }
 
+    void bidTimeOrderTest() {
+    }
+
     void testEnterBid() {
-        Record a1 = create();
-        a1.setBidOrAsk(Record::BidAsk::Ask);
+        Ask a1 = createAsk();
         a1.setPrice(10);
         a1.setVolume(20);
 
-        Record a2 = create();
-        a2.setBidOrAsk(Record::BidAsk::Ask);
+        Ask a2 = createAsk();
         a2.setPrice(15);
         a2.setVolume(30);
 
-        Record b1 = create();
-        b1.setBidOrAsk(Record::BidAsk::Bid);
+        Bid b1 = createBid();
         b1.setPrice(20);
         b1.setVolume(40);
 
-        m_engine->enterAsk(Ask(QSharedPointer<Record>(&a1)));
-        m_engine->enterAsk(Ask(QSharedPointer<Record>(&a2)));
-        m_engine->enterBid(Bid(QSharedPointer<Record>(&b1)));
+        m_engine->enterAsk(a1);
+        m_engine->enterAsk(a2);
+        m_engine->enterBid(b1);
 
         QCOMPARE(m_engine->m_bidQueue.size(), 1);
 
         Bid rb = m_engine->m_bidQueue.first();
-        QCOMPARE(rb.record(), &b1);
+        QCOMPARE(rb, b1);
+        QCOMPARE(rb.record(), b1.record());
 
-        QEXPECT_FAIL("", "createTrade will remove them from the queue", Continue);
-        QCOMPARE(m_engine->m_askQueue.size(), 0);
+        QCOMPARE(m_engine->m_askQueue.size(), 1);
+        Ask remainingAsk = (m_engine->m_askQueue.first());
+        QCOMPARE(remainingAsk.volume(), 10.0);
+        QCOMPARE(remainingAsk.price(), 15.0);
     }
 
 private:
-    Record create() {
-        Record a1;
-        a1.setType(Record::Type::ENTER);
+    Record* create() {
+        Record *a1 = new Record;
+        a1->setType(Record::Type::ENTER);
         static long id = 0;
-        a1.setAskId(++id);
-        a1.setBidId(++id);
-        a1.setTime(QTime::currentTime());
-        a1.setDate(QDate::currentDate());
+        a1->setAskId(++id);
+        a1->setBidId(++id);
+        a1->setTime(QTime::currentTime());
+        a1->setDate(QDate::currentDate());
 
         QTest::qSleep(7);
         return a1;
+    }
+
+    Bid createBid() {
+        Bid b = QSharedPointer<Record>(create());
+        b.record()->setBidOrAsk(Record::BidAsk::Bid);
+        return b;
+    }
+
+    Ask createAsk() {
+        Ask a = QSharedPointer<Record>(create());
+        a.record()->setBidOrAsk(Record::BidAsk::Ask);
+        return a;
     }
 
     TradingEngine *m_engine;
