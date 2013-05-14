@@ -5,8 +5,7 @@
 #include "order.h"
 
 #include <QObject>
-#include <QSet>
-#include <set>
+#include <QLinkedList>
 
 class GROUP8_CORE TradingEngine : public QObject
 {
@@ -20,8 +19,8 @@ signals:
 public slots:
     void processNewRecord(const Record &r);
 
-    void enterBid(const Bid &bid);
-    void enterAsk(const Ask &ask);
+    void enterBid(Bid bid);
+    void enterAsk(Ask ask);
 
     void removeBid(const Bid &bid);
     void removeAsk(const Ask &ask);
@@ -32,11 +31,11 @@ public slots:
     void createTrade(const Ask &ask, const Bid &bid);
     void createTrade(const Trade &existing);
 
-    void performMatching();
+//    void performMatching();
 
 private:
-    std::set<Ask> m_askQueue;
-    std::set<Bid> m_bidQueue;
+    QLinkedList<Ask> m_askQueue;
+    QLinkedList<Bid> m_bidQueue;
 };
 
 #endif // TRADINGENGINE_H

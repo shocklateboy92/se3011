@@ -69,31 +69,64 @@ void TradingEngine::processNewRecord(const Record &record) {
     }
 }
 
-void TradingEngine::enterBid(const Bid &bid) {
-    Q_ASSERT (m_bidQueue.count(bid) == 0);
-    m_bidQueue.insert(bid);
-    performMatching();
+void TradingEngine::enterBid(Bid bid) {
+    Q_ASSERT (!m_bidQueue.contains(bid));
+
+    // find a seller for less than we're offering
+    for (Ask ask : m_askQueue) {
+        if (ask.price() <= bid.price()) {
+
+            // if we have to make a partial trade
+            if (ask.volume() != bid.volume()) {
+
+                // seller has more than we want
+                if (ask.volume() > bid.volume()) {
+                    Ask a = ask.createPartial(ask.volume() - bid.volume());
+                    createTrade(a, bid);
+
+                // we want more from another seller
+                } else {
+                    Bid b = bid.createPartial(bid.volume() - ask.volume());
+                    createTrade(ask, b);
+                }
+            } else {
+                createTrade(ask, bid);
+            }
+        }
+
+        // if we've completely gone through the bid, there's
+        // no point in adding it to the orderbook
+        if (bid.volume() == 0) {
+            return;
+        }
+    }
+
+    // if we're still here, we weren't able to fully
+    // process the bid
+    m_bidQueue.insert(std::lower_bound(m_bidQueue.begin(),
+                                       m_bidQueue.end(), bid),
+                      bid);
 }
 
-void TradingEngine::enterAsk(const Ask &ask) {
+void TradingEngine::enterAsk(Ask ask) {
     Q_ASSERT (m_askQueue.count(ask) == 0);
-    m_askQueue.insert(ask);
-    performMatching();
+//    m_askQueue.insert(ask);
+//    performMatching();
 }
 
 void TradingEngine::removeBid(const Bid &bid) {
     Q_ASSERT (m_bidQueue.count(bid) == 1);
-    m_bidQueue.erase(bid);
+    m_bidQueue.removeOne(bid);
 }
 
 void TradingEngine::removeAsk(const Ask &ask) {
     Q_ASSERT (m_askQueue.count(ask) == 1);
-    m_askQueue.erase(ask);
+    m_askQueue.removeOne(ask);
 }
 
 template <typename BidOrAsk>
-void modifyOrder(std::set<BidOrAsk> queue, BidOrAsk bidOrAsk) {
-    auto r = queue.find(bidOrAsk);
+void modifyOrder(QLinkedList<BidOrAsk> queue, BidOrAsk bidOrAsk) {
+    auto r = std::find(queue.begin(), queue.end(), bidOrAsk);
     if (r != queue.end()) {
         BidOrAsk original = *r;
         Q_ASSERT (original.id() == bidOrAsk.id());
@@ -112,7 +145,7 @@ void modifyOrder(std::set<BidOrAsk> queue, BidOrAsk bidOrAsk) {
             original.setTime(bidOrAsk.time());
             original.setDate(bidOrAsk.date());
 
-            queue.insert(original);
+//            queue.insert(original);
         } else {
             // if only the volume has decreased, it
             // doesn't loose its position.
@@ -129,35 +162,35 @@ void TradingEngine::modifyAsk(Ask ask) {
     modifyOrder(m_askQueue, ask);
 }
 
-void TradingEngine::performMatching() {
-    for (Ask a : m_askQueue) {
-        for (Bid b : m_bidQueue) {
-            // if buyer is willing to pay more than
-            // seller asked for, make the trade
-            if (b.price() >= a.price()) {
-                if (b.volume() == a.volume()) {
-                    // buyer's buying exactly what seller is selling,
-                    // both orders are done.
-                    m_askQueue.erase(a);
-                    m_bidQueue.erase(b);
-                }
-                // otherwise, a partial trade occurs
-                else if (b.volume() > a.volume()) {
-                    // buyer wants more, but seller is done
-                    b.setVolume(b.volume() - a.volume());
-                    m_askQueue.erase(a);
-                }
-                else {
-                    // seller has more, buyer is done
-                    a.setVolume(a.volume() - b.volume());
-                    m_bidQueue.erase(b);
-                }
+//void TradingEngine::performMatching() {
+//    for (Ask a : m_askQueue) {
+//        for (Bid b : m_bidQueue) {
+//            // if buyer is willing to pay more than
+//            // seller asked for, make the trade
+//            if (b.price() >= a.price()) {
+//                if (b.volume() == a.volume()) {
+//                    // buyer's buying exactly what seller is selling,
+//                    // both orders are done.
+//                    m_askQueue.erase(a);
+//                    m_bidQueue.erase(b);
+//                }
+//                // otherwise, a partial trade occurs
+//                else if (b.volume() > a.volume()) {
+//                    // buyer wants more, but seller is done
+//                    b.setVolume(b.volume() - a.volume());
+//                    m_askQueue.erase(a);
+//                }
+//                else {
+//                    // seller has more, buyer is done
+//                    a.setVolume(a.volume() - b.volume());
+//                    m_bidQueue.erase(b);
+//                }
 
-                createTrade(a, b);
-            }
-        }
-    }
-}
+//                createTrade(a, b);
+//            }
+//        }
+//    }
+//}
 
 void TradingEngine::createTrade(const Ask &ask, const Bid &bid) {
     auto trade = Trade(ask, bid);
