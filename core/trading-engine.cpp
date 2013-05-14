@@ -110,8 +110,7 @@ void TradingEngine::enterBid(Bid bid) {
 
 void TradingEngine::enterAsk(Ask ask) {
     Q_ASSERT (m_askQueue.count(ask) == 0);
-//    m_askQueue.insert(ask);
-//    performMatching();
+    m_askQueue.append(ask);
 }
 
 void TradingEngine::removeBid(const Bid &bid) {

@@ -36,6 +36,8 @@ public slots:
 private:
     QLinkedList<Ask> m_askQueue;
     QLinkedList<Bid> m_bidQueue;
+
+    friend class TradingEngineTests;
 };
 
 #endif // TRADINGENGINE_H

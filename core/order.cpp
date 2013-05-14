@@ -103,7 +103,7 @@ bool Ask::operator <(const Ask &other) const
 
 template <typename BidAsk>
 inline BidAsk createPartialBidOrAsk(BidAsk &ba, double newVolume) {
-    Q_ASSERT (ba.volume() > newVolume);
+    Q_ASSERT (ba.volume() >= newVolume);
 
     ba.setVolume(ba.volume() - newVolume);
 
