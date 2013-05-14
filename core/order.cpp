@@ -11,8 +11,8 @@ bool Ask::operator ==(const Ask &other) const
     return record()->askId() == other.record()->askId();
 }
 
-Order::Order(Record &record)
-    : m_record(&record)
+Order::Order(QSharedPointer<Record> record)
+    : m_record(record)
 {
 }
 
@@ -21,12 +21,12 @@ Record* Order::record() const
     return m_record.data();
 }
 
-Bid::Bid(Record &record)
+Bid::Bid(QSharedPointer<Record> record)
     : Order(record)
 {
 }
 
-Ask::Ask(Record &record)
+Ask::Ask(QSharedPointer<Record> record)
     : Order(record)
 {
 }
@@ -39,6 +39,20 @@ long Bid::id() const
 long Ask::id() const
 {
     return record()->askId();
+}
+
+long Ask::brokerId() const
+{
+    return record()->sellerId();
+}
+
+long Bid::brokerId() const
+{
+    return record()->buyerId();
+}
+
+QString Order::instrument() const {
+    return record()->instrument();
 }
 
 double Order::price() const
@@ -81,12 +95,6 @@ void Order::setTime(QTime time)
     record()->setTime(time);
 }
 
-Trade::Trade(Ask ask, Bid bid)
-{
-    Q_UNUSED (ask)
-    Trade(*bid.record());
-}
-
 bool Bid::operator <(const Bid &other) const
 {
     return date() < other.date() &&
@@ -107,8 +115,8 @@ inline BidAsk createPartialBidOrAsk(BidAsk &ba, double newVolume) {
 
     ba.setVolume(ba.volume() - newVolume);
 
-    Record *r = new Record(*ba.record());
-    BidAsk a(*r);
+    QSharedPointer<Record> r(new Record(*ba.record()));
+    BidAsk a(r);
 
     a.setVolume(newVolume);
     return a;
@@ -120,6 +128,26 @@ Ask Ask::createPartial(double newVolume) {
 
 Bid Bid::createPartial(double newVolume) {
     return createPartialBidOrAsk(*this, newVolume);
+}
+
+Trade::Trade(Ask ask, Bid bid) {
+    Q_ASSERT (ask.price() <= bid.price());
+    Q_ASSERT (ask.volume() == bid.volume());
+    Q_ASSERT (ask.instrument() == bid.instrument());
+
+    setInstrument(ask.instrument());
+    setDate(bid.date() > ask.date() ? bid.date() : ask.date());
+    setTime(bid.time() > ask.time() ? bid.time() : ask.time());
+
+    setType(Record::Type::TRADE);
+    setPrice(bid.price());
+    setVolume(ask.volume());
+    setValue(bid.record()->value());
+    setTransId(0);
+    setBidId(bid.id());
+    setAskId(ask.id());
+    setBuyerId(bid.brokerId());
+    setSellerId(ask.brokerId());
 }
 
 int fd = qRegisterMetaType<Trade>("Trade");

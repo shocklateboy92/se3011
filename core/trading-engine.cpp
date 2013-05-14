@@ -9,21 +9,21 @@ TradingEngine::TradingEngine(QObject *parent) :
 }
 
 void TradingEngine::processNewRecord(const Record &record) {
-    Record r = record;
+    QSharedPointer<Record> r(new Record(record));
 
-    if (r.type() == Record::Type::ENTER && (r.askId() == 6666 || r.bidId() == 6666)) {
+    if (r->type() == Record::Type::ENTER && (r->askId() == 6666 || r->bidId() == 6666)) {
         qDebug() << "Found one of our trades: " << r;
-        Trade t(r);
+        Trade t(*r);
         t.setType(Record::Type::TRADE);
-        t.setPrice(r.price());
+        t.setPrice(r->price());
         emit newTradeCreated(t);
         return;
     }
 
-    switch (r.type()) {
+    switch (r->type()) {
 
     case Record::Type::ENTER:
-        switch (r.bidOrAsk()) {
+        switch (r->bidOrAsk()) {
         case Record::BidAsk::Bid:
             enterBid(Bid(r));
             break;
@@ -35,7 +35,7 @@ void TradingEngine::processNewRecord(const Record &record) {
         }
         break;
     case Record::Type::DELETE:
-        switch (r.bidOrAsk()) {
+        switch (r->bidOrAsk()) {
         case Record::BidAsk::Ask:
             removeAsk(Ask(r));
             break;
@@ -47,7 +47,7 @@ void TradingEngine::processNewRecord(const Record &record) {
         }
         break;
     case Record::Type::AMEND:
-        switch (r.bidOrAsk()) {
+        switch (r->bidOrAsk()) {
         case Record::BidAsk::Ask:
             modifyAsk(Ask(r));
             break;
@@ -61,7 +61,7 @@ void TradingEngine::processNewRecord(const Record &record) {
         break;
 
     case Record::Type::TRADE:
-        createTrade(Trade(r));
+        createTrade(Trade(*r.data()));
         break;
 
     default:
@@ -73,7 +73,7 @@ void TradingEngine::enterBid(Bid bid) {
     Q_ASSERT (!m_bidQueue.contains(bid));
 
     // find a seller for less than we're offering
-    for (Ask ask : m_askQueue) {
+    for (Ask &ask : m_askQueue) {
         if (ask.price() <= bid.price()) {
 
             // if we have to make a partial trade
@@ -81,15 +81,16 @@ void TradingEngine::enterBid(Bid bid) {
 
                 // seller has more than we want
                 if (ask.volume() > bid.volume()) {
-                    Ask a = ask.createPartial(ask.volume() - bid.volume());
+                    Ask a = ask.createPartial(bid.volume());
                     createTrade(a, bid);
 
                 // we want more from another seller
                 } else {
-                    Bid b = bid.createPartial(bid.volume() - ask.volume());
+                    Bid b = bid.createPartial(ask.volume());
                     createTrade(ask, b);
                 }
             } else {
+                m_askQueue.removeAll(ask);
                 createTrade(ask, bid);
             }
         }
@@ -109,33 +110,39 @@ void TradingEngine::enterBid(Bid bid) {
 }
 
 void TradingEngine::enterAsk(Ask ask) {
-    Q_ASSERT (m_askQueue.count(ask) == 0);
+    Q_ASSERT (!m_askQueue.contains(ask));
 
     for (Bid bid : m_bidQueue) {
         if (bid.price() >= ask.price()) {
 
             if (bid.volume() != ask.volume()) {
                 if (bid.volume() > ask.volume()) {
-                    Bid b = bid.createPartial(bid.volume() - ask.volume());
+                    Bid b = bid.createPartial(ask.volume());
                     createTrade(ask, b);
                 } else {
-                    Ask a = ask.createPartial(ask.volume() - bid.volume());
+                    Ask a = ask.createPartial(bid.volume());
                     createTrade(a, bid);
                 }
             } else {
+                m_bidQueue.removeAll(bid);
                 createTrade(ask, bid);
+            }
+
+            if (ask.volume() == 0) {
+                // already been fully processed
+                return;
             }
         }
     }
     m_askQueue.append(ask);
 }
 
-void TradingEngine::removeBid(const Bid &bid) {
+void TradingEngine::removeBid(Bid bid) {
     Q_ASSERT (m_bidQueue.count(bid) == 1);
     m_bidQueue.removeOne(bid);
 }
 
-void TradingEngine::removeAsk(const Ask &ask) {
+void TradingEngine::removeAsk(Ask ask) {
     Q_ASSERT (m_askQueue.count(ask) == 1);
     m_askQueue.removeOne(ask);
 }
@@ -208,7 +215,7 @@ void TradingEngine::modifyAsk(Ask ask) {
 //    }
 //}
 
-void TradingEngine::createTrade(const Ask &ask, const Bid &bid) {
+void TradingEngine::createTrade(Ask ask, Bid bid) {
     auto trade = Trade(ask, bid);
     qDebug() << "Created New Trade: " << trade;
     emit newTradeCreated(trade);

@@ -22,13 +22,13 @@ public slots:
     void enterBid(Bid bid);
     void enterAsk(Ask ask);
 
-    void removeBid(const Bid &bid);
-    void removeAsk(const Ask &ask);
+    void removeBid(Bid bid);
+    void removeAsk(Ask ask);
 
     void modifyBid(Bid bid);
     void modifyAsk(Ask ask);
 
-    void createTrade(const Ask &ask, const Bid &bid);
+    void createTrade(Ask ask, Bid bid);
     void createTrade(const Trade &existing);
 
 //    void performMatching();

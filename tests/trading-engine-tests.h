@@ -36,9 +36,9 @@ private slots:
         b1.setPrice(20);
         b1.setVolume(40);
 
-        m_engine->enterAsk(a1);
-        m_engine->enterAsk(a2);
-        m_engine->enterBid(b1);
+        m_engine->enterAsk(Ask(QSharedPointer<Record>(&a1)));
+        m_engine->enterAsk(Ask(QSharedPointer<Record>(&a2)));
+        m_engine->enterBid(Bid(QSharedPointer<Record>(&b1)));
 
         QCOMPARE(m_engine->m_bidQueue.size(), 1);
 
