@@ -80,8 +80,6 @@ void RecordParsingTests::parseLine_data()
     QTest::addColumn<long>("askID");
     QTest::addColumn<Record::BidAsk>("bidOrAsk");
 
-//    QTest::newRow("BHP1") << QByteArray("BHP,20130501,00:00:00.000,ENTER,32.600,160,0,5216,,0,6263684926150135747,,B,,,,406,") <<
-//                             "BHP" << QDate(2013, 5, 1) << QTime(0, 0, 0, 0) << Record::Type::ENTER << 32.600 << 160.0 << 0.0 << 5216.0 << 0 << 6263684926150135747 << 0 << 0 << Record::BidAsk::Bid << 0 << 0 << 0 << 406;
 }
 
 
