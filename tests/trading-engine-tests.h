@@ -3,6 +3,7 @@
 
 #include <QTest>
 #include <trading-engine.h>
+#include <trading-file-reader.h>
 
 class TradingEngineTests : public QObject
 {
@@ -47,6 +48,16 @@ private slots:
         Ask remainingAsk = (m_engine->m_askQueue.first());
         QCOMPARE(remainingAsk.volume(), 10.0);
         QCOMPARE(remainingAsk.price(), 15.0);
+    }
+
+    void fullSimulationBench() {
+        TradingFileReader *reader = new TradingFileReader(
+                    "demo8@demo-BHP-GOOD-20130513145016968945.csv", this);
+        connect(reader, &TradingFileReader::newRecordEncountered,
+                m_engine, &TradingEngine::processNewRecord);
+        QBENCHMARK_ONCE {
+            reader->startReading();
+        }
     }
 
 private:
