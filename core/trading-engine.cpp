@@ -73,7 +73,8 @@ void TradingEngine::processNewRecord(const Record &record) {
 
 void TradingEngine::enterBid(Bid bid) {
     if (m_bidQueue.contains(bid)) {
-        qWarning() << "skipping duplicate bid with id : " << bid.id();
+        qDebug() << "skipping duplicate bid with id : " << bid.id();
+        return;
     }
 
     // find a seller for less than we're offering
@@ -122,6 +123,7 @@ void TradingEngine::enterBid(Bid bid) {
 void TradingEngine::enterAsk(Ask ask) {
     if (m_askQueue.contains(ask)) {
         qWarning() << "skipping duplicate ask with id : " << ask.id();
+        return;
     }
 
     auto it = m_bidQueue.begin();

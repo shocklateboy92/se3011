@@ -104,11 +104,11 @@ void RecordParsingTests::parseBid_data()
 int main(int argc, char* argv[]) {
     int status = 0;
     {
-        RecordParsingTests t;
+        TradingEngineTests t;
         status |= QTest::qExec(&t, argc, argv);
     }
     {
-        TradingEngineTests t;
+        RecordParsingTests t;
         status |= QTest::qExec(&t, argc, argv);
     }
 
