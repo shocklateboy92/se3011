@@ -108,6 +108,7 @@ private:
 
 Q_DECLARE_METATYPE(Record)
 Q_DECLARE_METATYPE(Record::Type)
+Q_DECLARE_METATYPE(Record::Field)
 Q_DECLARE_METATYPE(Record::BidAsk)
 
 

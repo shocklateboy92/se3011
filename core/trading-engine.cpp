@@ -162,12 +162,10 @@ void TradingEngine::enterAsk(Ask ask) {
 }
 
 void TradingEngine::removeBid(Bid bid) {
-    Q_ASSERT (m_bidQueue.count(bid) == 1);
     m_bidQueue.removeOne(bid);
 }
 
 void TradingEngine::removeAsk(Ask ask) {
-    Q_ASSERT (m_askQueue.count(ask) == 1);
     m_askQueue.removeOne(ask);
 }
 

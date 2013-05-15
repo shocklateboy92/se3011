@@ -14,8 +14,8 @@ public:
 private Q_SLOTS:
     void simpleParseTest();
     void simpleParseTest2();
-    void parseLine();
-    void parseLine_data();
+    void parseBid();
+    void parseBid_data();
 };
 
 RecordParsingTests::RecordParsingTests()
@@ -53,48 +53,51 @@ void RecordParsingTests::simpleParseTest2() {
     QCOMPARE(r.bidOrAsk(), Record::BidAsk::Ask);
 }
 
-void RecordParsingTests::parseLine()
+void RecordParsingTests::parseBid()
 {
-//    QFAIL("Test not legit.");
-//    QFETCH(QByteArray, line);
-//    QFETCH(QString, instrument);
-//    QFETCH(QDate, date);
-//    QFETCH(QTime, time);
-//    QFETCH(Record::Type, type);
-//    QFETCH(double, price);
-//    QFETCH(double, volume);
-//    QFETCH(double, value);
+    QFETCH(QByteArray, line);
 
-//    Record r;
-//    QTextStream ts(line);
-//    ts >> r;
+    {
+        Record r;
+        QTextStream ts(line);
+        ts >> r;
 
-//    QCOMPARE(r.instrument(), instrument);
-//    QCOMPARE(r.date(), date);
-//    QCOMPARE(r.time(), time);
-//    QCOMPARE(r.type(), type);
-//    QCOMPARE(r.price(), price);
-//    QCOMPARE(r.volume(), volume);
-//    QCOMPARE(r.value(), value);
+        QTEST(r.instrument(), "instrument");
+        QTEST(r.date(), "date");
+        QTEST(r.time(), "time");
+        QCOMPARE(r.type(), Record::Type::ENTER);
+        QTEST(r.price(), "price");
+        QTEST(r.volume(), "volume");
+        QTEST(r.value(), "value");
+        QTEST(r.bidId(), "bidId");
+        QCOMPARE(r.bidOrAsk(), Record::BidAsk::Bid);
+
+//        QEXPECT_FAIL("BHP-1", "not implemented yet", Continue);
+//        QTEST(r.buyerId(), "buyerId");
+    }
+
+    {
+        QBENCHMARK {
+            Record r;
+            QTextStream ts(line);
+            ts >> r;
+        }
+    }
 }
 
-void RecordParsingTests::parseLine_data()
+void RecordParsingTests::parseBid_data()
 {
     QTest::addColumn<QByteArray>("line");
     QTest::addColumn<QString>("instrument");
     QTest::addColumn<QDate>("date");
     QTest::addColumn<QTime>("time");
-    QTest::addColumn<Record::Type>("type");
     QTest::addColumn<double>("price");
     QTest::addColumn<double>("volume");
-    QTest::addColumn<double>("undisclosedVolume");
     QTest::addColumn<double>("value");
-    QTest::addColumn<QByteArray>("qualifiers");
-    QTest::addColumn<long>("transactionID");
-    QTest::addColumn<long>("bidID");
-    QTest::addColumn<long>("askID");
-    QTest::addColumn<Record::BidAsk>("bidOrAsk");
+    QTest::addColumn<long>("bidId");
+    QTest::addColumn<long>("buyerId");
 
+    QTest::newRow("BHP-1") << QByteArray("BHP,20130501,00:00:00.000,ENTER,32.600,160,0,5216,,0,6263684926150135747,,B,,,,406,") << QString("BHP") << QDate(2013, 5, 1) << QTime(0, 0, 0, 0) << 32.6 << 160.0 << 5216.0 << 6263684926150135747l << 406l;
 }
 
 
