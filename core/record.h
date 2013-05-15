@@ -4,9 +4,8 @@
 #include "common.h"
 
 #include <QDateTime>
-
-class QTextStream;
-class QDataStream;
+#include <QTextStream>
+#include <QDataStream>
 
 class GROUP8_CORE Record
 {
@@ -66,6 +65,8 @@ public:
     long    bidId() const;
     long    askId() const;
     BidAsk  bidOrAsk() const;
+    long    buyerId() const;
+    long    sellerId() const;
 
     void setInstrument(const QString &value);
     void setDate(const QDate &value);
@@ -78,6 +79,8 @@ public:
     void setBidId(long value);
     void setAskId(long value);
     void setBidOrAsk(const BidAsk &value);
+    void setSellerId(long id);
+    void setBuyerId(long id);
 
     static QString fieldName(Field field);
     QVariant fieldValue(Field field) const;
@@ -97,6 +100,8 @@ private:
     long m_bidId;
     long m_askId;
     BidAsk m_bidOrAsk;
+    long m_buyerId;
+    long m_sellerId;
 
     bool m_valid;
 };

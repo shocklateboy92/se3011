@@ -23,3 +23,6 @@ else:unix: LIBS += -L$$OUT_PWD/../core/ -lcore
 
 INCLUDEPATH += $$PWD/../core
 DEPENDPATH += $$PWD/../core
+
+HEADERS += \
+    trading-engine-tests.h

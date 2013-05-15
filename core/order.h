@@ -5,10 +5,7 @@
 
 class Order {
 public:
-    Order(Record &record);
-
-    virtual long id() const = 0;
-    bool operator==(const Order &other) const;
+    Order(QSharedPointer<Record> record);
 
     Record* record() const;
 
@@ -16,6 +13,7 @@ public:
     double  volume() const;
     QTime   time() const;
     QDate   date() const;
+    QString instrument() const;
 
     void setPrice(double price);
     void setVolume(double volume);
@@ -28,28 +26,37 @@ private:
 
 class Ask : virtual public Order {
 public:
-    Ask(Record &record);
+    Ask(QSharedPointer<Record> record);
     long id() const;
+    long brokerId() const;
 
-    bool operator<(const Ask &other) const;
-    bool operator==(const Ask &other) const;
+    bool operator <(const Ask &other) const;
+    bool operator ==(const Ask &other) const;
+
+    Ask createPartial(double newVolume);
 };
 
 class Bid : virtual public Order {
 public:
-    Bid(Record &record);
+    Bid(QSharedPointer<Record> record);
     long id() const;
+    long brokerId() const;
 
-    bool operator<(const Bid &other) const;
+    bool operator <(const Bid &other) const;
+    bool operator ==(const Bid &other) const;
+
+    Bid createPartial(double newVolume);
 };
 
 class Trade : public Record
 {
-public:
     Trade(const Record &other) {
         *dynamic_cast<Record*>(this) = other;
     }
     Trade(Ask ask, Bid bid);
+    friend class TradingEngine;
+
+public:
     Trade() = default;
 };
 

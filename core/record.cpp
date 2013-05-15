@@ -131,17 +131,13 @@ QTextStream& operator >>(QTextStream &in, Record &r) {
     r.setTransId(it.next().toLong());
     r.setBidId(it.next().toLong());
     r.setAskId(it.next().toLong());
-    char ba = it.next()[0].toLatin1();
-    switch (ba) {
-    case 'A':
+    QString bidOrAskStr = it.next();
+    if (bidOrAskStr == "A") {
         r.setBidOrAsk(Record::BidAsk::Ask);
-        break;
-    case 'B':
+    } else if (bidOrAskStr == "B") {
         r.setBidOrAsk(Record::BidAsk::Bid);
-        break;
-    default:
+    } else {
         r.setBidOrAsk(Record::BidAsk::Neither);
-        break;
     }
 
     //FIXME - sooo not true!
@@ -157,6 +153,8 @@ QDebug operator << (QDebug os, const Record &r) {
     os << r.value();
     os << r.date();
     os << r.time();
+    os << r.bidId();
+    os << r.askId();
     return os;
 }
 
@@ -223,7 +221,7 @@ void Record::setPrice(double value)
 
 double Record::value() const
 {
-    return m_value;
+    return m_price * m_volume;
 }
 
 void Record::setValue(double value)
@@ -269,6 +267,26 @@ Record::BidAsk Record::bidOrAsk() const
 void Record::setBidOrAsk(const BidAsk &value)
 {
     m_bidOrAsk = value;
+}
+
+long Record::buyerId() const
+{
+    return m_buyerId;
+}
+
+void Record::setBuyerId(long id)
+{
+    m_buyerId = id;
+}
+
+long Record::sellerId() const
+{
+    return m_sellerId;
+}
+
+void Record::setSellerId(long id)
+{
+    m_sellerId = id;
 }
 
 int rd = qRegisterMetaType<Record>("Record");

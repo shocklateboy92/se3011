@@ -9,21 +9,21 @@ TradingEngine::TradingEngine(QObject *parent) :
 }
 
 void TradingEngine::processNewRecord(const Record &record) {
-    Record r = record;
+    QSharedPointer<Record> r(new Record(record));
 
-    if (r.type() == Record::Type::ENTER && (r.askId() == 6666 || r.bidId() == 6666)) {
+    if (r->type() == Record::Type::ENTER && (r->askId() == 6666 || r->bidId() == 6666)) {
         qDebug() << "Found one of our trades: " << r;
-        Trade t(r);
+        Trade t(*r);
         t.setType(Record::Type::TRADE);
-        t.setPrice(r.price());
+        t.setPrice(r->price());
         emit newTradeCreated(t);
         return;
     }
 
-    switch (r.type()) {
+    switch (r->type()) {
 
     case Record::Type::ENTER:
-        switch (r.bidOrAsk()) {
+        switch (r->bidOrAsk()) {
         case Record::BidAsk::Bid:
             enterBid(Bid(r));
             break;
@@ -32,10 +32,11 @@ void TradingEngine::processNewRecord(const Record &record) {
             break;
         default:
             qWarning() << "encountered record with Type ENTER, but is neither a Bid nor Ask";
+            break;
         }
         break;
     case Record::Type::DELETE:
-        switch (r.bidOrAsk()) {
+        switch (r->bidOrAsk()) {
         case Record::BidAsk::Ask:
             removeAsk(Ask(r));
             break;
@@ -44,10 +45,11 @@ void TradingEngine::processNewRecord(const Record &record) {
             break;
         default:
             qWarning() << "trying to delete a record that is neither a Bid nor Ask";
+            break;
         }
         break;
     case Record::Type::AMEND:
-        switch (r.bidOrAsk()) {
+        switch (r->bidOrAsk()) {
         case Record::BidAsk::Ask:
             modifyAsk(Ask(r));
             break;
@@ -61,7 +63,7 @@ void TradingEngine::processNewRecord(const Record &record) {
         break;
 
     case Record::Type::TRADE:
-        createTrade(Trade(r));
+        createTrade(Trade(*r.data()));
         break;
 
     default:
@@ -69,31 +71,109 @@ void TradingEngine::processNewRecord(const Record &record) {
     }
 }
 
-void TradingEngine::enterBid(const Bid &bid) {
-    Q_ASSERT (m_bidQueue.count(bid) == 0);
-    m_bidQueue.insert(bid);
-    performMatching();
+void TradingEngine::enterBid(Bid bid) {
+    if (m_bidQueue.contains(bid)) {
+        qWarning() << "skipping duplicate bid with id : " << bid.id();
+    }
+
+    // find a seller for less than we're offering
+    for (auto it = m_askQueue.begin(); it != m_askQueue.end(); ) {
+        Ask ask = *it;
+        if (ask.price() <= bid.price()) {
+
+            // if we have to make a partial trade
+            if (ask.volume() != bid.volume()) {
+
+                // seller has more than we want
+                // leaves sell in queue with smaller volume
+                if (ask.volume() > bid.volume()) {
+                    Ask a = ask.createPartial(bid.volume());
+                    createTrade(a, bid);
+                    ++it;
+
+                // we want more from another seller
+                // removes sell, as it's completed
+                } else {
+                    Bid b = bid.createPartial(ask.volume());
+                    it = m_askQueue.erase(it);
+                    createTrade(ask, b);
+                }
+            } else {
+                it = m_askQueue.erase(it);
+                createTrade(ask, bid);
+            }
+        } else {
+            ++it;
+        }
+
+        // if we've completely gone through the bid, there's
+        // no point in adding it to the orderbook
+        if (bid.volume() == 0) {
+            return;
+        }
+    }
+
+    // if we're still here, we weren't able to fully
+    // process the bid
+    auto pos = std::lower_bound(m_bidQueue.begin(), m_bidQueue.end(), bid);
+    m_bidQueue.insert(pos, bid);
 }
 
-void TradingEngine::enterAsk(const Ask &ask) {
-    Q_ASSERT (m_askQueue.count(ask) == 0);
-    m_askQueue.insert(ask);
-    performMatching();
+void TradingEngine::enterAsk(Ask ask) {
+    if (m_askQueue.contains(ask)) {
+        qWarning() << "skipping duplicate ask with id : " << ask.id();
+    }
+
+    auto it = m_bidQueue.begin();
+    while (it != m_bidQueue.end()) {
+        Bid bid = *it;
+
+        if (bid.price() >= ask.price()) {
+
+            if (bid.volume() != ask.volume()) {
+                if (bid.volume() > ask.volume()) {
+                    Bid b = bid.createPartial(ask.volume());
+                    ++it;
+                    createTrade(ask, b);
+                } else {
+                    Ask a = ask.createPartial(bid.volume());
+                    it = m_bidQueue.erase(it);
+                    createTrade(a, bid);
+                }
+            } else {
+                it = m_bidQueue.erase(it);
+                createTrade(ask, bid);
+            }
+
+            if (ask.volume() == 0) {
+                // already been fully processed
+                return;
+            }
+        } else {
+            ++it;
+        }
+    }
+
+    m_askQueue.insert(std::lower_bound(
+                          m_askQueue.begin(),
+                          m_askQueue.end(),
+                          ask),
+                      ask);
 }
 
-void TradingEngine::removeBid(const Bid &bid) {
+void TradingEngine::removeBid(Bid bid) {
     Q_ASSERT (m_bidQueue.count(bid) == 1);
-    m_bidQueue.erase(bid);
+    m_bidQueue.removeOne(bid);
 }
 
-void TradingEngine::removeAsk(const Ask &ask) {
+void TradingEngine::removeAsk(Ask ask) {
     Q_ASSERT (m_askQueue.count(ask) == 1);
-    m_askQueue.erase(ask);
+    m_askQueue.removeOne(ask);
 }
 
 template <typename BidOrAsk>
-void modifyOrder(std::set<BidOrAsk> queue, BidOrAsk bidOrAsk) {
-    auto r = queue.find(bidOrAsk);
+void modifyOrder(QLinkedList<BidOrAsk> queue, BidOrAsk bidOrAsk) {
+    auto r = std::find(queue.begin(), queue.end(), bidOrAsk);
     if (r != queue.end()) {
         BidOrAsk original = *r;
         Q_ASSERT (original.id() == bidOrAsk.id());
@@ -112,7 +192,7 @@ void modifyOrder(std::set<BidOrAsk> queue, BidOrAsk bidOrAsk) {
             original.setTime(bidOrAsk.time());
             original.setDate(bidOrAsk.date());
 
-            queue.insert(original);
+//            queue.insert(original);
         } else {
             // if only the volume has decreased, it
             // doesn't loose its position.
@@ -129,37 +209,37 @@ void TradingEngine::modifyAsk(Ask ask) {
     modifyOrder(m_askQueue, ask);
 }
 
-void TradingEngine::performMatching() {
-    for (Ask a : m_askQueue) {
-        for (Bid b : m_bidQueue) {
-            // if buyer is willing to pay more than
-            // seller asked for, make the trade
-            if (b.price() >= a.price()) {
-                if (b.volume() == a.volume()) {
-                    // buyer's buying exactly what seller is selling,
-                    // both orders are done.
-                    m_askQueue.erase(a);
-                    m_bidQueue.erase(b);
-                }
-                // otherwise, a partial trade occurs
-                else if (b.volume() > a.volume()) {
-                    // buyer wants more, but seller is done
-                    b.setVolume(b.volume() - a.volume());
-                    m_askQueue.erase(a);
-                }
-                else {
-                    // seller has more, buyer is done
-                    a.setVolume(a.volume() - b.volume());
-                    m_bidQueue.erase(b);
-                }
+//void TradingEngine::performMatching() {
+//    for (Ask a : m_askQueue) {
+//        for (Bid b : m_bidQueue) {
+//            // if buyer is willing to pay more than
+//            // seller asked for, make the trade
+//            if (b.price() >= a.price()) {
+//                if (b.volume() == a.volume()) {
+//                    // buyer's buying exactly what seller is selling,
+//                    // both orders are done.
+//                    m_askQueue.erase(a);
+//                    m_bidQueue.erase(b);
+//                }
+//                // otherwise, a partial trade occurs
+//                else if (b.volume() > a.volume()) {
+//                    // buyer wants more, but seller is done
+//                    b.setVolume(b.volume() - a.volume());
+//                    m_askQueue.erase(a);
+//                }
+//                else {
+//                    // seller has more, buyer is done
+//                    a.setVolume(a.volume() - b.volume());
+//                    m_bidQueue.erase(b);
+//                }
 
-                createTrade(a, b);
-            }
-        }
-    }
-}
+//                createTrade(a, b);
+//            }
+//        }
+//    }
+//}
 
-void TradingEngine::createTrade(const Ask &ask, const Bid &bid) {
+void TradingEngine::createTrade(Ask ask, Bid bid) {
     auto trade = Trade(ask, bid);
     qDebug() << "Created New Trade: " << trade;
     emit newTradeCreated(trade);
