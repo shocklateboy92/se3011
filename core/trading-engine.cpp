@@ -122,7 +122,7 @@ void TradingEngine::enterBid(Bid bid) {
 
 void TradingEngine::enterAsk(Ask ask) {
     if (m_askQueue.contains(ask)) {
-        qWarning() << "skipping duplicate ask with id : " << ask.id();
+        qDebug() << "skipping duplicate ask with id : " << ask.id();
         return;
     }
 
@@ -172,7 +172,7 @@ void TradingEngine::removeAsk(Ask ask) {
 }
 
 template <typename BidOrAsk>
-void modifyOrder(QLinkedList<BidOrAsk> queue, BidOrAsk bidOrAsk) {
+void modifyOrder(QLinkedList<BidOrAsk> &queue, BidOrAsk &bidOrAsk) {
     auto r = std::find(queue.begin(), queue.end(), bidOrAsk);
     if (r != queue.end()) {
         BidOrAsk original = *r;

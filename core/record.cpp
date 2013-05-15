@@ -96,8 +96,7 @@ bool Record::isValid() const {
 
 
 QTextStream& operator >>(QTextStream &in, Record &r) {
-    static QRegularExpression sep(",");
-    QStringList line = in.readLine().split(sep);
+    QStringList line = in.readLine().split(',');
 
     if (line.first().startsWith('#')) {
         r.m_valid = false;
@@ -110,8 +109,13 @@ QTextStream& operator >>(QTextStream &in, Record &r) {
     bool ok = false;
 
     r.setInstrument(it.next());
-    r.setDate(QDate::fromString(it.next(), "yyyyMMdd"));
-    r.setTime(QTime::fromString(it.next(), "hh:mm:ss.zzz"));
+    QString dateStr = it.next();
+    r.setDate(QDate(dateStr.left(4).toInt(), dateStr.mid(4, 2).toInt(), dateStr.right(2).toInt()));
+    QString timeStr = it.next();
+    auto hhmmstr = timeStr.split(':');
+    auto ssmsstr = hhmmstr.last().split('.');
+    r.setTime(QTime(hhmmstr[0].toInt(), hhmmstr[1].toInt(), ssmsstr[0].toInt(), ssmsstr[1].toInt()));
+
     if (!type_strings.count(line[3])) {
         r.m_valid = false;
         return in;
