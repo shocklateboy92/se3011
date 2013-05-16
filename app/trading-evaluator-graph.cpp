@@ -37,10 +37,8 @@ void TradingEvaluatorGraph::plotNew(const Trade &trade)
 
 
     //this line is some how broken
-    double time = QTime(0,0).msecsTo(trade.time());
+    double time = (QDate().daysTo(trade.date()) * 86400000) + QTime(0,0).msecsTo(trade.time());
     // end this line
-
-
     double price = trade.price();
     costs.append(price);
     times.append(time);
