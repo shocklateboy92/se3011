@@ -4,19 +4,56 @@
 #include <QtTest>
 #include "trading-engine-tests.h"
 
+const char str[] = "084394583.467";
+const char line[]= "BHP,20130501,00:00:00.000,ENTER,32.600,160,0,5216,,0,6263684926150135747,,B,,,,406";
 class RecordParsingTests : public QObject
 {
     Q_OBJECT
     
 public:
     RecordParsingTests();
+
+private:
     
 private Q_SLOTS:
     void simpleParseTest();
     void simpleParseTest2();
     void parseBid();
     void parseBid_data();
+    void testFastParse();
+
+    void qStringBench() {
+        QString qstr = QString(str);
+        QBENCHMARK {
+            qstr.toDouble();
+        }
+    }
+    void byteArrayBench() {
+        QSet<int> fields;
+        bool fs[static_cast<int>(Record::Field::NotAField)];
+        QByteArray bstr = QByteArray(str);
+        QBENCHMARK {
+            bstr.toDouble(&fs[static_cast<int>(Record::Field::Price)]);
+//            fields.insert(static_cast<int>(Record::Field::Price));
+        }
+    }
+    void cStringBench() {
+        QSet<int> fields;
+        QBENCHMARK {
+//            fields.insert(static_cast<int>(Record::Field::Price));
+            strtod(str, NULL);
+        }
+    }
+
+    void parseBenchOld() {
+        QBENCHMARK {
+            Record r;
+            QTextStream ts(line);
+            ts >> r;
+        }
+    }
 };
+
 
 RecordParsingTests::RecordParsingTests()
 {
@@ -74,14 +111,6 @@ void RecordParsingTests::parseBid()
 
 //        QEXPECT_FAIL("BHP-1", "not implemented yet", Continue);
 //        QTEST(r.buyerId(), "buyerId");
-    }
-
-    {
-        QBENCHMARK {
-            Record r;
-            QTextStream ts(line);
-            ts >> r;
-        }
     }
 }
 
