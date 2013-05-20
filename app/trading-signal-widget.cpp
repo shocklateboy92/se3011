@@ -18,7 +18,7 @@ TradingSignalWidget::~TradingSignalWidget()
 
 void TradingSignalWidget::manualAddRecord() {
     Record r;
-    r.setInstrument(ui->company_text->text());
+    r.setInstrument(ui->company_text->text().toLocal8Bit());
     r.setDate(ui->time_text->date());
     r.setTime(ui->time_text->time());
     if(ui->type_dropdown->currentText() =="ENTER") {

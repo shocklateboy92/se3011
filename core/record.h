@@ -24,26 +24,35 @@ public:
         Neither
     };
 
-    enum class Field {
-        Instrument = 0,
-        Date,
-        Time,
-        RecordType,
-        Price,
-        Volume,
-        UndisclosedVolume,
-        Value,
-        Qualifiers,
-        TransID,
-        BidID,
-        AskID,
-        BidAsk,
-        EntryTime,
-        OldPrice,
-        OldVolume,
-        BuyerBrokerID,
-        SellerBrokerID,
-        NotAField
+    struct Field {
+        enum t {
+            Instrument = 0,
+            Date,
+            Time,
+            RecordType,
+            Price,
+            Volume,
+            UndisclosedVolume,
+            Value,
+            Qualifiers,
+            TransID,
+            BidID,
+            AskID,
+            BidAsk,
+            EntryTime,
+            OldPrice,
+            OldVolume,
+            BuyerBrokerID,
+            SellerBrokerID,
+            NotAField
+        } v;
+        Field(const int &i) {
+            v = (t) i;
+        }
+        Field() = default;
+        operator int() const {
+            return v;
+        }
     };
 
     typedef QSharedPointer<Record> Ptr;

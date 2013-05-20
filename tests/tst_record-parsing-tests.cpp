@@ -64,7 +64,7 @@ void RecordParsingTests::simpleParseTest() {
     QTextStream ts(QByteArray("BHP,20130501,00:00:00.000,ENTER,32.600,160,0,5216,,0,6263684926150135747,,B,,,,406,"));
     Record r;
     ts >> r;
-    QCOMPARE(r.instrument(), QStringLiteral("BHP"));
+    QCOMPARE(r.instrument(), QByteArray("BHP"));
     QCOMPARE(r.date(), QDate(2013, 5, 1));
     QCOMPARE(r.time(), QTime(0, 0, 0, 0));
     QCOMPARE(r.type(), Record::Type::ENTER);
@@ -79,7 +79,7 @@ void RecordParsingTests::simpleParseTest2() {
     QTextStream ts(QByteArray("AZJ,20130501,00:00:00.000,ENTER,3.600,160,0,576,,0,6263684926150135747,,A,,,,406,"));
     Record r;
     ts >> r;
-    QCOMPARE(r.instrument(), QStringLiteral("AZJ"));
+    QCOMPARE(r.instrument(), QByteArray("AZJ"));
     QCOMPARE(r.date(), QDate(2013, 5, 1));
     QCOMPARE(r.time(), QTime(0, 0, 0, 0));
     QCOMPARE(r.type(), Record::Type::ENTER);
@@ -117,7 +117,7 @@ void RecordParsingTests::parseBid()
 void RecordParsingTests::parseBid_data()
 {
     QTest::addColumn<QByteArray>("line");
-    QTest::addColumn<QString>("instrument");
+    QTest::addColumn<QByteArray>("instrument");
     QTest::addColumn<QDate>("date");
     QTest::addColumn<QTime>("time");
     QTest::addColumn<double>("price");
