@@ -46,7 +46,10 @@ public:
         NotAField
     };
 
+    typedef QSharedPointer<Record> Ptr;
+
     Record();
+    static Ptr fromCSV(QByteArray csvLine);
     bool isValid() const;
 
     friend QDataStream& GROUP8_CORE operator >>(QDataStream &in, Record &r);

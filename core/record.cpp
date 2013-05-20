@@ -150,6 +150,16 @@ QTextStream& operator >>(QTextStream &in, Record &r) {
     return in;
 }
 
+Record::Ptr Record::fromCSV(QByteArray csvLine) {
+    Ptr ret = Ptr::create();
+
+    QList<QByteArray> cols = csvLine.split(',');
+
+
+
+    return ret;
+}
+
 QDebug operator << (QDebug os, const Record &r) {
     os << r.instrument();
     os << r.price();
