@@ -108,7 +108,7 @@ QTextStream& operator >>(QTextStream &in, Record &r) {
 
     bool ok = false;
 
-    r.setInstrument(it.next());
+    r.setInstrument(it.next().toLocal8Bit());
     QString dateStr = it.next();
     r.setDate(QDate(dateStr.left(4).toInt(), dateStr.mid(4, 2).toInt(), dateStr.right(2).toInt()));
     QString timeStr = it.next();
@@ -163,12 +163,12 @@ QDebug operator << (QDebug os, const Record &r) {
 }
 
 
-QString Record::instrument() const
+QByteArray Record::instrument() const
 {
     return m_instrument;
 }
 
-void Record::setInstrument(const QString &value)
+void Record::setInstrument(const QByteArray &value)
 {
     m_instrument = value;
 }

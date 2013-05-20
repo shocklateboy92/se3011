@@ -13,7 +13,7 @@ public:
     double  volume() const;
     QTime   time() const;
     QDate   date() const;
-    QString instrument() const;
+    QByteArray instrument() const;
 
     void setPrice(double price);
     void setVolume(double volume);

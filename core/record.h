@@ -54,7 +54,7 @@ public:
     friend QDataStream& GROUP8_CORE operator <<(QDataStream &os, const Record &r);
     friend QDebug GROUP8_CORE operator <<(QDebug os, const Record &r);
 
-    QString instrument() const;
+    QByteArray instrument() const;
     QDate   date() const;
     QTime   time() const;
     Type    type() const;
@@ -68,7 +68,7 @@ public:
     long    buyerId() const;
     long    sellerId() const;
 
-    void setInstrument(const QString &value);
+    void setInstrument(const QByteArray &value);
     void setDate(const QDate &value);
     void setTime(const QTime &value);
     void setType(const Type &value);
@@ -83,13 +83,14 @@ public:
     void setBuyerId(long id);
 
     static QString fieldName(Field field);
+    bool hasField(Field field);
     QVariant fieldValue(Field field) const;
     QString typeName() const;
 
     static std::size_t numFields();
 
 private:
-    QString m_instrument;
+    QByteArray m_instrument;
     QDate m_date;
     QTime m_time;
     Type m_type;

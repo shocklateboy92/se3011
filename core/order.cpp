@@ -45,7 +45,7 @@ long Bid::brokerId() const
     return record()->buyerId();
 }
 
-QString Order::instrument() const {
+QByteArray Order::instrument() const {
     return record()->instrument();
 }
 
