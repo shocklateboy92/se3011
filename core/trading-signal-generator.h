@@ -17,7 +17,7 @@ public:
 
 signals:
     void newRecordGenerated(const Record &r);
-    void nextRecord(const Record &r);
+    void nextRecord(Record::Ptr r);
 
 public slots:
     void processNewRecord(const Record &r);

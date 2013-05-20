@@ -1,18 +1,8 @@
 #include "order.h"
 
-bool Ask::operator ==(const Ask &other) const
-{
-    return record()->askId() == other.record()->askId();
-}
-
 Order::Order(QSharedPointer<Record> record)
     : m_record(record)
 {
-}
-
-Record* Order::record() const
-{
-    return m_record.data();
 }
 
 Bid::Bid(QSharedPointer<Record> record)
@@ -94,11 +84,6 @@ bool Bid::operator <(const Bid &other) const
     return date() < other.date() &&
             time() < other.time() &&
             price() > other.price();
-}
-
-bool Bid::operator ==(const Bid &other) const
-{
-    return record()->bidId() == other.record()->bidId();
 }
 
 bool Ask::operator <(const Ask &other) const

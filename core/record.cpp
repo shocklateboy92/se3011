@@ -11,8 +11,8 @@
 // Hashing functions - have to be at the top for everything else to work
 namespace std {
 template <>
-struct hash<QString> {
-    std::size_t operator ()(const QString &str) const {
+struct hash<QByteArray> {
+    std::size_t operator ()(const QByteArray &str) const {
         return qHash(str);
     }
 };
@@ -35,7 +35,7 @@ O_(std::function<T(const Record&)> f) {
     return [=](const Record* r)-> QVariant {return f(*r);};
 }
 
-static const std::unordered_map<QString, Record::Type> type_strings = {
+static const std::unordered_map<QByteArray, Record::Type> type_strings = {
     {"ENTER", Record::Type::ENTER},
     {"AMEND", Record::Type::AMEND},
     {"TRADE", Record::Type::TRADE},
@@ -87,6 +87,7 @@ std::function<QVariant(const Record*)>> field_getters  {
 Record::Record() :
     m_valid(true)
 {
+    memset(m_fields, 0, Field::NotAField);
 }
 
 bool Record::isValid() const {
@@ -94,6 +95,9 @@ bool Record::isValid() const {
     return m_valid;
 }
 
+bool Record::hasField(Field field) {
+    return m_fields[field];
+}
 
 QTextStream& operator >>(QTextStream &in, Record &r) {
     QStringList line = in.readLine().split(',');
@@ -116,11 +120,11 @@ QTextStream& operator >>(QTextStream &in, Record &r) {
     auto ssmsstr = hhmmstr.last().split('.');
     r.setTime(QTime(hhmmstr[0].toInt(), hhmmstr[1].toInt(), ssmsstr[0].toInt(), ssmsstr[1].toInt()));
 
-    if (!type_strings.count(line[3])) {
+    if (!type_strings.count(line[3].toLocal8Bit())) {
         r.m_valid = false;
         return in;
     }
-    r.setType(type_strings.at(it.next()));
+    r.setType(type_strings.at(it.next().toLocal8Bit()));
     r.setPrice(it.next().toDouble(&ok));
     if (!ok) {
         r.setPrice(0);
@@ -155,7 +159,73 @@ Record::Ptr Record::fromCSV(QByteArray csvLine) {
 
     QList<QByteArray> cols = csvLine.split(',');
 
+    if (cols.size() < Record::Field::Qualifiers) {
+        return Record::Ptr();
+    }
 
+    ret->m_instrument = cols[Field::Instrument];
+
+    bool ok;
+
+    ret->m_fields[Field::Date] = true;
+    int year, month, day;
+    year    = cols[Field::Date].left(4).toInt(&ok);
+    ret->m_fields[Field::Date] &= ok;
+    month   = cols[Field::Date].mid(4, 2).toInt(&ok);
+    ret->m_fields[Field::Date] &= ok;
+    day     = cols[Field::Date].right(2).toInt(&ok);
+    ret->m_fields[Field::Date] &= ok;
+
+    if (ret->m_fields[Field::Date]) {
+        ret->m_date = QDate(year, month, day);
+    } else {
+        return Record::Ptr();
+    }
+
+    QList<QByteArray> hhmmstr = cols[Field::Time].split(':');
+    QList<QByteArray> ssmsstr = hhmmstr.last().split('.');
+    ret->m_time = QTime(hhmmstr[0].toInt(),
+            hhmmstr[1].toInt(),
+            ssmsstr[0].toInt(),
+            ssmsstr[1].toInt());
+    ret->m_fields[Field::Time] = true; //FIXME: actually check the parses
+
+    if (!type_strings.count(cols[Field::RecordType])) {
+        qDebug() << "Unsupported Record Type: "
+                   << cols[Field::RecordType];
+        return Record::Ptr();
+    } else {
+        ret->m_type = type_strings.at(cols[Field::RecordType]);
+        ret->m_fields[Field::RecordType] = true;
+    }
+
+    ret->m_price = cols[Field::Price].toDouble(&ret->m_fields[Field::Price]);
+    ret->m_volume = cols[Field::Volume].toDouble(&ret->m_fields[Field::Volume]);
+    ret->m_undisclosedVolume = cols[Field::UndisclosedVolume].
+            toDouble(&ret->m_fields[Field::UndisclosedVolume]);
+    // we don't need to set value if volume and price are set
+
+    // TODO: deal with qualifiers
+
+    ret->m_transId = cols[Field::TransID].toLong(&ret->m_fields[Field::TransID]);
+    ret->m_bidId = cols[Field::BidID].toLong(&ret->m_fields[Field::BidID]);
+    ret->m_askId = cols[Field::AskID].toLong(&ret->m_fields[Field::AskID]);
+
+    if (cols[Field::BidAsk] == "A") {
+        ret->setBidOrAsk(Record::BidAsk::Ask);
+        ret->m_fields[Field::BidAsk] = true;
+    } else if (cols[Field::BidAsk] == "B") {
+        ret->setBidOrAsk(Record::BidAsk::Bid);
+        ret->m_fields[Field::BidAsk] = true;
+    } else {
+        ret->setBidOrAsk(Record::BidAsk::Neither);
+        ret->m_fields[Field::BidAsk] = false;
+    }
+
+    ret->m_buyerId = cols[Field::BuyerBrokerID].
+            toLong(&ret->m_fields[Field::BuyerBrokerID]);
+    ret->m_sellerId = cols[Field::SellerBrokerID].
+            toLong(&ret->m_fields[Field::SellerBrokerID]);
 
     return ret;
 }
@@ -304,7 +374,7 @@ void Record::setSellerId(long id)
 }
 
 int rd = qRegisterMetaType<Record>("Record");
-
+int rp = qRegisterMetaType<Record::Ptr>("Record::Ptr");
 
 QVariant Record::fieldValue(Record::Field field) const
 {

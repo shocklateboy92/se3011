@@ -101,12 +101,14 @@ public:
 
     static std::size_t numFields();
 
+    void parseTime(Ptr ret, QList<QByteArray> cols);
 private:
     QByteArray m_instrument;
     QDate m_date;
     QTime m_time;
     Type m_type;
     double m_volume;
+    double m_undisclosedVolume;
     double m_price;
     double m_value;
     long m_transId;
@@ -117,12 +119,17 @@ private:
     long m_sellerId;
 
     bool m_valid;
+    bool m_fields[Record::Field::NotAField];
+
+    friend class Ask;
+    friend class Bid;
 };
 
 Q_DECLARE_METATYPE(Record)
 Q_DECLARE_METATYPE(Record::Type)
 Q_DECLARE_METATYPE(Record::Field)
 Q_DECLARE_METATYPE(Record::BidAsk)
+Q_DECLARE_METATYPE(Record::Ptr)
 
 
 #endif // RECORD_H

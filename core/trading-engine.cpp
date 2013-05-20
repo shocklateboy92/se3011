@@ -8,8 +8,7 @@ TradingEngine::TradingEngine(QObject *parent) :
 {
 }
 
-void TradingEngine::processNewRecord(const Record &record) {
-    QSharedPointer<Record> r(new Record(record));
+void TradingEngine::processNewRecord(Record::Ptr r) {
 
     if (r->type() == Record::Type::ENTER && (r->askId() == 6666 || r->bidId() == 6666)) {
         qDebug() << "Found one of our trades: " << r;
@@ -63,7 +62,7 @@ void TradingEngine::processNewRecord(const Record &record) {
         break;
 
     case Record::Type::TRADE:
-        createTrade(Trade(*r.data()));
+//        createTrade(Trade(*r.data()));
         break;
 
     default:

@@ -17,7 +17,7 @@ signals:
     void newTradeCreated(const Trade &r);
 
 public slots:
-    void processNewRecord(const Record &r);
+    void processNewRecord(Record::Ptr r);
 
     void enterBid(Bid bid);
     void enterAsk(Ask ask);

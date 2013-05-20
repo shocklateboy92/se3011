@@ -18,7 +18,7 @@ public:
     QVariant data(const QModelIndex &index, int role) const;
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
 signals:
-    void newRecordEncountered(const Record &r);
+    void newRecordEncountered(Record::Ptr r);
     void dataProcessingRequested();
 
 public slots:

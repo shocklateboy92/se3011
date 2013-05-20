@@ -18,7 +18,9 @@ void TradingSignalGenerator::dataProcessingRequested() {
     while(!m_records.isEmpty()) {
         auto r = m_records.takeFirst();
         qDebug() << r;
-        emit nextRecord(r);
+        Record::Ptr rp = Record::Ptr::create();
+        *rp = r;
+        emit nextRecord(rp);
     }
 }
 
@@ -76,17 +78,17 @@ void TradingSignalGenerator::processTrade(const Trade &t) {
                         data.sold = false;
                         data.bought = true;
 
-                        auto r = Record();
-                        r.setBidId(6666);
-                        r.setAskId(0);
-                        r.setBidOrAsk(Record::BidAsk::Bid);
-                        r.setDate(t.date());
-                        r.setTime(t.time());
-                        r.setInstrument(t.instrument());
-                        r.setType(Record::Type::ENTER);
-                        r.setVolume(data.volume);
-                        r.setPrice(t.price());
-                        r.setValue(r.price() * r.volume());
+                        auto r = Record::Ptr::create();
+                        r->setBidId(6666);
+                        r->setAskId(0);
+                        r->setBidOrAsk(Record::BidAsk::Bid);
+                        r->setDate(t.date());
+                        r->setTime(t.time());
+                        r->setInstrument(t.instrument());
+                        r->setType(Record::Type::ENTER);
+                        r->setVolume(data.volume);
+                        r->setPrice(t.price());
+                        r->setValue(r->price() * r->volume());
                         emit nextRecord(r);
                         qDebug() << "created a bid";
 
@@ -96,17 +98,17 @@ void TradingSignalGenerator::processTrade(const Trade &t) {
                         data.sold = true;
                         data.bought = false;
 
-                        auto r = Record();
-                        r.setAskId(6666);
-                        r.setBidId(0);
-                        r.setBidOrAsk(Record::BidAsk::Ask);
-                        r.setDate(t.date());
-                        r.setTime(t.time());
-                        r.setInstrument(t.instrument());
-                        r.setType(Record::Type::ENTER);
-                        r.setVolume(data.volume);
-                        r.setPrice(t.price());
-                        r.setValue(r.price() * r.volume());
+                        auto r = Record::Ptr::create();
+                        r->setAskId(6666);
+                        r->setBidId(0);
+                        r->setBidOrAsk(Record::BidAsk::Ask);
+                        r->setDate(t.date());
+                        r->setTime(t.time());
+                        r->setInstrument(t.instrument());
+                        r->setType(Record::Type::ENTER);
+                        r->setVolume(data.volume);
+                        r->setPrice(t.price());
+                        r->setValue(r->price() * r->volume());
                         emit nextRecord(r);
 
                         qDebug() << "created a ask";
@@ -141,34 +143,34 @@ void TradingSignalGenerator::processTrade(const Trade &t) {
             data.currentConsecutiveChanges = 0;
 
                 if (data.isRising) {
-                        auto r = Record();
-                        r.setBidId(6666);
-                        r.setAskId(0);
-                        r.setBidOrAsk(Record::BidAsk::Bid);
-                        r.setDate(t.date());
-                        r.setTime(t.time());
-                        r.setInstrument(t.instrument());
-                        r.setType(Record::Type::ENTER);
-                        r.setVolume(data.previousVolume);
-                        r.setPrice(t.price());
-                        r.setValue(r.price() * r.volume());
+                        auto r = Record::Ptr::create();
+                        r->setBidId(6666);
+                        r->setAskId(0);
+                        r->setBidOrAsk(Record::BidAsk::Bid);
+                        r->setDate(t.date());
+                        r->setTime(t.time());
+                        r->setInstrument(t.instrument());
+                        r->setType(Record::Type::ENTER);
+                        r->setVolume(data.previousVolume);
+                        r->setPrice(t.price());
+                        r->setValue(r->price() * r->volume());
                         emit nextRecord(r);
                         qDebug() << "created a bid";
 
                         //this is bad
                         data.totalBought += data.previousVolume;
                 } else {
-                       auto r = Record();
-                        r.setAskId(6666);
-                        r.setBidId(0);
-                        r.setBidOrAsk(Record::BidAsk::Ask);
-                        r.setDate(t.date());
-                        r.setTime(t.time());
-                        r.setInstrument(t.instrument());
-                        r.setType(Record::Type::ENTER);
-                        r.setVolume(data.totalBought-data.totalSold);
-                        r.setPrice(t.price());
-                        r.setValue(r.price() * r.volume());
+                       auto r = Record::Ptr::create();
+                        r->setAskId(6666);
+                        r->setBidId(0);
+                        r->setBidOrAsk(Record::BidAsk::Ask);
+                        r->setDate(t.date());
+                        r->setTime(t.time());
+                        r->setInstrument(t.instrument());
+                        r->setType(Record::Type::ENTER);
+                        r->setVolume(data.totalBought-data.totalSold);
+                        r->setPrice(t.price());
+                        r->setValue(r->price() * r->volume());
                         emit nextRecord(r);
 
                         qDebug() << "created a ask";
@@ -186,17 +188,17 @@ void TradingSignalGenerator::processTrade(const Trade &t) {
         if( abs(QTime(16,00).secsTo(t.time())) < 50 && (data.totalBought-data.totalSold) > 0) {
             qDebug() << data.totalBought-data.totalSold;
             data.currentConsecutiveChanges = 0;
-            auto r = Record();
-             r.setAskId(6666);
-             r.setBidId(0);
-             r.setBidOrAsk(Record::BidAsk::Ask);
-             r.setDate(t.date());
-             r.setTime(t.time());
-             r.setInstrument(t.instrument());
-             r.setType(Record::Type::ENTER);
-             r.setVolume(data.totalBought-data.totalSold);
-             r.setPrice(t.price());
-             r.setValue(r.price() * r.volume());
+            auto r = Record::Ptr::create();
+             r->setAskId(6666);
+             r->setBidId(0);
+             r->setBidOrAsk(Record::BidAsk::Ask);
+             r->setDate(t.date());
+             r->setTime(t.time());
+             r->setInstrument(t.instrument());
+             r->setType(Record::Type::ENTER);
+             r->setVolume(data.totalBought-data.totalSold);
+             r->setPrice(t.price());
+             r->setValue(r->price() * r->volume());
              emit nextRecord(r);
 
              //this is bad.

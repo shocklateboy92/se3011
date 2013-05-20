@@ -5,7 +5,7 @@
 #include "trading-engine-tests.h"
 
 const char str[] = "084394583.467";
-const char line[]= "BHP,20130501,00:00:00.000,ENTER,32.600,160,0,5216,,0,6263684926150135747,,B,,,,406";
+const char line[]= "BHP,20130501,00:00:00.000,ENTER,32.600,160,0,5216,,0,6263684926150135747,,B,,,,406,";
 class RecordParsingTests : public QObject
 {
     Q_OBJECT
@@ -52,6 +52,12 @@ private Q_SLOTS:
             ts >> r;
         }
     }
+
+    void parseBenchNew() {
+        QBENCHMARK {
+            Record::fromCSV(line);
+        }
+    }
 };
 
 
@@ -95,22 +101,20 @@ void RecordParsingTests::parseBid()
     QFETCH(QByteArray, line);
 
     {
-        Record r;
-        QTextStream ts(line);
-        ts >> r;
+        Record::Ptr r = Record::fromCSV(line);
 
-        QTEST(r.instrument(), "instrument");
-        QTEST(r.date(), "date");
-        QTEST(r.time(), "time");
-        QCOMPARE(r.type(), Record::Type::ENTER);
-        QTEST(r.price(), "price");
-        QTEST(r.volume(), "volume");
-        QTEST(r.value(), "value");
-        QTEST(r.bidId(), "bidId");
-        QCOMPARE(r.bidOrAsk(), Record::BidAsk::Bid);
+        QTEST(r->instrument(), "instrument");
+        QTEST(r->date(), "date");
+        QTEST(r->time(), "time");
+        QCOMPARE(r->type(), Record::Type::ENTER);
+        QTEST(r->price(), "price");
+        QTEST(r->volume(), "volume");
+        QTEST(r->value(), "value");
+        QTEST(r->bidId(), "bidId");
+        QCOMPARE(r->bidOrAsk(), Record::BidAsk::Bid);
 
 //        QEXPECT_FAIL("BHP-1", "not implemented yet", Continue);
-//        QTEST(r.buyerId(), "buyerId");
+        QTEST(r->buyerId(), "buyerId");
     }
 }
 
@@ -126,9 +130,23 @@ void RecordParsingTests::parseBid_data()
     QTest::addColumn<long>("bidId");
     QTest::addColumn<long>("buyerId");
 
-    QTest::newRow("BHP-1") << QByteArray("BHP,20130501,00:00:00.000,ENTER,32.600,160,0,5216,,0,6263684926150135747,,B,,,,406,") << QString("BHP") << QDate(2013, 5, 1) << QTime(0, 0, 0, 0) << 32.6 << 160.0 << 5216.0 << 6263684926150135747l << 406l;
+    QTest::newRow("BHP-1") << QByteArray("BHP,20130501,00:00:00.000,ENTER,32.600,160,0,5216,,0,6263684926150135747,,B,,,,406,") << QByteArray("BHP") << QDate(2013, 5, 1) << QTime(0, 0, 0, 0) << 32.6 << 160.0 << 5216.0 << 6263684926150135747l << 406l;
 }
 
+
+void RecordParsingTests::testFastParse() {
+    QByteArray bs("BHP,20130501,00:00:00.000,ENTER,32.600,160,0,5216,,0,6263684926150135747,,B,,,,406,");
+    Record::Ptr r = Record::fromCSV(bs);
+    QCOMPARE(r->instrument(), QByteArray("BHP"));
+    QCOMPARE(r->date(), QDate(2013, 5, 1));
+    QCOMPARE(r->time(), QTime(0, 0, 0, 0));
+    QCOMPARE(r->type(), Record::Type::ENTER);
+    QCOMPARE(r->price(), 32.6);
+    QCOMPARE(r->volume(), 160.0);
+    QCOMPARE(r->value(), 5216.0);
+    QCOMPARE(r->bidId(), 6263684926150135747);
+    QCOMPARE(r->bidOrAsk(), Record::BidAsk::Bid);
+}
 
 int main(int argc, char* argv[]) {
     int status = 0;

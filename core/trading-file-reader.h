@@ -15,12 +15,12 @@ public:
     bool isValid() const;
     QString inputName() const;
 signals:
-    void newRecordEncountered(const Record &r);
+    void newRecordEncountered(Record::Ptr record);
 public slots:
     void startReading();
 
 private:
-    QTextStream m_stream;
+    QIODevice *m_stream;
     QString m_fileName;
     bool m_valid;
 };
