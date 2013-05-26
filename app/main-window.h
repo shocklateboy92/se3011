@@ -8,6 +8,7 @@
 #include "trading-signal-widget.h"
 
 #include <QMainWindow>
+#include "overlay.h"
 
 namespace Ui {
 class MainWindow;
@@ -21,8 +22,14 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+    void resizeEvent(QResizeEvent *e);
+    void dropEvent(QDropEvent *e);
+    void dragEnterEvent(QDragEnterEvent *e);
+    void dragLeaveEvent(QDragLeaveEvent *e);
+
 private:
     Ui::MainWindow *ui;
+    Overlay *m_overlay;
 
     QThread *m_engineThread, *m_evaluatorThread,
             *m_signal_generatorThread, *m_inputThread;

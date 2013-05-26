@@ -17,6 +17,7 @@
 #include <QThread>
 #include <QtConcurrent/QtConcurrent>
 #include <QTableView>
+#include <QPaintEvent>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -31,6 +32,7 @@ MainWindow::MainWindow(QWidget *parent) :
     m_inputModel(new TradingFilesModel())
 {
     ui->setupUi(this);
+
     setTabPosition(Qt::AllDockWidgetAreas, QTabWidget::North);
 
     m_engine->moveToThread(m_engineThread);
@@ -103,7 +105,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(m_evaluator, &TradingEvaluator::signalTradeEncountered, graph, &TradingEvaluatorGraph::plotNew);
 
-
+    m_overlay = new Overlay(this);
+    m_overlay->setVisible(false);
 }
 
 MainWindow::~MainWindow()
@@ -124,4 +127,43 @@ MainWindow::~MainWindow()
     m_inputModel->deleteLater();
 
     delete ui;
+}
+
+void MainWindow::resizeEvent(QResizeEvent *e)
+{
+    m_overlay->resize(e->size());
+    QWidget::resizeEvent(e);
+}
+
+void MainWindow::dropEvent(QDropEvent *e) {
+    for (const QUrl &url : e->mimeData()->urls()) {
+        if (url.isLocalFile() &&
+                url.path().endsWith(QStringLiteral("g8strat"))) {
+            QFileInfo f(url.toLocalFile());
+            if (!QFile::copy(url.toLocalFile(),
+                             QCoreApplication::applicationFilePath() +
+                             QDir::separator() + f.fileName())) {
+                qWarning() << "unable to install plugin" << url;
+            }
+        }
+    }
+    m_overlay->setVisible(false);
+}
+
+void MainWindow::dragEnterEvent(QDragEnterEvent *e)
+{
+    if (e->mimeData()->hasUrls()) {
+        for (const QUrl &url : e->mimeData()->urls()) {
+            if (url.isLocalFile() &&
+                    url.path().endsWith(QStringLiteral("g8strat"))) {
+                e->acceptProposedAction();
+                m_overlay->setVisible(true);
+                break;
+            }
+        }
+    }
+}
+
+void MainWindow::dragLeaveEvent(QDragLeaveEvent *e) {
+    m_overlay->setVisible(false);
 }
