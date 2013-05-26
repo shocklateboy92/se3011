@@ -6,18 +6,18 @@
 #include <QObject>
 #include <QWidget>
 
-class TradingStrategy : public QObject
+class TradingStrategy
 {
-Q_OBJECT
 
 public:
-    TradingStrategy(const QObject *parent = 0);
     virtual ~TradingStrategy(){}
 
     virtual QWidget* configWidget() = 0;
 
-public slots:
     virtual void processTrade(const Trade& trade) = 0;
 };
+
+#define G8_STRATEGY_TYPE_ID "com.g8.tanya.strategy"
+Q_DECLARE_INTERFACE(TradingStrategy, G8_STRATEGY_TYPE_ID)
 
 #endif // TRADINGSTRATEGY_H

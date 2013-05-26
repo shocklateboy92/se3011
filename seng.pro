@@ -5,4 +5,5 @@ CONFIG += ordered
 SUBDIRS = \
     core \
     tests \
-    app
+    app \
+    strategies

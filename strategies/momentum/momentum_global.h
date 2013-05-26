@@ -1,0 +1,12 @@
+#ifndef MOMENTUM_GLOBAL_H
+#define MOMENTUM_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#if defined(MOMENTUM_LIBRARY)
+#  define MOMENTUMSHARED_EXPORT Q_DECL_EXPORT
+#else
+#  define MOMENTUMSHARED_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // MOMENTUM_GLOBAL_H

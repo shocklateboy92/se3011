@@ -76,9 +76,11 @@ void TradingSignalGenerator::loadPlugins()
         pluginsDir.cdUp();
     }
 #endif
-    pluginsDir.cd("plugins");
+    pluginsDir.cd("../strategies/momentum/");
+    qDebug() << pluginsDir;
 
     foreach (QString fileName, pluginsDir.entryList(QDir::Files)) {
+        qDebug() << "trying to load " << fileName;
         QPluginLoader loader(pluginsDir.absoluteFilePath(fileName));
         QObject *plugin = loader.instance();
         if (plugin) {
@@ -86,6 +88,9 @@ void TradingSignalGenerator::loadPlugins()
             if (strategy) {
                 m_strategies.append(strategy);
             }
+        } else {
+            qWarning() << "Failed to load" << fileName << ":"
+                       << loader.errorString();
         }
     }
 
