@@ -14,19 +14,15 @@ CONFIG += plugin
 
 DEFINES += MOMENTUM_LIBRARY
 
-SOURCES += momentum-strategy.cpp
+SOURCES += momentum-strategy.cpp \
+           trading-signal-momentum.cpp
 
-HEADERS += momentum-strategy.h\
-        momentum_global.h
+HEADERS += \
+    momentum-strategy.h \
+    momentum_global.h \
+    trading-signal-momentum.h
 
-unix:!symbian {
-    maemo5 {
-        target.path = /opt/usr/lib
-    } else {
-        target.path = /usr/lib
-    }
-    INSTALLS += target
-}
+FORMS += trading-signal-momentum.ui
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../../core/release/ -lcore
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../../core/debug/ -lcore

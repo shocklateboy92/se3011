@@ -8,7 +8,6 @@
 #include "trading-evaluator-graph.h"
 #include "trading-signal-widget.h"
 #include "trading-signal-generator.h"
-#include "trading-signal-momentum.h"
 #include "trading-signal-group-08.h"
 
 #include "records-model.h"
@@ -49,20 +48,17 @@ MainWindow::MainWindow(QWidget *parent) :
                   new TradingFilesWidget(m_inputModel, this));
 
     m_signal_generator->loadPlugins();
-    for (QWidget *widget : m_signal_generator->configWidgets()) {
+    for (QDockWidget *widget : m_signal_generator->configWidgets()) {
         qDebug() << widget;
+        addDockWidget(Qt::RightDockWidgetArea, widget, Qt::Vertical);
     }
 
     auto results = new RecordsModel(this);
     auto resultsWidget = new TradingSignalResultsWidget(results, this);
     addDockWidget(Qt::RightDockWidgetArea, resultsWidget);
-    auto momentum = new TradingSignalMomentum(this);
-    addDockWidget(Qt::RightDockWidgetArea, momentum);
     auto magic = new TradingSignalGroup08(this);
     addDockWidget(Qt::RightDockWidgetArea, magic);
 
-    tabifyDockWidget(resultsWidget, momentum);
-    tabifyDockWidget(momentum,magic);
 
     auto mytrades = new RecordsModel(this);
     auto alltrades = new RecordsModel(this);
@@ -92,9 +88,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(m_signal_generator, &TradingSignalGenerator::newRecordGenerated,
             results, &RecordsModel::addRecord);
-
-    connect(momentum,&TradingSignalMomentum::newMomentum , m_signal_generator, &TradingSignalGenerator::processMomentum);
-    connect(momentum, &TradingSignalMomentum::deleteMomentum, m_signal_generator, &TradingSignalGenerator::removeMomentum);
 
     connect(magic, &TradingSignalGroup08::newMagic, m_signal_generator, &TradingSignalGenerator::processMagic);
     connect(magic, &TradingSignalGroup08::deleteMagic, m_signal_generator, &TradingSignalGenerator::removeMagic);

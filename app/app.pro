@@ -16,7 +16,6 @@ SOURCES += \
     trading-signal-widget.cpp \
     trading-signal-results-widget.cpp \
     trading-evaluator-widget.cpp \
-    trading-signal-momentum.cpp \
     trading-signal-group-08.cpp \
     qcustomplot.cpp \
     trading-evaluator-graph.cpp
@@ -28,7 +27,6 @@ HEADERS += \
     trading-signal-widget.h \
     trading-signal-results-widget.h \
     trading-evaluator-widget.h \
-    trading-signal-momentum.h \
     trading-signal-group-08.h \
     qcustomplot.h \
     trading-evaluator-graph.h
@@ -39,7 +37,6 @@ FORMS += \
     trading-signal-results-widget.ui \
     trading-signal-widget.ui \
     trading-evaluator-widget.ui \
-    trading-signal-momentum.ui \
     trading-signal-group-08.ui \
     trading-evaluator-graph.ui
 

@@ -2,12 +2,13 @@
 #define TRADINGSIGNALMOMENTUM_H
 
 #include <QDockWidget>
+#include "momentum_global.h"
 
 namespace Ui {
 class TradingSignalMomentum;
 }
 
-class TradingSignalMomentum : public QDockWidget
+class MOMENTUMSHARED_EXPORT TradingSignalMomentum : public QDockWidget
 {
     Q_OBJECT
     

@@ -5,6 +5,7 @@
 
 #include <QObject>
 #include <QWidget>
+#include <QDockWidget>
 
 class TradingStrategy
 {
@@ -12,7 +13,7 @@ class TradingStrategy
 public:
     virtual ~TradingStrategy(){}
 
-    virtual QWidget* configWidget() = 0;
+    virtual QDockWidget* configWidget() = 0;
 
     virtual void processTrade(const Trade& trade) = 0;
 };
