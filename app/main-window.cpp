@@ -48,6 +48,11 @@ MainWindow::MainWindow(QWidget *parent) :
     addDockWidget(Qt::LeftDockWidgetArea,
                   new TradingFilesWidget(m_inputModel, this));
 
+    m_signal_generator->loadPlugins();
+    for (QWidget *widget : m_signal_generator->configWidgets()) {
+        qDebug() << widget;
+    }
+
     auto results = new RecordsModel(this);
     auto resultsWidget = new TradingSignalResultsWidget(results, this);
     addDockWidget(Qt::RightDockWidgetArea, resultsWidget);

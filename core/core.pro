@@ -32,7 +32,8 @@ SOURCES += \
     trading-files-model.cpp \
     records-model.cpp \
     trading-signal-generator.cpp \
-    order.cpp
+    order.cpp \
+    trading-strategy.cpp
 
 
 HEADERS += \
@@ -44,5 +45,6 @@ HEADERS += \
     records-model.h \
     trading-signal-generator.h \
     order.h \
-    common.h
+    common.h \
+    trading-strategy.h
 

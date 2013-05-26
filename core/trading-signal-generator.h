@@ -3,6 +3,7 @@
 
 #include "record.h"
 #include "order.h"
+#include "trading-strategy.h"
 #include <tuple>
 
 #include <QObject>
@@ -14,6 +15,7 @@ class GROUP8_CORE TradingSignalGenerator : public QObject
     Q_OBJECT
 public:
     explicit TradingSignalGenerator(QObject *parent = 0);
+    const QList<QWidget*> configWidgets();
 
 signals:
     void newRecordGenerated(const Record &r);
@@ -30,9 +32,13 @@ public slots:
     void processMagic(const QString &instrument);
     void removeMagic(const QString &instrument);
 
+    void loadPlugins();
+
 private:
     class MomentumData;
     class MagicData;
+
+    QList<TradingStrategy*> m_strategies;
 
     QList<Record> m_records;
     QMap<QString, MomentumData> m_momentums;

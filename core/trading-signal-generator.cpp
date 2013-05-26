@@ -1,12 +1,26 @@
 #include "trading-signal-generator.h"
 #include "record.h"
 
+#include <QCoreApplication>
+#include <QPluginLoader>
 #include <QDebug>
 #include <limits>
+#include <QDir>
 
 TradingSignalGenerator::TradingSignalGenerator(QObject *parent) :
     QObject(parent)
 {
+}
+
+const QList<QWidget *> TradingSignalGenerator::configWidgets()
+{
+    QList<QWidget*> ret;
+    ret.reserve(m_strategies.size());
+    for (auto s : m_strategies) {
+        ret.append(s->configWidget());
+    }
+
+    return ret;
 }
 
 void TradingSignalGenerator::processNewRecord(const Record &r) {
@@ -45,6 +59,37 @@ void TradingSignalGenerator::removeMagic(const QString &instrument) {
     Q_ASSERT(m_magic.contains(instrument));
     m_magic.remove(instrument);
 
+}
+
+void TradingSignalGenerator::loadPlugins()
+{
+    auto pluginsDir = QDir(QCoreApplication::instance()->applicationDirPath());
+
+#if defined(Q_OS_WIN)
+    if (pluginsDir.dirName().toLower() == "debug" ||
+            pluginsDir.dirName().toLower() == "release")
+        pluginsDir.cdUp();
+#elif defined(Q_OS_MAC)
+    if (pluginsDir.dirName() == "MacOS") {
+        pluginsDir.cdUp();
+        pluginsDir.cdUp();
+        pluginsDir.cdUp();
+    }
+#endif
+    pluginsDir.cd("plugins");
+
+    foreach (QString fileName, pluginsDir.entryList(QDir::Files)) {
+        QPluginLoader loader(pluginsDir.absoluteFilePath(fileName));
+        QObject *plugin = loader.instance();
+        if (plugin) {
+            TradingStrategy *strategy = qobject_cast<TradingStrategy*>(plugin);
+            if (strategy) {
+                m_strategies.append(strategy);
+            }
+        }
+    }
+
+    qDebug() << m_strategies;
 }
 
 
