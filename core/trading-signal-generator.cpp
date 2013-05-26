@@ -70,17 +70,20 @@ void TradingSignalGenerator::loadPlugins()
     qDebug() << pluginsDir;
 
     foreach (QString fileName, pluginsDir.entryList(QDir::Files)) {
-        qDebug() << "trying to load " << fileName;
+//        qDebug() << "trying to load " << fileName;
         QPluginLoader loader(pluginsDir.absoluteFilePath(fileName));
         QObject *plugin = loader.instance();
         if (plugin) {
             TradingStrategy *strategy = qobject_cast<TradingStrategy*>(plugin);
             if (strategy) {
                 m_strategies.append(strategy);
+
+                connect (plugin, SIGNAL(newRecordCreated(Record::Ptr)),
+                         this, SIGNAL(nextRecord(Record::Ptr)));
             }
         } else {
-            qWarning() << "Failed to load" << fileName << ":"
-                       << loader.errorString();
+//            qWarning() << "Failed to load" << fileName << ":"
+//                       << loader.errorString();
         }
     }
 
@@ -90,6 +93,11 @@ void TradingSignalGenerator::loadPlugins()
 
 
 void TradingSignalGenerator::processTrade(const Trade &t) {
+
+    for (TradingStrategy *strategy : m_strategies) {
+        strategy->processTrade(t);
+    }
+
     if (m_magic.contains(t.instrument())) {
         MagicData &data = m_magic[t.instrument()];
 

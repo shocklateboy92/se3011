@@ -191,7 +191,10 @@ void modifyOrder(QLinkedList<BidOrAsk> &queue, BidOrAsk &bidOrAsk) {
             original.setTime(bidOrAsk.time());
             original.setDate(bidOrAsk.date());
 
-//            queue.insert(original);
+            queue.insert(std::lower_bound(queue.begin(),
+                                          queue.end(),
+                                          bidOrAsk),
+                          bidOrAsk);
         } else {
             // if only the volume has decreased, it
             // doesn't loose its position.
@@ -208,39 +211,9 @@ void TradingEngine::modifyAsk(Ask ask) {
     modifyOrder(m_askQueue, ask);
 }
 
-//void TradingEngine::performMatching() {
-//    for (Ask a : m_askQueue) {
-//        for (Bid b : m_bidQueue) {
-//            // if buyer is willing to pay more than
-//            // seller asked for, make the trade
-//            if (b.price() >= a.price()) {
-//                if (b.volume() == a.volume()) {
-//                    // buyer's buying exactly what seller is selling,
-//                    // both orders are done.
-//                    m_askQueue.erase(a);
-//                    m_bidQueue.erase(b);
-//                }
-//                // otherwise, a partial trade occurs
-//                else if (b.volume() > a.volume()) {
-//                    // buyer wants more, but seller is done
-//                    b.setVolume(b.volume() - a.volume());
-//                    m_askQueue.erase(a);
-//                }
-//                else {
-//                    // seller has more, buyer is done
-//                    a.setVolume(a.volume() - b.volume());
-//                    m_bidQueue.erase(b);
-//                }
-
-//                createTrade(a, b);
-//            }
-//        }
-//    }
-//}
-
 void TradingEngine::createTrade(Ask ask, Bid bid) {
     auto trade = Trade(ask, bid);
-    qDebug() << "Created New Trade: " << trade;
+//    qDebug() << "Created New Trade: " << trade;
     emit newTradeCreated(trade);
 }
 
