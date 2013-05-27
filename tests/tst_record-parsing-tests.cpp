@@ -76,7 +76,7 @@ void RecordParsingTests::simpleParseTest() {
     QCOMPARE(r->price(), 32.6);
     QCOMPARE(r->volume(), 160.0);
     QCOMPARE(r->value(), 5216.0);
-    QCOMPARE(r->bidId(), 6263684926150135747);
+    QCOMPARE(r->bidId(), (qlonglong) 6263684926150135747);
     QCOMPARE(r->bidOrAsk(), Record::BidAsk::Bid);
 }
 
@@ -90,7 +90,7 @@ void RecordParsingTests::simpleParseTest2() {
     QCOMPARE(r->price(), 3.6);
     QCOMPARE(r->volume(), 160.0);
     QCOMPARE(r->value(), 576.0);
-    QCOMPARE(r->bidId(), 6263684926150135747);
+    QCOMPARE(r->bidId(), (qlonglong) 6263684926150135747);
     QCOMPARE(r->bidOrAsk(), Record::BidAsk::Ask);
 }
 
@@ -142,7 +142,7 @@ void RecordParsingTests::testFastParse() {
     QCOMPARE(r->price(), 32.6);
     QCOMPARE(r->volume(), 160.0);
     QCOMPARE(r->value(), 5216.0);
-    QCOMPARE(r->bidId(), 6263684926150135747);
+    QCOMPARE(r->bidId(), (qlonglong) 6263684926150135747);
     QCOMPARE(r->bidOrAsk(), Record::BidAsk::Bid);
 }
 

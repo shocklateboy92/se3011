@@ -1,3 +1,4 @@
 TEMPLATE = subdirs
 
-SUBDIRS += momentum
+SUBDIRS += momentum \
+    group8-strategy
