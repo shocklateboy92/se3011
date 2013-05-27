@@ -34,8 +34,8 @@ public slots:
 //    void performMatching();
 
 private:
-    QLinkedList<Ask> m_askQueue;
-    QLinkedList<Bid> m_bidQueue;
+    QMap<QByteArray, QLinkedList<Ask>> m_askQueues;
+    QMap<QByteArray, QLinkedList<Bid>> m_bidQueues;
 
     friend class TradingEngineTests;
 };

@@ -5,6 +5,8 @@
 #include <trading-engine.h>
 #include <trading-file-reader.h>
 
+const QByteArray instrument("BHP");
+
 class TradingEngineTests : public QObject
 {
     Q_OBJECT
@@ -38,14 +40,14 @@ private slots:
         m_engine->enterAsk(a2);
         m_engine->enterBid(b1);
 
-        QCOMPARE(m_engine->m_bidQueue.size(), 1);
+        QCOMPARE(m_engine->m_bidQueues[instrument].size(), 1);
 
-        Bid rb = m_engine->m_bidQueue.first();
+        Bid rb = m_engine->m_bidQueues[instrument].first();
         QCOMPARE(rb, b1);
         QCOMPARE(rb.record(), b1.record());
 
-        QCOMPARE(m_engine->m_askQueue.size(), 1);
-        Ask remainingAsk = (m_engine->m_askQueue.first());
+        QCOMPARE(m_engine->m_askQueues.size(), 1);
+        Ask remainingAsk = (m_engine->m_askQueues[instrument].first());
         QCOMPARE(remainingAsk.volume(), 10.0);
         QCOMPARE(remainingAsk.price(), 15.0);
     }
