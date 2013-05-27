@@ -18,7 +18,6 @@ TradingEvaluatorWidget::~TradingEvaluatorWidget()
 }
 
 void TradingEvaluatorWidget::printCurrentEval(QList<TradingEvaluator::eval> evals) {
-
     ui->money_gained->setText(QString::number(evals.last().moneyGained));
     ui->money_spent->setText(QString::number(evals.last().moneySpent));
     ui->stocks_bought->setText(QString::number(evals.last().stocksPurchased));

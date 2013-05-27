@@ -2,6 +2,7 @@
 #define TRADINGEVALUATOR_H
 
 #include "order.h"
+#include <QList>
 
 class GROUP8_CORE TradingEvaluator : public QObject
 {
@@ -33,5 +34,7 @@ private:
 
 
 };
+
+Q_DECLARE_METATYPE(TradingEvaluator::eval)
 
 #endif // TRADINGEVALUATOR_H
