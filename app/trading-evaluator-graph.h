@@ -22,7 +22,7 @@ public:
     ~TradingEvaluatorGraph();
 
 public slots:
-    void plotNew(const Trade &trade);
+    void plotNew(QDateTime datetime, float moneySpent, float moneyGained, float stocksSold, float stocksPurchased);
 
 private slots:
   void titleDoubleClick();
@@ -39,7 +39,10 @@ private slots:
 
 private:
     Ui::TradingEvaluatorGraph *ui;
-    QVector<double> costs;
+    QVector<double> moneySpent;
+    QVector<double> moneyGained;
+    QVector<double> profit;
+
     QVector<double> times;
 };
 

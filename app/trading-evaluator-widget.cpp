@@ -9,7 +9,6 @@ TradingEvaluatorWidget::TradingEvaluatorWidget(QAbstractTableModel *my, QAbstrac
     ui(new Ui::TradingEvaluatorWidget)
 {
     ui->setupUi(this);
-    //ui->all_trades->setModel(all);
     ui->my_trades->setModel(my);
 }
 
@@ -18,7 +17,7 @@ TradingEvaluatorWidget::~TradingEvaluatorWidget()
     delete ui;
 }
 
-void TradingEvaluatorWidget::printCurrentEval(float moneySpent, float moneyGained, float stocksSold, float stocksPurchased) {
+void TradingEvaluatorWidget::printCurrentEval(QDateTime datetime, float moneySpent, float moneyGained, float stocksSold, float stocksPurchased) {
     ui->money_gained->setText(QString::number(moneyGained));
     ui->money_spent->setText(QString::number(moneySpent));
     ui->stocks_bought->setText(QString::number(stocksPurchased));

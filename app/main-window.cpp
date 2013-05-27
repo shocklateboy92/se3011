@@ -103,7 +103,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(m_evaluator, &TradingEvaluator::currentEval, evalwidget, &TradingEvaluatorWidget::printCurrentEval);
 
-    connect(m_evaluator, &TradingEvaluator::signalTradeEncountered, graph, &TradingEvaluatorGraph::plotNew);
+    connect(m_evaluator, &TradingEvaluator::currentEval, graph, &TradingEvaluatorGraph::plotNew);
 
     m_overlay = new Overlay(this);
     m_overlay->setVisible(false);
