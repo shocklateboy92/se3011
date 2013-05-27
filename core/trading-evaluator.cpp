@@ -24,14 +24,14 @@ void TradingEvaluator::processNewTrade(const Trade &trade) {
 
         moneySpent += trade.value();
         stocksPurchased += trade.volume();
-        emit currentEval(moneySpent, moneyGained, stocksSold, stocksPurchased);
+        emit currentEval(QDateTime(trade.date(), trade.time()), moneySpent, moneyGained, stocksSold, stocksPurchased);
 
     } else if (trade.bidId() == 6666) {
         emit signalTradeEncountered(trade);
 
         moneyGained += trade.value();
         stocksSold += trade.volume();
-        emit currentEval(moneySpent, moneyGained, stocksSold, stocksPurchased);
+        emit currentEval(QDateTime(trade.date(), trade.time()), moneySpent, moneyGained, stocksSold, stocksPurchased);
     }
 
 }

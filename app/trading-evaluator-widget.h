@@ -3,6 +3,7 @@
 
 #include <QDockWidget>
 #include <QAbstractTableModel>
+#include <QDateTime>
 
 namespace Ui {
 class TradingEvaluatorWidget;
@@ -17,7 +18,7 @@ public:
     ~TradingEvaluatorWidget();
 
 public slots:
-    void printCurrentEval(float moneySpent, float moneyGained, float stocksSold, float stocksPurchased);
+    void printCurrentEval(QDateTime datetime, float moneySpent, float moneyGained, float stocksSold, float stocksPurchased);
 
 private:
     QAbstractTableModel *all_model;
