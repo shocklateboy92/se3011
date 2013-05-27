@@ -14,6 +14,15 @@ TradingEvaluator::TradingEvaluator(QObject *parent) :
 
 }
 
+void TradingEvaluator::reset()
+{
+    evals.clear();
+    moneySpent = 0;
+    moneyGained = 0;
+    stocksPurchased = 0;
+    stocksSold = 0;
+    tradeCount = 0;
+}
 void TradingEvaluator::processNewTrade(const Trade &trade) {
     // also do nothing
 //    qDebug() << QStringLiteral("evaluating trade #%1...").arg(tradeCount++);

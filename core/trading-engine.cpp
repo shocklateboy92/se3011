@@ -7,6 +7,11 @@ TradingEngine::TradingEngine(QObject *parent) :
     QObject(parent)
 {
 }
+void TradingEngine::reset()
+{
+    m_bidQueues.clear();
+    m_askQueues.clear();
+}
 
 void TradingEngine::processNewRecord(Record::Ptr r) {
 

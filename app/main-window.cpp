@@ -92,8 +92,18 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     //the reset + bonus
+        //ui stuff
         connect(ui->actionReset, &QAction::triggered, graph, &TradingEvaluatorGraph::reset);
         connect(ui->actionReset, &QAction::triggered, evalwidget, &TradingEvaluatorWidget::reset);
+        //have to reset strategies
+
+
+        //core stuff
+        connect(ui->actionReset, &QAction::triggered, m_evaluator, &TradingEvaluator::reset);
+        connect(ui->actionReset, &QAction::triggered, m_engine, &TradingEngine::reset);
+
+
+
 
     //end reset
 }

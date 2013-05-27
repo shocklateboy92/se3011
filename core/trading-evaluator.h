@@ -24,6 +24,7 @@ signals:
 
 public slots:
     void processNewTrade(const Trade &trade);
+    void reset();
 
 private:
     int tradeCount;
