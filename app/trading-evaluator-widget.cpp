@@ -4,12 +4,11 @@
 #include <QTableView>
 #include <QDebug>
 
-TradingEvaluatorWidget::TradingEvaluatorWidget(QAbstractTableModel *my, QAbstractTableModel *all,QWidget *parent) :
-    QDockWidget(parent),all_model(my),my_model(all),
+TradingEvaluatorWidget::TradingEvaluatorWidget(RecordsModel *my, RecordsModel *all,QWidget *parent) :
+    QDockWidget(parent),all_model(all),my_model(my),
     ui(new Ui::TradingEvaluatorWidget)
 {
     ui->setupUi(this);
-    //ui->all_trades->setModel(all);
     ui->my_trades->setModel(my);
 }
 
@@ -18,12 +17,24 @@ TradingEvaluatorWidget::~TradingEvaluatorWidget()
     delete ui;
 }
 
-void TradingEvaluatorWidget::printCurrentEval(float moneySpent, float moneyGained, float stocksSold, float stocksPurchased) {
-    ui->money_gained->setText(QString::number(moneyGained));
-    ui->money_spent->setText(QString::number(moneySpent));
-    ui->stocks_bought->setText(QString::number(stocksPurchased));
-    ui->stocks_sold->setText(QString::number(stocksSold));
-    ui->stocks_remaining->setText(QString::number(stocksPurchased - stocksSold));
-    ui->profit->setText(QString::number(moneyGained - moneySpent));
+void TradingEvaluatorWidget::printCurrentEval(TradingEvaluator::eval e) {
+    ui->money_gained->setText(QString::number(e.moneyGained));
+    ui->money_spent->setText(QString::number(e.moneySpent));
+    ui->stocks_bought->setText(QString::number(e.stocksPurchased));
+    ui->stocks_sold->setText(QString::number(e.stocksSold));
+    ui->stocks_remaining->setText(QString::number(e.stocksPurchased - e.stocksSold));
+    ui->profit->setText(QString::number(e.moneyGained - e.moneySpent));
 }
 
+void TradingEvaluatorWidget::reset()
+{
+    my_model->removeRows(0, my_model->rowCount(QModelIndex()), QModelIndex());
+    all_model->removeRows(0, all_model->rowCount(QModelIndex()), QModelIndex());
+
+    ui->money_gained->clear();
+    ui->money_spent->clear();
+    ui->stocks_bought->clear();
+    ui->stocks_sold->clear();
+    ui->stocks_remaining->clear();
+    ui->profit->clear();
+}

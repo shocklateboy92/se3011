@@ -7,6 +7,7 @@
 #include <QMenu>
 #include <order.h>
 #include "qcustomplot.h"
+#include <trading-evaluator.h>
 
 
 namespace Ui {
@@ -22,7 +23,8 @@ public:
     ~TradingEvaluatorGraph();
 
 public slots:
-    void plotNew(const Trade &trade);
+    void plotNew(QList<TradingEvaluator::eval> evals);
+    void reset();
 
 private slots:
   void titleDoubleClick();
@@ -39,8 +41,9 @@ private slots:
 
 private:
     Ui::TradingEvaluatorGraph *ui;
-    QVector<double> costs;
-    QVector<double> times;
+    double lastSpent  = 0;
+    double lastTime   = 0;
+    double lastGained = 0;
 };
 
 #endif // TRADINGEVALUATORGRAPH_H

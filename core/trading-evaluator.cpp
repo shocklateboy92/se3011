@@ -14,6 +14,15 @@ TradingEvaluator::TradingEvaluator(QObject *parent) :
 
 }
 
+void TradingEvaluator::reset()
+{
+    evals.clear();
+    moneySpent = 0;
+    moneyGained = 0;
+    stocksPurchased = 0;
+    stocksSold = 0;
+    tradeCount = 0;
+}
 void TradingEvaluator::processNewTrade(const Trade &trade) {
     // also do nothing
 //    qDebug() << QStringLiteral("evaluating trade #%1...").arg(tradeCount++);
@@ -24,14 +33,36 @@ void TradingEvaluator::processNewTrade(const Trade &trade) {
 
         moneySpent += trade.value();
         stocksPurchased += trade.volume();
-        emit currentEval(moneySpent, moneyGained, stocksSold, stocksPurchased);
 
     } else if (trade.bidId() == 6666) {
         emit signalTradeEncountered(trade);
 
         moneyGained += trade.value();
         stocksSold += trade.volume();
-        emit currentEval(moneySpent, moneyGained, stocksSold, stocksPurchased);
+
     }
 
+    //qDebug() << "MoneySpent:" << moneySpent;
+    struct eval a ={
+        QDateTime(trade.date(), trade.time()),
+        moneySpent,
+        moneyGained,
+        stocksSold,
+        stocksPurchased
+    };
+
+    evals.append(a);
+    //qDebug() << "eval: " << evals.size();
+
+    if(evals.size() == 200) {
+        emit currentEval(evals);
+        evals.clear();
+    }
+
+    //this could be bad
+    emit latestEval(a);
+
 }
+
+int der = qRegisterMetaType<QList<TradingEvaluator::eval>>("QList<eval>");
+int deri = qRegisterMetaType<TradingEvaluator::eval>("eval");

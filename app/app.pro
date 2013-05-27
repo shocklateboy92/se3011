@@ -9,14 +9,15 @@ CONFIG += c++11
 
 TEMPLATE = app
 
+CONFIG (release, debug|release) {
+    DEFINES += QT_NO_DEBUG_OUTPUT
+}
+
 SOURCES += \
     main.cpp \
     main-window.cpp \
     trading-files-widget.cpp \
-    trading-signal-widget.cpp \
-    trading-signal-results-widget.cpp \
     trading-evaluator-widget.cpp \
-    trading-signal-group-08.cpp \
     qcustomplot.cpp \
     trading-evaluator-graph.cpp \
     overlay.cpp
@@ -25,10 +26,7 @@ SOURCES += \
 HEADERS += \
     main-window.h \
     trading-files-widget.h \
-    trading-signal-widget.h \
-    trading-signal-results-widget.h \
     trading-evaluator-widget.h \
-    trading-signal-group-08.h \
     qcustomplot.h \
     trading-evaluator-graph.h \
     overlay.h
@@ -36,10 +34,7 @@ HEADERS += \
 FORMS += \
     main-window.ui \
     trading-files-widget.ui \
-    trading-signal-results-widget.ui \
-    trading-signal-widget.ui \
     trading-evaluator-widget.ui \
-    trading-signal-group-08.ui \
     trading-evaluator-graph.ui \
     overlay.ui
 

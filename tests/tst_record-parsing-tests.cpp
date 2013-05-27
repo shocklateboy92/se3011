@@ -125,10 +125,10 @@ void RecordParsingTests::parseBid_data()
     QTest::addColumn<double>("price");
     QTest::addColumn<double>("volume");
     QTest::addColumn<double>("value");
-    QTest::addColumn<long>("bidId");
-    QTest::addColumn<long>("buyerId");
+    QTest::addColumn<qlonglong>("bidId");
+    QTest::addColumn<qlonglong>("buyerId");
 
-    QTest::newRow("BHP-1") << QByteArray("BHP,20130501,00:00:00.000,ENTER,32.600,160,0,5216,,0,6263684926150135747,,B,,,,406,") << QByteArray("BHP") << QDate(2013, 5, 1) << QTime(0, 0, 0, 0) << 32.6 << 160.0 << 5216.0 << 6263684926150135747l << 406l;
+    QTest::newRow("BHP-1") << QByteArray("BHP,20130501,00:00:00.000,ENTER,32.600,160,0,5216,,0,6263684926150135747,,B,,,,406,") << QByteArray("BHP") << QDate(2013, 5, 1) << QTime(0, 0, 0, 0) << 32.6 << 160.0 << 5216.0 << (qlonglong) 6263684926150135747l << (qlonglong) 406;
 }
 
 

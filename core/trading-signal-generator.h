@@ -28,38 +28,17 @@ public slots:
     void dataProcessingRequested();
     void processTrade(const Trade &t);
 
-    void processMagic(const QString &instrument);
-    void removeMagic(const QString &instrument);
-
     void loadPlugins();
     QDockWidget *addNewPlugin(QString fileName);
 
+    void reset();
+
 private:
-    class MagicData;
 
     QList<TradingStrategy*> m_strategies;
 
     QList<Record> m_records;
-    QMap<QString, MagicData> m_magic;
-};
 
-class TradingSignalGenerator::MagicData {
-public:
-    bool isRising;
-    double previousPrice;
-    double previousVolume;
-    int currentConsecutiveChanges;
-    double totalBought;
-    double totalSold;
-
-    MagicData() :
-        isRising(false),
-        previousPrice(0),
-        previousVolume(0),
-        currentConsecutiveChanges(-1),
-        totalBought(0),
-        totalSold(0)
-    {}
 };
 
 #endif // TRADINGSIGNALGENERATOR_H

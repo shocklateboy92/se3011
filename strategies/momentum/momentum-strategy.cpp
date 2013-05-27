@@ -87,6 +87,13 @@ void MomentumStrategy::processTrade(const Trade &t)
     }
 }
 
+void MomentumStrategy::reset()
+{
+    for (const QString &ins : m_momentums.keys()) {
+        m_momentums[ins] = MomentumData();
+    }
+}
+
 
 MomentumStrategy::MomentumStrategy(QObject *parent) :
     QObject(parent)

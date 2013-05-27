@@ -7,6 +7,11 @@ TradingEngine::TradingEngine(QObject *parent) :
     QObject(parent)
 {
 }
+void TradingEngine::reset()
+{
+    m_bidQueues.clear();
+    m_askQueues.clear();
+}
 
 void TradingEngine::processNewRecord(Record::Ptr r) {
 
@@ -71,6 +76,9 @@ void TradingEngine::processNewRecord(Record::Ptr r) {
 }
 
 void TradingEngine::enterBid(Bid bid) {
+    auto &m_bidQueue = m_bidQueues[bid.instrument()];
+    auto &m_askQueue = m_askQueues[bid.instrument()];
+
     if (m_bidQueue.contains(bid)) {
         qDebug() << "skipping duplicate bid with id : " << bid.id();
         return;
@@ -120,6 +128,9 @@ void TradingEngine::enterBid(Bid bid) {
 }
 
 void TradingEngine::enterAsk(Ask ask) {
+    auto &m_bidQueue = m_bidQueues[ask.instrument()];
+    auto &m_askQueue = m_askQueues[ask.instrument()];
+
     if (m_askQueue.contains(ask)) {
         qDebug() << "skipping duplicate ask with id : " << ask.id();
         return;
@@ -163,11 +174,11 @@ void TradingEngine::enterAsk(Ask ask) {
 }
 
 void TradingEngine::removeBid(Bid bid) {
-    m_bidQueue.removeOne(bid);
+    m_bidQueues[bid.instrument()].removeOne(bid);
 }
 
 void TradingEngine::removeAsk(Ask ask) {
-    m_askQueue.removeOne(ask);
+    m_askQueues[ask.instrument()].removeOne(ask);
 }
 
 template <typename BidOrAsk>
@@ -204,11 +215,11 @@ void modifyOrder(QLinkedList<BidOrAsk> &queue, BidOrAsk &bidOrAsk) {
 }
 
 void TradingEngine::modifyBid(Bid bid) {
-    modifyOrder(m_bidQueue, bid);
+    modifyOrder(m_bidQueues[bid.instrument()], bid);
 }
 
 void TradingEngine::modifyAsk(Ask ask) {
-    modifyOrder(m_askQueue, ask);
+    modifyOrder(m_askQueues[ask.instrument()], ask);
 }
 
 void TradingEngine::createTrade(Ask ask, Bid bid) {

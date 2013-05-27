@@ -19,14 +19,14 @@
   <property name="unifiedTitleAndToolBarOnMac">
    <bool>true</bool>
   </property>
-  <widget class="TradingSignalWidget" name="centralwidget"/>
+  <widget class="QWidget" name="centralwidget"/>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>19</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -41,8 +41,7 @@
      <string>Simulation</string>
     </property>
     <addaction name="actionStart"/>
-    <addaction name="actionPause"/>
-    <addaction name="actionStop"/>
+    <addaction name="actionReset"/>
    </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">
@@ -68,8 +67,7 @@
     <bool>false</bool>
    </attribute>
    <addaction name="actionStart"/>
-   <addaction name="actionPause"/>
-   <addaction name="actionStop"/>
+   <addaction name="actionReset"/>
   </widget>
   <action name="actionStart">
    <property name="icon">
@@ -83,31 +81,24 @@
    <property name="toolTip">
     <string>Begin the trading simulation</string>
    </property>
-  </action>
-  <action name="actionPause">
-   <property name="icon">
-    <iconset theme="media-playback-pause">
-     <normaloff/>
-    </iconset>
-   </property>
-   <property name="text">
-    <string>Pause</string>
-   </property>
-   <property name="toolTip">
-    <string>Pause the trading simulation</string>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
    </property>
   </action>
-  <action name="actionStop">
+  <action name="actionReset">
    <property name="icon">
     <iconset theme="media-playback-stop">
      <normaloff/>
     </iconset>
    </property>
    <property name="text">
-    <string>Stop</string>
+    <string>Reset</string>
    </property>
    <property name="toolTip">
-    <string>End the trading simulation</string>
+    <string>Reset the trading simulation</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+R</string>
    </property>
   </action>
   <action name="actionQuit">
@@ -124,14 +115,6 @@
    </property>
   </action>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>TradingSignalWidget</class>
-   <extends>QWidget</extends>
-   <header>trading-signal-widget.h</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections>
   <connection>

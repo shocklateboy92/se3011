@@ -5,7 +5,7 @@
 #include <QTableView>
 
 TradingSignalResultsWidget::TradingSignalResultsWidget(
-        QAbstractTableModel *model, QWidget *parent) :
+        RecordsModel *model, QWidget *parent) :
     QDockWidget(parent), m_model(model),
     ui(new Ui::TradingSignalResultsWidget)
 {
@@ -14,6 +14,9 @@ TradingSignalResultsWidget::TradingSignalResultsWidget(
     ui->tableView->setModel(model);
     connect(ui->removeButton, &QAbstractButton::clicked,
             this, &TradingSignalResultsWidget::onRemovebuttonClicked);
+
+    connect(ui->form, &TradingSignalWidget::newRecordCreated,
+            model, &RecordsModel::addRecord);
 }
 
 TradingSignalResultsWidget::~TradingSignalResultsWidget()

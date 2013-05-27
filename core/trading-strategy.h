@@ -16,6 +16,8 @@ public:
     virtual QDockWidget* configWidget() = 0;
 
     virtual void processTrade(const Trade& trade) = 0;
+
+    virtual void reset() = 0;
 };
 
 #define G8_STRATEGY_TYPE_ID "com.g8.tanya.strategy"

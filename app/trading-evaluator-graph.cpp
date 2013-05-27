@@ -12,18 +12,37 @@ TradingEvaluatorGraph::TradingEvaluatorGraph(QWidget *parent) :
 
     // create graph and assign data to it:
     customPlot->addGraph();
+    customPlot->addGraph();
+    customPlot->addGraph();
+
     customPlot->setLocale(QLocale(QLocale::English, QLocale::UnitedKingdom));
 
 
 
-    customPlot->graph(0)->setData(times, costs);
-    customPlot->graph(0)->setName("Price");
+    //customPlot->graph(0)->setData(times, profit);
+    customPlot->graph(0)->setName("Profit");
+    customPlot->graph(0)->setPen(QPen(QColor(255,0,0,255)));
+    customPlot->graph(0)->setBrush(QBrush(QColor(255,0,0,120)));
+
+    //customPlot->graph(1)->setData(times, moneySpent);
+    customPlot->graph(1)->setName("Money Spent");
+    customPlot->graph(1)->setPen(QPen(QColor(0,255,0,255)));
+    customPlot->graph(1)->setBrush(QBrush(QColor(0,255,0,120)));
+
+
+    //customPlot->graph(2)->setData(times, moneyGained);
+    customPlot->graph(2)->setName("Money Gained");
+    customPlot->graph(2)->setPen(QPen(QColor(0,0,255,255)));
+    customPlot->graph(2)->setBrush(QBrush(QColor(0,0,255,120)));
+
+
+
     // give the axes some labels:
     customPlot->xAxis->setLabel("Date Time");
-    customPlot->yAxis->setLabel("Price");
+    customPlot->yAxis->setLabel("Amount $");
     // set axes ranges, so we see all data:
     double now = QDateTime::currentDateTime().toTime_t();
-    customPlot->xAxis->setRange(now, now+3600);
+    customPlot->xAxis->setRangeLower(now);
     customPlot->yAxis->setRangeLower(0);
 
     customPlot->xAxis->setTickLabelType(QCPAxis::ltDateTime);
@@ -79,6 +98,57 @@ TradingEvaluatorGraph::TradingEvaluatorGraph(QWidget *parent) :
 
     customPlot->replot();
 
+}
+
+
+
+void TradingEvaluatorGraph::plotNew(QList<TradingEvaluator::eval> evals)
+{
+
+    auto customPlot = ui->dockWidgetContents;
+
+    for(TradingEvaluator::eval eval : evals) {
+
+        double time = eval.datetime.toTime_t();
+        double moneySpent = eval.moneySpent;
+        double moneyGained = eval.moneyGained;
+
+        if((moneySpent > lastSpent || moneyGained > lastGained) && time > (lastTime + 300)) { //has to be 5 min diff
+            customPlot->graph(2)->addData(time, moneyGained);
+            customPlot->graph(1)->addData(time, moneySpent);
+            customPlot->graph(0)->addData(time, (moneyGained-moneySpent));
+            lastGained = moneyGained;
+            lastSpent = moneySpent;
+            lastTime = time;
+        }
+
+        if(customPlot->xAxis->range().upper > time) {
+                    customPlot->xAxis->setRangeUpper(time);
+         }
+        if(customPlot->xAxis->range().lower < time) {
+                    customPlot->xAxis->setRangeLower(time);
+        }
+    }
+    customPlot->rescaleAxes();
+    customPlot->replot();
+
+}
+
+void TradingEvaluatorGraph::reset()
+{
+    auto customPlot = ui->dockWidgetContents;
+
+    customPlot->graph(2)->clearData();
+    customPlot->graph(1)->clearData();
+    customPlot->graph(0)->clearData();
+
+    lastGained = 0;
+    lastSpent = 0;
+    lastTime = 0;
+
+
+    customPlot->rescaleAxes();
+    customPlot->replot();
 }
 
 void TradingEvaluatorGraph::titleDoubleClick()
@@ -255,49 +325,7 @@ void TradingEvaluatorGraph::graphClicked(QCPAbstractPlottable *plottable)
 }
 
 
-
-
-
-
-
-
-
-
-
 TradingEvaluatorGraph::~TradingEvaluatorGraph()
 {
     delete ui;
-}
-
-void TradingEvaluatorGraph::plotNew(const Trade &trade)
-{
-    auto customPlot = ui->dockWidgetContents;
-
-
-    //this line is some how broken
-    double time = QDateTime(trade.date(), trade.time()).toTime_t() ;
-    // end this line
-    double price = trade.price();
-    costs.append(price);
-    times.append(time);
-    //qDebug() << "Should plot a point";
-    //qDebug() << trade.time();
-    //qDebug() << time;
-    //qDebug() << price;
-    customPlot->graph(0)->addData(time,price);
-
-    if(customPlot->yAxis->range().upper <= price) {
-        customPlot->yAxis->setRangeUpper(price + 1.0);
-    }
-
-    if(customPlot->xAxis->range().upper >= time) {
-        customPlot->xAxis->setRangeUpper(time + 1.0);
-    }
-
-    if(customPlot->xAxis->range().lower < time) {
-        customPlot->xAxis->setRangeLower(time);
-    }
-
-    ui->dockWidgetContents->replot();
-
 }

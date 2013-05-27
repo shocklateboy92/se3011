@@ -3,10 +3,8 @@
 #include "trading-file-reader.h"
 #include <trading-files-model.h>
 #include "trading-files-widget.h"
-#include "trading-signal-results-widget.h"
 #include "trading-evaluator-widget.h"
 #include "trading-evaluator-graph.h"
-#include "trading-signal-widget.h"
 #include "trading-signal-generator.h"
 #include "trading-signal-group-08.h"
 
@@ -50,17 +48,16 @@ MainWindow::MainWindow(QWidget *parent) :
                   new TradingFilesWidget(m_inputModel, this));
 
     m_signal_generator->loadPlugins();
+    QDockWidget *a = NULL;
     for (QDockWidget *widget : m_signal_generator->configWidgets()) {
         qDebug() << widget;
-        addDockWidget(Qt::RightDockWidgetArea, widget, Qt::Vertical);
+        addDockWidget(Qt::RightDockWidgetArea, widget);
+
+        if(a!=NULL) {
+            tabifyDockWidget(widget,a);
+            a = widget;
+        }
     }
-
-    auto results = new RecordsModel(this);
-    auto resultsWidget = new TradingSignalResultsWidget(results, this);
-    addDockWidget(Qt::RightDockWidgetArea, resultsWidget);
-    auto magic = new TradingSignalGroup08(this);
-    addDockWidget(Qt::RightDockWidgetArea, magic);
-
 
     auto mytrades = new RecordsModel(this);
     auto alltrades = new RecordsModel(this);
@@ -85,15 +82,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(m_signal_generator, &TradingSignalGenerator::nextRecord,
             m_engine, &TradingEngine::processNewRecord);
 
-    connect(ui->centralwidget, &TradingSignalWidget::newRecordCreated,
-            m_signal_generator, &TradingSignalGenerator::processNewRecord);
-
-    connect(m_signal_generator, &TradingSignalGenerator::newRecordGenerated,
-            results, &RecordsModel::addRecord);
-
-    connect(magic, &TradingSignalGroup08::newMagic, m_signal_generator, &TradingSignalGenerator::processMagic);
-    connect(magic, &TradingSignalGroup08::deleteMagic, m_signal_generator, &TradingSignalGenerator::removeMagic);
-
     connect(m_engine, &TradingEngine::newTradeCreated,m_signal_generator, &TradingSignalGenerator::processTrade);
 
 
@@ -101,12 +89,29 @@ MainWindow::MainWindow(QWidget *parent) :
     //connect(m_engine, &TradingEngine::newTradeCreated, alltrades, &RecordsModel::addRecord);
     connect(m_evaluator, &TradingEvaluator::signalTradeEncountered, mytrades, &RecordsModel::addRecord);
 
-    connect(m_evaluator, &TradingEvaluator::currentEval, evalwidget, &TradingEvaluatorWidget::printCurrentEval);
+    connect(m_evaluator, &TradingEvaluator::latestEval, evalwidget, &TradingEvaluatorWidget::printCurrentEval);
 
-    connect(m_evaluator, &TradingEvaluator::signalTradeEncountered, graph, &TradingEvaluatorGraph::plotNew);
+    connect(m_evaluator, &TradingEvaluator::currentEval, graph, &TradingEvaluatorGraph::plotNew);
 
     m_overlay = new Overlay(this);
     m_overlay->setVisible(false);
+
+
+    //the reset + bonus
+        //ui stuff
+        connect(ui->actionReset, &QAction::triggered, graph, &TradingEvaluatorGraph::reset);
+        connect(ui->actionReset, &QAction::triggered, evalwidget, &TradingEvaluatorWidget::reset);
+        //have to reset strategies
+
+
+        //core stuff
+        connect(ui->actionReset, &QAction::triggered, m_evaluator, &TradingEvaluator::reset);
+        connect(ui->actionReset, &QAction::triggered, m_engine, &TradingEngine::reset);
+
+
+
+
+    //end reset
 }
 
 MainWindow::~MainWindow()
