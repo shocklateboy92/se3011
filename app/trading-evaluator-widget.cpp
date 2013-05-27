@@ -17,12 +17,13 @@ TradingEvaluatorWidget::~TradingEvaluatorWidget()
     delete ui;
 }
 
-void TradingEvaluatorWidget::printCurrentEval(QDateTime datetime, float moneySpent, float moneyGained, float stocksSold, float stocksPurchased) {
-    ui->money_gained->setText(QString::number(moneyGained));
-    ui->money_spent->setText(QString::number(moneySpent));
-    ui->stocks_bought->setText(QString::number(stocksPurchased));
-    ui->stocks_sold->setText(QString::number(stocksSold));
-    ui->stocks_remaining->setText(QString::number(stocksPurchased - stocksSold));
-    ui->profit->setText(QString::number(moneyGained - moneySpent));
+void TradingEvaluatorWidget::printCurrentEval(QList<TradingEvaluator::eval> evals) {
+
+    ui->money_gained->setText(QString::number(evals.last().moneyGained));
+    ui->money_spent->setText(QString::number(evals.last().moneySpent));
+    ui->stocks_bought->setText(QString::number(evals.last().stocksPurchased));
+    ui->stocks_sold->setText(QString::number(evals.last().stocksSold));
+    ui->stocks_remaining->setText(QString::number(evals.last().stocksPurchased - evals.last().stocksSold));
+    ui->profit->setText(QString::number(evals.last().moneyGained - evals.last().moneySpent));
 }
 

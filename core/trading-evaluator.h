@@ -18,7 +18,7 @@ public:
 
 signals:
     void signalTradeEncountered(const Trade &r);
-    void currentEval(QDateTime datetime, float moneySpent, float moneyGained, float stocksSold, float stocksPurchased);
+    void currentEval(QList<eval> evals);
 
 public slots:
     void processNewTrade(const Trade &trade);

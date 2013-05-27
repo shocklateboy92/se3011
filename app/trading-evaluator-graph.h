@@ -7,6 +7,7 @@
 #include <QMenu>
 #include <order.h>
 #include "qcustomplot.h"
+#include <trading-evaluator.h>
 
 
 namespace Ui {
@@ -22,7 +23,7 @@ public:
     ~TradingEvaluatorGraph();
 
 public slots:
-    void plotNew(QDateTime datetime, float moneySpent, float moneyGained, float stocksSold, float stocksPurchased);
+    void plotNew(QList<TradingEvaluator::eval> evals);
 
 private slots:
   void titleDoubleClick();

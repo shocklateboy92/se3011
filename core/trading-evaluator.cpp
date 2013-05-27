@@ -24,15 +24,27 @@ void TradingEvaluator::processNewTrade(const Trade &trade) {
 
         moneySpent += trade.value();
         stocksPurchased += trade.volume();
-        emit currentEval(QDateTime(trade.date(), trade.time()), moneySpent, moneyGained, stocksSold, stocksPurchased);
 
     } else if (trade.bidId() == 6666) {
         emit signalTradeEncountered(trade);
 
         moneyGained += trade.value();
         stocksSold += trade.volume();
-        emit currentEval(QDateTime(trade.date(), trade.time()), moneySpent, moneyGained, stocksSold, stocksPurchased);
 
+    }
+
+    struct eval a ={
+        QDateTime(trade.date(), trade.time()),
+        moneySpent,
+        moneyGained,
+        stocksSold,
+        stocksPurchased
+    };
+
+    evals.append(a);
+    if(evals.length() == 10) {
+        emit currentEval(evals);
+        evals.empty();
     }
 
 }
