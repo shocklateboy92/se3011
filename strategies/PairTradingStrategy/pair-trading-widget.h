@@ -15,6 +15,9 @@ public:
     explicit PairTradingWidget(QWidget *parent = 0);
     ~PairTradingWidget();
     
+private slots:
+    void onAddtradeButtonClicked();
+
 private:
     Ui::PairTradingWidget *ui;
 };

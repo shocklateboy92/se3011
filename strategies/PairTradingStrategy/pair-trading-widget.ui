@@ -18,17 +18,17 @@
     <item row="0" column="0">
      <widget class="QLabel" name="instrument1_Label">
       <property name="text">
-       <string>Instrument 1</string>
+       <string>Long Instrument</string>
       </property>
      </widget>
     </item>
     <item row="0" column="1">
-     <widget class="QLineEdit" name="instruement1_Line"/>
+     <widget class="QLineEdit" name="instrument1_Line"/>
     </item>
     <item row="1" column="0">
      <widget class="QLabel" name="instruement2_Label">
       <property name="text">
-       <string>Instrument 2</string>
+       <string>Short Instrument</string>
       </property>
      </widget>
     </item>
@@ -79,12 +79,12 @@
       </attribute>
       <column>
        <property name="text">
-        <string>Instrument 1</string>
+        <string>Long Instrument</string>
        </property>
       </column>
       <column>
        <property name="text">
-        <string>Instrument 2</string>
+        <string>Short Instrument</string>
        </property>
       </column>
      </widget>

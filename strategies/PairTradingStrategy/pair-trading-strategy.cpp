@@ -3,4 +3,8 @@
 
 PairTradingStrategy::PairTradingStrategy()
 {
+    
+    
+    
+    
 }

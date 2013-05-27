@@ -19,6 +19,8 @@ public:
 
     void processTrade(const Trade &trade);
 
+    class PairData;
+
  signals:
     void newRecordCreate(Record::Ptr r);
 
@@ -29,7 +31,7 @@ private slots:
     void removePair(const QString &instrument);
 
 private:
-    class PairData;
+
     QList<PairData> m_pairs;
 
 
@@ -37,11 +39,16 @@ private:
 
 class PairTradingStrategy::PairData {
 public:
+
         double historicalSpread;
-        double previousPrice1;
-        double previousPrice2;
+         double previousPriceH;
+        double previousPriceL;
+        bool isRising;
+        bool isFalling;
         bool bought;
         bool sold;
+        QByteArray longInstrument;
+        QByteArray shortInstrument;
 
 
 
