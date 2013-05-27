@@ -15,12 +15,3 @@ SOURCES += group8strategy.cpp
 
 HEADERS += group8strategy.h\
         group8-strategy_global.h
-
-unix:!symbian {
-    maemo5 {
-        target.path = /opt/usr/lib
-    } else {
-        target.path = /usr/lib
-    }
-    INSTALLS += target
-}
