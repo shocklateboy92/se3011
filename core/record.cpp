@@ -258,7 +258,7 @@ void Record::setValue(double value)
     m_value = value;
 }
 
-long Record::transactionId() const
+qlonglong Record::transactionId() const
 {
     return m_transId;
 }
@@ -268,7 +268,7 @@ void Record::setTransId(long value)
     m_transId = value;
 }
 
-long Record::bidId() const
+qlonglong Record::bidId() const
 {
     return m_bidId;
 }
@@ -278,7 +278,7 @@ void Record::setBidId(long value)
     m_bidId = value;
 }
 
-long Record::askId() const
+qlonglong Record::askId() const
 {
     return m_askId;
 }
@@ -298,7 +298,7 @@ void Record::setBidOrAsk(const BidAsk &value)
     m_bidOrAsk = value;
 }
 
-long Record::buyerId() const
+qlonglong Record::buyerId() const
 {
     return m_buyerId;
 }
@@ -308,7 +308,7 @@ void Record::setBuyerId(long id)
     m_buyerId = id;
 }
 
-long Record::sellerId() const
+qlonglong Record::sellerId() const
 {
     return m_sellerId;
 }

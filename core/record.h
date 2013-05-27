@@ -70,12 +70,12 @@ public:
     double  volume() const;
     double  price() const;
     double  value() const;
-    long    transactionId() const;
-    long    bidId() const;
-    long    askId() const;
+    qlonglong    transactionId() const;
+    qlonglong    bidId() const;
+    qlonglong    askId() const;
     BidAsk  bidOrAsk() const;
-    long    buyerId() const;
-    long    sellerId() const;
+    qlonglong    buyerId() const;
+    qlonglong    sellerId() const;
 
     void setInstrument(const QByteArray &value);
     void setDate(const QDate &value);
