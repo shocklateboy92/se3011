@@ -99,61 +99,6 @@ bool Record::hasField(Field field) {
     return m_fields[field];
 }
 
-QTextStream& operator >>(QTextStream &in, Record &r) {
-    QStringList line = in.readLine().split(',');
-
-    if (line.first().startsWith('#')) {
-        r.m_valid = false;
-        qDebug() << "invalid record line:" << line;
-        return in;
-    }
-
-    QStringListIterator it(line);
-
-    bool ok = false;
-
-    r.setInstrument(it.next().toLocal8Bit());
-    QString dateStr = it.next();
-    r.setDate(QDate(dateStr.left(4).toInt(), dateStr.mid(4, 2).toInt(), dateStr.right(2).toInt()));
-    QString timeStr = it.next();
-    auto hhmmstr = timeStr.split(':');
-    auto ssmsstr = hhmmstr.last().split('.');
-    r.setTime(QTime(hhmmstr[0].toInt(), hhmmstr[1].toInt(), ssmsstr[0].toInt(), ssmsstr[1].toInt()));
-
-    if (!type_strings.count(line[3].toLocal8Bit())) {
-        r.m_valid = false;
-        return in;
-    }
-    r.setType(type_strings.at(it.next().toLocal8Bit()));
-    r.setPrice(it.next().toDouble(&ok));
-    if (!ok) {
-        r.setPrice(0);
-        //qWarning() << "failed to parse: " << line;
-    }
-
-    r.setVolume(it.next().toDouble());
-    it.next(); // don't care about undisclosedVolume
-    r.setValue(it.next().toDouble());
-    it.next(); // don't care about qualifiers
-
-    r.setTransId(it.next().toLong());
-    r.setBidId(it.next().toLong());
-    r.setAskId(it.next().toLong());
-    QString bidOrAskStr = it.next();
-    if (bidOrAskStr == "A") {
-        r.setBidOrAsk(Record::BidAsk::Ask);
-    } else if (bidOrAskStr == "B") {
-        r.setBidOrAsk(Record::BidAsk::Bid);
-    } else {
-        r.setBidOrAsk(Record::BidAsk::Neither);
-    }
-
-    //FIXME - sooo not true!
-    r.m_valid = true;
-
-    return in;
-}
-
 Record::Ptr Record::fromCSV(QByteArray csvLine) {
     Ptr ret = Ptr::create();
 

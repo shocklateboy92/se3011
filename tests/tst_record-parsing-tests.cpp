@@ -45,13 +45,13 @@ private Q_SLOTS:
         }
     }
 
-    void parseBenchOld() {
-        QBENCHMARK {
-            Record r;
-            QTextStream ts(line);
-            ts >> r;
-        }
-    }
+//    void parseBenchOld() {
+//        QBENCHMARK {
+//            Record r;
+//            QTextStream ts(line);
+//            ts >> r;
+//        }
+//    }
 
     void parseBenchNew() {
         QBENCHMARK {
@@ -67,33 +67,31 @@ RecordParsingTests::RecordParsingTests()
 
 //#Instrument,Date,Time,Record Type,Price,Volume,Undisclosed Volume,Value,Qualifiers,Trans ID,Bid ID,Ask ID,Bid/Ask,Entry Time,Old Price,Old Volume,Buyer Broker ID,Seller Broker ID
 void RecordParsingTests::simpleParseTest() {
-    QTextStream ts(QByteArray("BHP,20130501,00:00:00.000,ENTER,32.600,160,0,5216,,0,6263684926150135747,,B,,,,406,"));
-    Record r;
-    ts >> r;
-    QCOMPARE(r.instrument(), QByteArray("BHP"));
-    QCOMPARE(r.date(), QDate(2013, 5, 1));
-    QCOMPARE(r.time(), QTime(0, 0, 0, 0));
-    QCOMPARE(r.type(), Record::Type::ENTER);
-    QCOMPARE(r.price(), 32.6);
-    QCOMPARE(r.volume(), 160.0);
-    QCOMPARE(r.value(), 5216.0);
-    QCOMPARE(r.bidId(), 6263684926150135747);
-    QCOMPARE(r.bidOrAsk(), Record::BidAsk::Bid);
+    Record::Ptr r = Record::fromCSV(QByteArray("BHP,20130501,00:00:00.000,ENTER,32.600,160,0,5216,,0,6263684926150135747,,B,,,,406,"));
+
+    QCOMPARE(r->instrument(), QByteArray("BHP"));
+    QCOMPARE(r->date(), QDate(2013, 5, 1));
+    QCOMPARE(r->time(), QTime(0, 0, 0, 0));
+    QCOMPARE(r->type(), Record::Type::ENTER);
+    QCOMPARE(r->price(), 32.6);
+    QCOMPARE(r->volume(), 160.0);
+    QCOMPARE(r->value(), 5216.0);
+    QCOMPARE(r->bidId(), 6263684926150135747);
+    QCOMPARE(r->bidOrAsk(), Record::BidAsk::Bid);
 }
 
 void RecordParsingTests::simpleParseTest2() {
-    QTextStream ts(QByteArray("AZJ,20130501,00:00:00.000,ENTER,3.600,160,0,576,,0,6263684926150135747,,A,,,,406,"));
-    Record r;
-    ts >> r;
-    QCOMPARE(r.instrument(), QByteArray("AZJ"));
-    QCOMPARE(r.date(), QDate(2013, 5, 1));
-    QCOMPARE(r.time(), QTime(0, 0, 0, 0));
-    QCOMPARE(r.type(), Record::Type::ENTER);
-    QCOMPARE(r.price(), 3.6);
-    QCOMPARE(r.volume(), 160.0);
-    QCOMPARE(r.value(), 576.0);
-    QCOMPARE(r.bidId(), 6263684926150135747);
-    QCOMPARE(r.bidOrAsk(), Record::BidAsk::Ask);
+    Record::Ptr r = Record::fromCSV(QByteArray("AZJ,20130501,00:00:00.000,ENTER,3.600,160,0,576,,0,6263684926150135747,,A,,,,406,"));
+
+    QCOMPARE(r->instrument(), QByteArray("AZJ"));
+    QCOMPARE(r->date(), QDate(2013, 5, 1));
+    QCOMPARE(r->time(), QTime(0, 0, 0, 0));
+    QCOMPARE(r->type(), Record::Type::ENTER);
+    QCOMPARE(r->price(), 3.6);
+    QCOMPARE(r->volume(), 160.0);
+    QCOMPARE(r->value(), 576.0);
+    QCOMPARE(r->bidId(), 6263684926150135747);
+    QCOMPARE(r->bidOrAsk(), Record::BidAsk::Ask);
 }
 
 void RecordParsingTests::parseBid()

@@ -165,5 +165,6 @@ void MainWindow::dragEnterEvent(QDragEnterEvent *e)
 }
 
 void MainWindow::dragLeaveEvent(QDragLeaveEvent *e) {
+    Q_UNUSED(e);
     m_overlay->setVisible(false);
 }

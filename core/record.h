@@ -61,9 +61,6 @@ public:
     static Ptr fromCSV(QByteArray csvLine);
     bool isValid() const;
 
-    friend QDataStream& GROUP8_CORE operator >>(QDataStream &in, Record &r);
-    friend QTextStream& GROUP8_CORE operator >>(QTextStream &in, Record &r);
-    friend QDataStream& GROUP8_CORE operator <<(QDataStream &os, const Record &r);
     friend QDebug GROUP8_CORE operator <<(QDebug os, const Record &r);
 
     QByteArray instrument() const;
