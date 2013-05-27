@@ -31,7 +31,8 @@ public slots:
     void createTrade(Ask ask, Bid bid);
     void createTrade(const Trade &existing);
 
-//    void performMatching();
+    void reset();
+
 
 private:
     QMap<QByteArray, QLinkedList<Ask>> m_askQueues;

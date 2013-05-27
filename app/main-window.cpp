@@ -48,9 +48,15 @@ MainWindow::MainWindow(QWidget *parent) :
                   new TradingFilesWidget(m_inputModel, this));
 
     m_signal_generator->loadPlugins();
+    QDockWidget *a = NULL;
     for (QDockWidget *widget : m_signal_generator->configWidgets()) {
         qDebug() << widget;
         addDockWidget(Qt::RightDockWidgetArea, widget, Qt::Vertical);
+
+        if(a!=NULL) {
+            tabifyDockWidget(a,widget);
+            a = widget;
+        }
     }
 
     auto mytrades = new RecordsModel(this);
@@ -92,8 +98,18 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     //the reset + bonus
+        //ui stuff
         connect(ui->actionReset, &QAction::triggered, graph, &TradingEvaluatorGraph::reset);
         connect(ui->actionReset, &QAction::triggered, evalwidget, &TradingEvaluatorWidget::reset);
+        //have to reset strategies
+
+
+        //core stuff
+        connect(ui->actionReset, &QAction::triggered, m_evaluator, &TradingEvaluator::reset);
+        connect(ui->actionReset, &QAction::triggered, m_engine, &TradingEngine::reset);
+
+
+
 
     //end reset
 }

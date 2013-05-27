@@ -2,9 +2,10 @@
 #define TRADINGEVALUATORWIDGET_H
 
 #include <QDockWidget>
-#include <QAbstractTableModel>
+#include <records-model.h>
 #include <QDateTime>
 #include <trading-evaluator.h>
+
 
 namespace Ui {
 class TradingEvaluatorWidget;
@@ -15,7 +16,7 @@ class TradingEvaluatorWidget : public QDockWidget
     Q_OBJECT
 
 public:
-    explicit TradingEvaluatorWidget(QAbstractTableModel *my, QAbstractTableModel *all,QWidget *parent = 0);
+    explicit TradingEvaluatorWidget(RecordsModel *my, RecordsModel *all,QWidget *parent = 0);
     ~TradingEvaluatorWidget();
 
 public slots:
@@ -23,8 +24,8 @@ public slots:
     void reset();
 
 private:
-    QAbstractTableModel *all_model;
-    QAbstractTableModel *my_model;
+    RecordsModel *all_model;
+    RecordsModel *my_model;
     Ui::TradingEvaluatorWidget *ui;
 };
 
