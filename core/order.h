@@ -3,7 +3,7 @@
 
 #include "record.h"
 
-class Order {
+class GROUP8_CORE Order {
 public:
     Order(QSharedPointer<Record> record);
 
@@ -26,7 +26,7 @@ private:
     QSharedPointer<Record> m_record;
 };
 
-class Ask : virtual public Order {
+class GROUP8_CORE Ask : virtual public Order {
 public:
     Ask(QSharedPointer<Record> record);
     long id() const;
@@ -40,7 +40,7 @@ public:
     Ask createPartial(double newVolume);
 };
 
-class Bid : virtual public Order {
+class GROUP8_CORE Bid : virtual public Order {
 public:
     Bid(QSharedPointer<Record> record);
     long id() const;
@@ -54,7 +54,7 @@ public:
     Bid createPartial(double newVolume);
 };
 
-class Trade : public Record
+class GROUP8_CORE Trade : public Record
 {
     Trade(const Record &other) {
         *dynamic_cast<Record*>(this) = other;
