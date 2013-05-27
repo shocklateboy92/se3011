@@ -6,7 +6,7 @@
 QDockWidget *Group8Strategy::configWidget()
 {
 
-    auto widget = new TradingSignalGroup8();
+    auto widget = new TradingSignalGroup08();
     connect(widget, &TradingSignalGroup08::newMagic, this,
             &Group8Strategy::processMagic);
     connect(widget, &TradingSignalGroup08::deleteMagic, this,
@@ -65,7 +65,7 @@ void Group8Strategy::processTrade(const Trade &t)
                         r->setVolume(data.previousVolume);
                         r->setPrice(t.price());
                         r->setValue(r->price() * r->volume());
-                        emit nextRecord(r);
+                        emit newRecordCreated(r);
                         qDebug() << "created a bid";
 
                         //this is bad
@@ -82,7 +82,7 @@ void Group8Strategy::processTrade(const Trade &t)
                         r->setVolume(data.totalBought-data.totalSold);
                         r->setPrice(t.price());
                         r->setValue(r->price() * r->volume());
-                        emit nextRecord(r);
+                        emit newRecordCreated(r);
 
                         qDebug() << "created a ask";
 
@@ -110,7 +110,7 @@ void Group8Strategy::processTrade(const Trade &t)
              r->setVolume(data.totalBought-data.totalSold);
              r->setPrice(t.price());
              r->setValue(r->price() * r->volume());
-             emit nextRecord(r);
+             emit newRecordCreated(r);
 
              //this is bad.
              data.totalSold += data.totalBought-data.totalSold;
