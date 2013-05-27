@@ -48,6 +48,11 @@ QVariant RecordsModel::headerData(int section, Qt::Orientation orientation, int 
     return data;
 }
 
+const QList<Record> &RecordsModel::records() const
+{
+    return m_data;
+}
+
 QVariant RecordsModel::data(const QModelIndex &index, int role) const
 {
     Q_UNUSED(index);
