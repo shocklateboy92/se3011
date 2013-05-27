@@ -58,9 +58,6 @@ MainWindow::MainWindow(QWidget *parent) :
     auto results = new RecordsModel(this);
     auto resultsWidget = new TradingSignalResultsWidget(results, this);
     addDockWidget(Qt::RightDockWidgetArea, resultsWidget);
-    auto magic = new TradingSignalGroup08(this);
-    addDockWidget(Qt::RightDockWidgetArea, magic);
-
 
     auto mytrades = new RecordsModel(this);
     auto alltrades = new RecordsModel(this);
@@ -90,9 +87,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(m_signal_generator, &TradingSignalGenerator::newRecordGenerated,
             results, &RecordsModel::addRecord);
-
-    connect(magic, &TradingSignalGroup08::newMagic, m_signal_generator, &TradingSignalGenerator::processMagic);
-    connect(magic, &TradingSignalGroup08::deleteMagic, m_signal_generator, &TradingSignalGenerator::removeMagic);
 
     connect(m_engine, &TradingEngine::newTradeCreated,m_signal_generator, &TradingSignalGenerator::processTrade);
 

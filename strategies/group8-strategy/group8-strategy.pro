@@ -4,6 +4,8 @@
 #
 #-------------------------------------------------
 
+include (../strategy.pri)
+
 QT       += widgets
 
 TARGET = group8-strategy
@@ -11,7 +13,11 @@ TEMPLATE = lib
 
 DEFINES += GROUP8STRATEGY_LIBRARY
 
-SOURCES += group8strategy.cpp
+SOURCES += group8-strategy.cpp \
+        trading-signal-group-08.cpp
 
-HEADERS += group8strategy.h\
-        group8-strategy_global.h
+HEADERS += group8-strategy.h \
+        group8-strategy_global.h \
+        trading-signal-group-08.h
+
+FORMS += trading-signal-group-08.ui
