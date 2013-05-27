@@ -17,6 +17,7 @@ TradingEvaluatorGraph::TradingEvaluatorGraph(QWidget *parent) :
 
 
     customPlot->graph(0)->setData(times, costs);
+    customPlot->graph(0)->setName("Price");
     // give the axes some labels:
     customPlot->xAxis->setLabel("Date Time");
     customPlot->yAxis->setLabel("Price");
@@ -37,6 +38,8 @@ TradingEvaluatorGraph::TradingEvaluatorGraph(QWidget *parent) :
     customPlot->yAxis2->setTickLabels(false);
 
     customPlot->setTitle("Statistics");
+    customPlot->legend->setVisible(true);
+
 
 
     //interactions
@@ -223,7 +226,6 @@ void TradingEvaluatorGraph::contextMenuRequest(QPoint pos)
     menu->addAction("Move to bottom left", this, SLOT(moveLegend()))->setData((int)QCPLegend::psBottomLeft);
   } else  // general context menu on graphs requested
   {
-    menu->addAction("Add random graph", this, SLOT(addRandomGraph()));
     if (ui->dockWidgetContents->selectedGraphs().size() > 0)
       menu->addAction("Remove selected graph", this, SLOT(removeSelectedGraph()));
     if (ui->dockWidgetContents->graphCount() > 0)
