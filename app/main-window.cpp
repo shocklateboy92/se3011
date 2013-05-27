@@ -58,7 +58,8 @@ MainWindow::MainWindow(QWidget *parent) :
         }
     }
 
-    list.first()->raise();
+    if(!list.empty())
+        list.first()->raise();
 
 
     auto mytrades = new RecordsModel(this);
