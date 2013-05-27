@@ -118,6 +118,7 @@ void TradingEvaluatorGraph::plotNew(QList<TradingEvaluator::eval> evals)
             customPlot->graph(0)->addData(time, (moneyGained-moneySpent));
             //qDebug() << "MoneySpent:" << moneySpent;
             lastSpent = moneySpent;
+            lastTime = time;
         }
 
         if(moneyGained > lastGained && time > lastTime) {
@@ -125,6 +126,7 @@ void TradingEvaluatorGraph::plotNew(QList<TradingEvaluator::eval> evals)
             customPlot->graph(0)->addData(time, (moneyGained-moneySpent));
             //qDebug() << "moneyGained:" << moneyGained;
             lastGained = moneyGained;
+            lastTime = time;
         }
 
 
@@ -140,9 +142,6 @@ void TradingEvaluatorGraph::plotNew(QList<TradingEvaluator::eval> evals)
     customPlot->replot();
 
 }
-
-
-
 
 void TradingEvaluatorGraph::titleDoubleClick()
 {
