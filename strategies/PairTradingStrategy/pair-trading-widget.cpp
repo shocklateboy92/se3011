@@ -1,12 +1,17 @@
 #include "pair-trading-widget.h"
 #include "ui_pair-trading-widget.h"
 #include "pair-trading-strategy.h"
+#include <QAbstractButton>
 
 PairTradingWidget::PairTradingWidget(QWidget *parent) :
     QDockWidget(parent),
     ui(new Ui::PairTradingWidget)
 {
     ui->setupUi(this);
+    connect(ui->AddTrade_Button, &QAbstractButton::click,
+            this, &PairTradingWidget::onAddtradeButtonClicked);
+    connect(ui->RemoveTrade_Button, &QAbstractButton::click,
+            this, &PairTradingWidget::onRemovetradeButtonClicked);
 }
 
 PairTradingWidget::~PairTradingWidget()
@@ -29,5 +34,12 @@ void PairTradingWidget::onAddtradeButtonClicked()
     pair.bought = false;
     pair.sold = false;
 
+    emit newPair(pair);
 
+    ui->tableWidget->
+
+}
+
+void PairTradingWidget::onRemovetradeButtonClicked()
+{
 }

@@ -22,6 +22,7 @@ signals:
 
 private slots:
     void onAddtradeButtonClicked();
+    void onRemovetradeButtonClicked();
 
 private:
     Ui::PairTradingWidget *ui;

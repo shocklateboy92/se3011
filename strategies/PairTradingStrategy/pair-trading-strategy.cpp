@@ -28,10 +28,12 @@ PairTradingStrategy::PairTradingStrategy(QObject *parent)
 
 void PairTradingStrategy::processPair(const PairTradingStrategy::PairData pd)
 {
+    //m_pairs.append(pd);
 }
 
 void PairTradingStrategy::removePair(const PairTradingStrategy::PairData pd)
 {
+    //m_pairs.removeOne(pd);
 }
 
 
