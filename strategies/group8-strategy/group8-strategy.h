@@ -19,6 +19,8 @@ public:
 
     void processTrade(const Trade &trade);
 
+    void reset();
+
 signals:
     void newRecordCreated(Record::Ptr r);
 

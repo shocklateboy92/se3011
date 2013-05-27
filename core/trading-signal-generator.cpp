@@ -92,6 +92,13 @@ QDockWidget* TradingSignalGenerator::addNewPlugin(QString fileName)
     return nullptr;
 }
 
+void TradingSignalGenerator::reset()
+{
+    for (TradingStrategy *s : m_strategies) {
+        s->reset();
+    }
+}
+
 void TradingSignalGenerator::processTrade(const Trade &t) {
 
     for (TradingStrategy *strategy : m_strategies) {

@@ -31,6 +31,8 @@ public slots:
     void loadPlugins();
     QDockWidget *addNewPlugin(QString fileName);
 
+    void reset();
+
 private:
 
     QList<TradingStrategy*> m_strategies;

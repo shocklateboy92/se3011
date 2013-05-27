@@ -31,3 +31,9 @@ void ManualStrategy::processTrade(const Trade &trade)
         m_complete = true;
     }
 }
+
+
+void ManualStrategy::reset()
+{
+    m_complete = false;
+}

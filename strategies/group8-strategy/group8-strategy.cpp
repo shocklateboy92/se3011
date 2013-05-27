@@ -118,6 +118,13 @@ void Group8Strategy::processTrade(const Trade &t)
     }
 }
 
+void Group8Strategy::reset()
+{
+    for (const QString &ins : m_magic.keys()) {
+        m_magic[ins] = MagicData();
+    }
+}
+
 Group8Strategy::Group8Strategy(QObject *parent) :
     QObject(parent)
 {
