@@ -157,6 +157,7 @@ void MainWindow::dragEnterEvent(QDragEnterEvent *e)
             if (url.isLocalFile() &&
                     url.path().endsWith(QStringLiteral("g8strat"))) {
                 e->acceptProposedAction();
+                m_overlay->raise();
                 m_overlay->setVisible(true);
                 break;
             }
