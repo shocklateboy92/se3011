@@ -113,7 +113,7 @@ void TradingEvaluatorGraph::plotNew(QList<TradingEvaluator::eval> evals)
         double moneySpent = eval.moneySpent;
         double moneyGained = eval.moneyGained;
 
-        if((moneySpent > lastSpent || moneyGained > lastGained) && time > lastTime) {
+        if((moneySpent > lastSpent || moneyGained > lastGained) && time > (lastTime + 300)) { //has to be 5 min diff
             customPlot->graph(2)->addData(time, moneyGained);
             customPlot->graph(1)->addData(time, moneySpent);
             customPlot->graph(0)->addData(time, (moneyGained-moneySpent));
