@@ -1,4 +1,5 @@
 TEMPLATE = subdirs
 
 SUBDIRS += momentum \
-    group8-strategy
+    group8-strategy \
+    PairTradingStrategy
