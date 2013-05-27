@@ -20,6 +20,7 @@ public:
 
 public slots:
     void printCurrentEval(TradingEvaluator::eval e);
+    void reset();
 
 private:
     QAbstractTableModel *all_model;

@@ -134,6 +134,23 @@ void TradingEvaluatorGraph::plotNew(QList<TradingEvaluator::eval> evals)
 
 }
 
+void TradingEvaluatorGraph::reset()
+{
+    auto customPlot = ui->dockWidgetContents;
+
+    customPlot->graph(2)->clearData();
+    customPlot->graph(1)->clearData();
+    customPlot->graph(0)->clearData();
+
+    lastGained = 0;
+    lastSpent = 0;
+    lastTime = 0;
+
+
+    customPlot->rescaleAxes();
+    customPlot->replot();
+}
+
 void TradingEvaluatorGraph::titleDoubleClick()
 {
   // Set the plot title by double clicking on it

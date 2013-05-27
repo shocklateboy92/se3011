@@ -24,6 +24,7 @@ public:
 
 public slots:
     void plotNew(QList<TradingEvaluator::eval> evals);
+    void reset();
 
 private slots:
   void titleDoubleClick();

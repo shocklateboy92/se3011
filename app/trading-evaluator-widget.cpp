@@ -26,3 +26,14 @@ void TradingEvaluatorWidget::printCurrentEval(TradingEvaluator::eval e) {
     ui->profit->setText(QString::number(e.moneyGained - e.moneySpent));
 }
 
+void TradingEvaluatorWidget::reset()
+{
+    my_model->removeRows(0, my_model->rowCount());
+
+    ui->money_gained->clear();
+    ui->money_spent->clear();
+    ui->stocks_bought->clear();
+    ui->stocks_sold->clear();
+    ui->stocks_remaining->clear();
+    ui->profit->clear();
+}
