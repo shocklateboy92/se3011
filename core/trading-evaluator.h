@@ -20,6 +20,7 @@ public:
 signals:
     void signalTradeEncountered(const Trade &r);
     void currentEval(QList<eval> evals);
+    void latestEval(eval e);
 
 public slots:
     void processNewTrade(const Trade &trade);

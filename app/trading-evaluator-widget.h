@@ -19,7 +19,7 @@ public:
     ~TradingEvaluatorWidget();
 
 public slots:
-    void printCurrentEval(QList<TradingEvaluator::eval> evals);
+    void printCurrentEval(TradingEvaluator::eval e);
 
 private:
     QAbstractTableModel *all_model;

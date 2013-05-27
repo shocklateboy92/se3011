@@ -45,11 +45,13 @@ void TradingEvaluator::processNewTrade(const Trade &trade) {
     evals.append(a);
     //qDebug() << "eval: " << evals.size();
 
-    if(evals.size() == 50) {
+    if(evals.size() == 200) {
         emit currentEval(evals);
+        emit latestEval(a);
         evals.clear();
     }
 
 }
 
 int der = qRegisterMetaType<QList<TradingEvaluator::eval>>("QList<eval>");
+int deri = qRegisterMetaType<TradingEvaluator::eval>("eval");
