@@ -1,8 +1,8 @@
 #include "manual-strategy.h"
 #include "trading-signal-results-widget.h"
 
-#include <QLayout>
 #include "trading-signal-widget.h"
+#include <QDebug>
 
 ManualStrategy::ManualStrategy(QObject *parent)
     : QObject(parent),
@@ -13,7 +13,8 @@ ManualStrategy::ManualStrategy(QObject *parent)
 
 QDockWidget *ManualStrategy::configWidget()
 {
-    return new TradingSignalResultsWidget(m_model);
+    auto widget = new TradingSignalResultsWidget(m_model);
+    return widget;
 }
 
 void ManualStrategy::processTrade(const Trade &trade)
@@ -21,8 +22,11 @@ void ManualStrategy::processTrade(const Trade &trade)
     Q_UNUSED(trade);
 
     if (!m_complete) {
-        for (Record r : m_model->records()) {
-            emit newRecordCreated(Record::Ptr(&r));
+        for (const Record &r : m_model->records()) {
+            qDebug() << "emiting manual trade:" << r;
+            Record::Ptr rec = Record::Ptr::create();
+            *rec = r;
+            emit newRecordCreated(rec);
         }
         m_complete = true;
     }
