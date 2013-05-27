@@ -22,18 +22,18 @@ TradingEvaluatorGraph::TradingEvaluatorGraph(QWidget *parent) :
     customPlot->graph(0)->setData(times, profit);
     customPlot->graph(0)->setName("Profit");
     customPlot->graph(0)->setPen(QPen(QColor(255,0,0,255)));
-    //customPlot->graph(0)->setBrush(QBrush(QColor(255,0,0,120)));
+    customPlot->graph(0)->setBrush(QBrush(QColor(255,0,0,120)));
 
     customPlot->graph(1)->setData(times, moneySpent);
     customPlot->graph(1)->setName("Money Spent");
     customPlot->graph(1)->setPen(QPen(QColor(0,255,0,255)));
-    //customPlot->graph(1)->setBrush(QBrush(QColor(0,255,0,120)));
+    customPlot->graph(1)->setBrush(QBrush(QColor(0,255,0,120)));
 
 
     customPlot->graph(2)->setData(times, moneyGained);
     customPlot->graph(2)->setName("Money Gained");
     customPlot->graph(2)->setPen(QPen(QColor(0,0,255,255)));
-    //customPlot->graph(2)->setBrush(QBrush(QColor(0,0,255,120)));
+    customPlot->graph(2)->setBrush(QBrush(QColor(0,0,255,120)));
 
 
 
@@ -104,6 +104,8 @@ TradingEvaluatorGraph::TradingEvaluatorGraph(QWidget *parent) :
 
 void TradingEvaluatorGraph::plotNew(QList<TradingEvaluator::eval> evals)
 {
+
+    //qDebug() << "evalslot: " << evals.size();
     auto customPlot = ui->dockWidgetContents;
 
     for(TradingEvaluator::eval eval : evals) {
