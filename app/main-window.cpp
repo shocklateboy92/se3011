@@ -53,7 +53,9 @@ MainWindow::MainWindow(QWidget *parent) :
     for (QDockWidget *widget : list) {
         qDebug() << widget;
         addDockWidget(Qt::RightDockWidgetArea, widget);
+        if(list.first()!=widget) {
          tabifyDockWidget(list.first(),widget);
+        }
     }
 
     auto mytrades = new RecordsModel(this);
