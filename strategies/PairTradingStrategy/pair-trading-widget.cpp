@@ -14,6 +14,7 @@ PairTradingWidget::~PairTradingWidget()
     delete ui;
 }
 
+
 void PairTradingWidget::onAddtradeButtonClicked()
 {
     PairTradingStrategy::PairData pair;

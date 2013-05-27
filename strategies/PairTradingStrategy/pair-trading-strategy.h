@@ -9,7 +9,7 @@ class PAIRTRADINGSTRATEGYSHARED_EXPORT PairTradingStrategy
         : public QObject, TradingStrategy
 {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID PAIR_TRADE_STRATEGY_TYPE_ID)
+    Q_PLUGIN_METADATA(IID G8_STRATEGY_TYPE_ID)
     Q_INTERFACES(TradingStrategy)
 
 public:
@@ -21,14 +21,14 @@ public:
 
     class PairData;
 
+    void reset();
+
  signals:
     void newRecordCreate(Record::Ptr r);
 
 private slots:
-    void processPair(const QString &instrument,
-                         const QString &volume,
-                         const QString &change);
-    void removePair(const QString &instrument);
+    void processPair(const PairData pd);
+    void removePair(const PairData pd);
 
 private:
 

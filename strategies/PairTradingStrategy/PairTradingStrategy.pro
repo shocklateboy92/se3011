@@ -4,10 +4,13 @@
 #
 #-------------------------------------------------
 
+include(../strategy.pri)
+
 QT       += widgets
 
 TARGET = PairTradingStrategy
 TEMPLATE = lib
+CONFIG += plugin
 
 DEFINES += PAIRTRADINGSTRATEGY_LIBRARY
 
@@ -18,20 +21,12 @@ HEADERS += pair-trading-strategy.h\
         pairtradingstrategy_global.h \
     pair-trading-widget.h
 
-unix:!symbian {
-    maemo5 {
-        target.path = /opt/usr/lib
-    } else {
-        target.path = /usr/lib
-    }
-    INSTALLS += target
-}
-
 FORMS += \
     pair-trading-widget.ui
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../../core/release/ -lcore
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../../core/debug/ -lcore
+else:mac: LIBS += -F$$OUT_PWD/../../core/ -framework core
 else:unix: LIBS += -L$$OUT_PWD/../../core/ -lcore
 
 INCLUDEPATH += $$PWD/../../core
