@@ -28,8 +28,8 @@ void TradingEvaluatorWidget::printCurrentEval(TradingEvaluator::eval e) {
 
 void TradingEvaluatorWidget::reset()
 {
-    my_model->removeRows(0, my_model->rowCount());
-    all_model->removeRows(0, all_model->rowCount());
+    my_model->removeRows(0, my_model->rowCount(QModelIndex()), QModelIndex());
+    all_model->removeRows(0, all_model->rowCount(QModelIndex()), QModelIndex());
 
     ui->money_gained->clear();
     ui->money_spent->clear();
