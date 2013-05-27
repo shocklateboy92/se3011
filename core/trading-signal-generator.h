@@ -32,6 +32,7 @@ public slots:
     void removeMagic(const QString &instrument);
 
     void loadPlugins();
+    QDockWidget *addNewPlugin(QString fileName);
 
 private:
     class MagicData;

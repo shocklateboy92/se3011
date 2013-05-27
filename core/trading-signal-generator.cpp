@@ -70,27 +70,32 @@ void TradingSignalGenerator::loadPlugins()
     qDebug() << pluginsDir;
 
     foreach (QString fileName, pluginsDir.entryList(QDir::Files)) {
-//        qDebug() << "trying to load " << fileName;
-        QPluginLoader loader(pluginsDir.absoluteFilePath(fileName));
-        QObject *plugin = loader.instance();
-        if (plugin) {
-            TradingStrategy *strategy = qobject_cast<TradingStrategy*>(plugin);
-            if (strategy) {
-                m_strategies.append(strategy);
-
-                connect (plugin, SIGNAL(newRecordCreated(Record::Ptr)),
-                         this, SIGNAL(nextRecord(Record::Ptr)));
-            }
-        } else {
-//            qWarning() << "Failed to load" << fileName << ":"
-//                       << loader.errorString();
-        }
+        addNewPlugin(pluginsDir.absoluteFilePath(fileName));
     }
 
     qDebug() << m_strategies;
 }
 
+QDockWidget* TradingSignalGenerator::addNewPlugin(QString fileName)
+{
+//        qDebug() << "trying to load " << fileName;
+    QPluginLoader loader(fileName);
+    QObject *plugin = loader.instance();
+    if (plugin) {
+        TradingStrategy *strategy = qobject_cast<TradingStrategy*>(plugin);
+        if (strategy) {
+            m_strategies.append(strategy);
 
+            connect (plugin, SIGNAL(newRecordCreated(Record::Ptr)),
+                     this, SIGNAL(nextRecord(Record::Ptr)));
+            return strategy->configWidget();
+        }
+    } else {
+//            qWarning() << "Failed to load" << fileName << ":"
+//                       << loader.errorString();
+    }
+    return nullptr;
+}
 
 void TradingSignalGenerator::processTrade(const Trade &t) {
 

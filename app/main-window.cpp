@@ -139,11 +139,17 @@ void MainWindow::dropEvent(QDropEvent *e) {
     for (const QUrl &url : e->mimeData()->urls()) {
         if (url.isLocalFile() &&
                 url.path().endsWith(QStringLiteral("g8strat"))) {
-            QFileInfo f(url.toLocalFile());
-            if (!QFile::copy(url.toLocalFile(),
-                             QCoreApplication::applicationFilePath() +
-                             QDir::separator() + f.fileName())) {
-                qWarning() << "unable to install plugin" << url;
+            QString fname = url.toLocalFile();
+            QFileInfo f(fname);
+            QString dest = QCoreApplication::applicationDirPath() +
+                    QDir::separator() + "strategies" +
+                    QDir::separator() + f.fileName();
+            if (!QFile::copy(fname, dest)) {
+                qWarning() << "unable to install plugin" << url << "to" << dest;
+            }
+            QDockWidget* w = m_signal_generator->addNewPlugin(fname);
+            if (w) {
+                addDockWidget(Qt::RightDockWidgetArea, w);
             }
         }
     }
