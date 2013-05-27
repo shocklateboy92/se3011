@@ -10,6 +10,7 @@ QT       += widgets
 
 TARGET = manual
 TEMPLATE = lib
+CONFIG += plugin
 
 DEFINES += MANUAL_LIBRARY
 

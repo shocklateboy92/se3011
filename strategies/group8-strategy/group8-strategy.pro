@@ -10,6 +10,7 @@ QT       += widgets
 
 TARGET = group8-strategy
 TEMPLATE = lib
+CONFIG += plugin
 
 DEFINES += GROUP8STRATEGY_LIBRARY
 
