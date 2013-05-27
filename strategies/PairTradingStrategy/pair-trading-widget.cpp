@@ -36,7 +36,16 @@ void PairTradingWidget::onAddtradeButtonClicked()
 
     emit newPair(pair);
 
-    ui->tableWidget->
+    QTableWidgetItem* longa = new QTableWidgetItem(ui->instrument1_Line->text());
+    QTableWidgetItem* shorta = new QTableWidgetItem(ui->instrument2_Line->text());
+
+    ui->tableWidget->insertRow(ui->tableWidget->rowCount());
+    ui->tableWidget->setItem(ui->tableWidget->rowCount()-1, 0, longa);
+    ui->tableWidget->setItem(ui->tableWidget->rowCount()-1, 1, shorta);
+
+    ui->instrument1_Line->clear();
+    ui->instrument2_Line->clear();
+
 
 }
 
