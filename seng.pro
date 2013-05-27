@@ -6,4 +6,4 @@ SUBDIRS = \
     core \
     tests \
     app \
-    strategies
+    strategies \
