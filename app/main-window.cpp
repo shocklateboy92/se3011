@@ -48,9 +48,15 @@ MainWindow::MainWindow(QWidget *parent) :
                   new TradingFilesWidget(m_inputModel, this));
 
     m_signal_generator->loadPlugins();
+    QDockWidget *a = NULL;
     for (QDockWidget *widget : m_signal_generator->configWidgets()) {
         qDebug() << widget;
         addDockWidget(Qt::RightDockWidgetArea, widget, Qt::Vertical);
+
+        if(a!=NULL) {
+            tabifyDockWidget(a,widget);
+            a = widget;
+        }
     }
 
     auto mytrades = new RecordsModel(this);
