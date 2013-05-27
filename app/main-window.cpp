@@ -3,10 +3,8 @@
 #include "trading-file-reader.h"
 #include <trading-files-model.h>
 #include "trading-files-widget.h"
-#include "trading-signal-results-widget.h"
 #include "trading-evaluator-widget.h"
 #include "trading-evaluator-graph.h"
-#include "trading-signal-widget.h"
 #include "trading-signal-generator.h"
 #include "trading-signal-group-08.h"
 
@@ -55,10 +53,6 @@ MainWindow::MainWindow(QWidget *parent) :
         addDockWidget(Qt::RightDockWidgetArea, widget, Qt::Vertical);
     }
 
-    auto results = new RecordsModel(this);
-    auto resultsWidget = new TradingSignalResultsWidget(results, this);
-    addDockWidget(Qt::RightDockWidgetArea, resultsWidget);
-
     auto mytrades = new RecordsModel(this);
     auto alltrades = new RecordsModel(this);
     auto evalwidget = new TradingEvaluatorWidget(mytrades, alltrades, this);
@@ -81,12 +75,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(m_signal_generator, &TradingSignalGenerator::nextRecord,
             m_engine, &TradingEngine::processNewRecord);
-
-    connect(ui->centralwidget, &TradingSignalWidget::newRecordCreated,
-            m_signal_generator, &TradingSignalGenerator::processNewRecord);
-
-    connect(m_signal_generator, &TradingSignalGenerator::newRecordGenerated,
-            results, &RecordsModel::addRecord);
 
     connect(m_engine, &TradingEngine::newTradeCreated,m_signal_generator, &TradingSignalGenerator::processTrade);
 

@@ -5,7 +5,6 @@
 #include "trading-evaluator.h"
 #include <trading-files-model.h>
 #include "trading-signal-generator.h"
-#include "trading-signal-widget.h"
 
 #include <QMainWindow>
 #include "overlay.h"

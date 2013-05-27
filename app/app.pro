@@ -13,8 +13,6 @@ SOURCES += \
     main.cpp \
     main-window.cpp \
     trading-files-widget.cpp \
-    trading-signal-widget.cpp \
-    trading-signal-results-widget.cpp \
     trading-evaluator-widget.cpp \
     qcustomplot.cpp \
     trading-evaluator-graph.cpp \
@@ -24,8 +22,6 @@ SOURCES += \
 HEADERS += \
     main-window.h \
     trading-files-widget.h \
-    trading-signal-widget.h \
-    trading-signal-results-widget.h \
     trading-evaluator-widget.h \
     qcustomplot.h \
     trading-evaluator-graph.h \
@@ -34,8 +30,6 @@ HEADERS += \
 FORMS += \
     main-window.ui \
     trading-files-widget.ui \
-    trading-signal-results-widget.ui \
-    trading-signal-widget.ui \
     trading-evaluator-widget.ui \
     trading-evaluator-graph.ui \
     overlay.ui
