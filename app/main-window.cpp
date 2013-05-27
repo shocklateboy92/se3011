@@ -58,6 +58,9 @@ MainWindow::MainWindow(QWidget *parent) :
         }
     }
 
+    list.first()->raise();
+
+
     auto mytrades = new RecordsModel(this);
     auto alltrades = new RecordsModel(this);
     auto evalwidget = new TradingEvaluatorWidget(mytrades, alltrades, this);
@@ -67,6 +70,7 @@ MainWindow::MainWindow(QWidget *parent) :
     addDockWidget(Qt::BottomDockWidgetArea, graph);
 
     tabifyDockWidget(evalwidget, graph);
+    evalwidget->raise();
 
     connect(m_inputModel, &TradingFilesModel::newRecordEncountered,
             m_engine, &TradingEngine::processNewRecord);
