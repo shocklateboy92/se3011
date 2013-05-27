@@ -32,6 +32,7 @@ void TradingEvaluator::processNewTrade(const Trade &trade) {
         moneyGained += trade.value();
         stocksSold += trade.volume();
         emit currentEval(QDateTime(trade.date(), trade.time()), moneySpent, moneyGained, stocksSold, stocksPurchased);
+
     }
 
 }

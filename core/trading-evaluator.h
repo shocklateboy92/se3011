@@ -8,6 +8,13 @@ class GROUP8_CORE TradingEvaluator : public QObject
     Q_OBJECT
 public:
     explicit TradingEvaluator(QObject *parent = 0);
+    struct eval{
+        QDateTime datetime;
+        float moneySpent;
+        float moneyGained;
+        float stocksSold;
+        float stocksPurchased;
+    };
 
 signals:
     void signalTradeEncountered(const Trade &r);
@@ -22,6 +29,9 @@ private:
     float moneyGained;
     float stocksSold;
     float stocksPurchased;
+    QList<eval> evals;
+
+
 };
 
 #endif // TRADINGEVALUATOR_H
