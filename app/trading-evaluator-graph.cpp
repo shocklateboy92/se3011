@@ -129,10 +129,9 @@ void TradingEvaluatorGraph::plotNew(QList<TradingEvaluator::eval> evals)
 
 
 
-        if(customPlot->xAxis->range().upper >= time) {
-                    customPlot->xAxis->setRangeUpper(time + 1.0);
+        if(customPlot->xAxis->range().upper > time) {
+                    customPlot->xAxis->setRangeUpper(time);
          }
-
         if(customPlot->xAxis->range().lower < time) {
                     customPlot->xAxis->setRangeLower(time);
         }

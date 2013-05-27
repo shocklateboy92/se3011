@@ -45,7 +45,7 @@ void TradingEvaluator::processNewTrade(const Trade &trade) {
     evals.append(a);
     //qDebug() << "eval: " << evals.size();
 
-    if(evals.size() == 200) {
+    if(evals.size() == 50) {
         emit currentEval(evals);
         evals.clear();
     }
