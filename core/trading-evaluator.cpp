@@ -47,9 +47,11 @@ void TradingEvaluator::processNewTrade(const Trade &trade) {
 
     if(evals.size() == 200) {
         emit currentEval(evals);
-        emit latestEval(a);
         evals.clear();
     }
+
+    //this could be bad
+    emit latestEval(a);
 
 }
 
