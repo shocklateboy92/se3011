@@ -23,7 +23,7 @@ void TradingEvaluatorWidget::printCurrentEval(TradingEvaluator::eval e) {
     ui->stocks_bought->setText(QString::number(e.stocksPurchased));
     ui->stocks_sold->setText(QString::number(e.stocksSold));
     ui->stocks_remaining->setText(QString::number(e.stocksPurchased - e.stocksSold));
-    ui->profit->setText(QString::number(e.moneyGained - e.moneySpent));
+    ui->profit->setText(QString::number(e.moneyGained - e.moneySpent) + " = " + QString::number((e.moneyGained - e.moneySpent)*100/e.moneySpent) + "%");
 }
 
 void TradingEvaluatorWidget::reset()
