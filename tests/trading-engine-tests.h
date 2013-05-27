@@ -65,6 +65,7 @@ private slots:
 private:
     Record* create() {
         Record *a1 = new Record;
+        a1->setInstrument(instrument);
         a1->setType(Record::Type::ENTER);
         static long id = 0;
         a1->setAskId(++id);
