@@ -71,8 +71,8 @@ void TradingEngine::processNewRecord(Record::Ptr r) {
 }
 
 void TradingEngine::enterBid(Bid bid) {
-    auto m_bidQueue = m_bidQueues[bid.instrument()];
-    auto m_askQueue = m_askQueues[bid.instrument()];
+    auto &m_bidQueue = m_bidQueues[bid.instrument()];
+    auto &m_askQueue = m_askQueues[bid.instrument()];
 
     if (m_bidQueue.contains(bid)) {
         qDebug() << "skipping duplicate bid with id : " << bid.id();
@@ -123,8 +123,8 @@ void TradingEngine::enterBid(Bid bid) {
 }
 
 void TradingEngine::enterAsk(Ask ask) {
-    auto m_bidQueue = m_bidQueues[ask.instrument()];
-    auto m_askQueue = m_askQueues[ask.instrument()];
+    auto &m_bidQueue = m_bidQueues[ask.instrument()];
+    auto &m_askQueue = m_askQueues[ask.instrument()];
 
     if (m_askQueue.contains(ask)) {
         qDebug() << "skipping duplicate ask with id : " << ask.id();
