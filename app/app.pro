@@ -9,6 +9,10 @@ CONFIG += c++11
 
 TEMPLATE = app
 
+CONFIG (release, debug|release) {
+    DEFINES += QT_NO_DEBUG_OUTPUT
+}
+
 SOURCES += \
     main.cpp \
     main-window.cpp \
