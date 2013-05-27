@@ -53,11 +53,19 @@ void TradingSignalGenerator::loadPlugins()
         pluginsDir.cdUp();
     }
 #endif
-    pluginsDir.cd("../strategies/momentum/");
+    pluginsDir.cd("../strategies/");
     qDebug() << pluginsDir;
 
-    foreach (QString fileName, pluginsDir.entryList(QDir::Files)) {
-        addNewPlugin(pluginsDir.absoluteFilePath(fileName));
+    foreach (QString sub, pluginsDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot)) {
+        qDebug() << "Sub: " << sub;
+        pluginsDir.cd(sub);
+        //qDebug() << pluginsDir;
+        foreach (QString fileName, pluginsDir.entryList(QDir::Files)) {
+            addNewPlugin(pluginsDir.absoluteFilePath(fileName));
+        }
+        pluginsDir.cdUp();
+        //qDebug() << pluginsDir;
+
     }
 
     qDebug() << m_strategies;
