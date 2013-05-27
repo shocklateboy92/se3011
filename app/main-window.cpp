@@ -51,10 +51,10 @@ MainWindow::MainWindow(QWidget *parent) :
     QDockWidget *a = NULL;
     for (QDockWidget *widget : m_signal_generator->configWidgets()) {
         qDebug() << widget;
-        addDockWidget(Qt::RightDockWidgetArea, widget, Qt::Vertical);
+        addDockWidget(Qt::RightDockWidgetArea, widget);
 
         if(a!=NULL) {
-            tabifyDockWidget(a,widget);
+            tabifyDockWidget(widget,a);
             a = widget;
         }
     }
