@@ -33,6 +33,7 @@ void TradingEvaluator::processNewTrade(const Trade &trade) {
 
     }
 
+    //qDebug() << "MoneySpent:" << moneySpent;
     struct eval a ={
         QDateTime(trade.date(), trade.time()),
         moneySpent,
@@ -44,7 +45,7 @@ void TradingEvaluator::processNewTrade(const Trade &trade) {
     evals.append(a);
     //qDebug() << "eval: " << evals.size();
 
-    if(evals.size() == 50) {
+    if(evals.size() == 200) {
         emit currentEval(evals);
         evals.clear();
     }

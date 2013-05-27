@@ -40,11 +40,9 @@ private slots:
 
 private:
     Ui::TradingEvaluatorGraph *ui;
-    QVector<double> moneySpent;
-    QVector<double> moneyGained;
-    QVector<double> profit;
-
-    QVector<double> times;
+    double lastSpent  = 0;
+    double lastTime   = 0;
+    double lastGained = 0;
 };
 
 #endif // TRADINGEVALUATORGRAPH_H

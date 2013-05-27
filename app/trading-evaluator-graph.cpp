@@ -19,18 +19,18 @@ TradingEvaluatorGraph::TradingEvaluatorGraph(QWidget *parent) :
 
 
 
-    customPlot->graph(0)->setData(times, profit);
+    //customPlot->graph(0)->setData(times, profit);
     customPlot->graph(0)->setName("Profit");
     customPlot->graph(0)->setPen(QPen(QColor(255,0,0,255)));
     customPlot->graph(0)->setBrush(QBrush(QColor(255,0,0,120)));
 
-    customPlot->graph(1)->setData(times, moneySpent);
+    //customPlot->graph(1)->setData(times, moneySpent);
     customPlot->graph(1)->setName("Money Spent");
     customPlot->graph(1)->setPen(QPen(QColor(0,255,0,255)));
     customPlot->graph(1)->setBrush(QBrush(QColor(0,255,0,120)));
 
 
-    customPlot->graph(2)->setData(times, moneyGained);
+    //customPlot->graph(2)->setData(times, moneyGained);
     customPlot->graph(2)->setName("Money Gained");
     customPlot->graph(2)->setPen(QPen(QColor(0,0,255,255)));
     customPlot->graph(2)->setBrush(QBrush(QColor(0,0,255,120)));
@@ -42,7 +42,7 @@ TradingEvaluatorGraph::TradingEvaluatorGraph(QWidget *parent) :
     customPlot->yAxis->setLabel("Amount $");
     // set axes ranges, so we see all data:
     double now = QDateTime::currentDateTime().toTime_t();
-    customPlot->xAxis->setRange(now, now+3600);
+    customPlot->xAxis->setRangeLower(now);
     customPlot->yAxis->setRangeLower(0);
 
     customPlot->xAxis->setTickLabelType(QCPAxis::ltDateTime);
@@ -105,36 +105,40 @@ TradingEvaluatorGraph::TradingEvaluatorGraph(QWidget *parent) :
 void TradingEvaluatorGraph::plotNew(QList<TradingEvaluator::eval> evals)
 {
 
-    //qDebug() << "evalslot: " << evals.size();
     auto customPlot = ui->dockWidgetContents;
 
     for(TradingEvaluator::eval eval : evals) {
+
         double time = eval.datetime.toTime_t();
-        moneySpent.append(eval.moneySpent);
-        moneyGained.append(eval.moneyGained);
-        profit.append(eval.moneyGained-eval.moneySpent);
-        times.append(time);
+        double moneySpent = eval.moneySpent;
+        double moneyGained = eval.moneyGained;
 
-        customPlot->graph(0)->addData(time,(eval.moneyGained-eval.moneySpent));
-        customPlot->graph(1)->addData(time,eval.moneySpent);
-        customPlot->graph(2)->addData(time,eval.moneyGained);
-
-
-        if(customPlot->yAxis->range().upper <= (eval.moneyGained-eval.moneySpent)) {
-            customPlot->yAxis->setRangeUpper((eval.moneyGained-eval.moneySpent) + 1.0);
+        if(moneySpent > lastSpent && time > lastTime) {
+            customPlot->graph(1)->addData(time,moneySpent);
+            customPlot->graph(0)->addData(time, (moneyGained-moneySpent));
+            //qDebug() << "MoneySpent:" << moneySpent;
+            lastSpent = moneySpent;
         }
+
+        if(moneyGained > lastGained && time > lastTime) {
+            customPlot->graph(2)->addData(time, moneyGained);
+            customPlot->graph(0)->addData(time, (moneyGained-moneySpent));
+            //qDebug() << "moneyGained:" << moneyGained;
+            lastGained = moneyGained;
+        }
+
+
 
         if(customPlot->xAxis->range().upper >= time) {
-            customPlot->xAxis->setRangeUpper(time + 1.0);
-        }
+                    customPlot->xAxis->setRangeUpper(time + 1.0);
+         }
 
         if(customPlot->xAxis->range().lower < time) {
-            customPlot->xAxis->setRangeLower(time);
+                    customPlot->xAxis->setRangeLower(time);
         }
-
     }
-
-    ui->dockWidgetContents->replot();
+    customPlot->rescaleAxes();
+    customPlot->replot();
 
 }
 
