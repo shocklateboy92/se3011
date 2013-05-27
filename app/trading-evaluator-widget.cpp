@@ -4,7 +4,7 @@
 #include <QTableView>
 #include <QDebug>
 
-TradingEvaluatorWidget::TradingEvaluatorWidget(QAbstractTableModel *my, QAbstractTableModel *all,QWidget *parent) :
+TradingEvaluatorWidget::TradingEvaluatorWidget(RecordsModel *my, RecordsModel *all,QWidget *parent) :
     QDockWidget(parent),all_model(all),my_model(my),
     ui(new Ui::TradingEvaluatorWidget)
 {

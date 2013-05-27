@@ -2,9 +2,10 @@
 #define TRADINGEVALUATORWIDGET_H
 
 #include <QDockWidget>
-#include <QAbstractTableModel>
+#include <records-model.h>
 #include <QDateTime>
 #include <trading-evaluator.h>
+
 
 namespace Ui {
 class TradingEvaluatorWidget;
