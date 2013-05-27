@@ -89,6 +89,13 @@ MainWindow::MainWindow(QWidget *parent) :
 
     m_overlay = new Overlay(this);
     m_overlay->setVisible(false);
+
+
+    //the reset + bonus
+        connect(ui->actionReset, &QAction::triggered, graph, &TradingEvaluatorGraph::reset);
+        connect(ui->actionReset, &QAction::triggered, evalwidget, &TradingEvaluatorWidget::reset);
+
+    //end reset
 }
 
 MainWindow::~MainWindow()

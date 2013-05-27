@@ -113,23 +113,14 @@ void TradingEvaluatorGraph::plotNew(QList<TradingEvaluator::eval> evals)
         double moneySpent = eval.moneySpent;
         double moneyGained = eval.moneyGained;
 
-        if(moneySpent > lastSpent && time > lastTime) {
-            customPlot->graph(1)->addData(time,moneySpent);
+        if((moneySpent > lastSpent || moneyGained > lastGained) && time > (lastTime + 300)) { //has to be 5 min diff
+            customPlot->graph(2)->addData(time, moneyGained);
+            customPlot->graph(1)->addData(time, moneySpent);
             customPlot->graph(0)->addData(time, (moneyGained-moneySpent));
-            //qDebug() << "MoneySpent:" << moneySpent;
+            lastGained = moneyGained;
             lastSpent = moneySpent;
             lastTime = time;
         }
-
-        if(moneyGained > lastGained && time > lastTime) {
-            customPlot->graph(2)->addData(time, moneyGained);
-            customPlot->graph(0)->addData(time, (moneyGained-moneySpent));
-            //qDebug() << "moneyGained:" << moneyGained;
-            lastGained = moneyGained;
-            lastTime = time;
-        }
-
-
 
         if(customPlot->xAxis->range().upper > time) {
                     customPlot->xAxis->setRangeUpper(time);
@@ -141,6 +132,23 @@ void TradingEvaluatorGraph::plotNew(QList<TradingEvaluator::eval> evals)
     customPlot->rescaleAxes();
     customPlot->replot();
 
+}
+
+void TradingEvaluatorGraph::reset()
+{
+    auto customPlot = ui->dockWidgetContents;
+
+    customPlot->graph(2)->clearData();
+    customPlot->graph(1)->clearData();
+    customPlot->graph(0)->clearData();
+
+    lastGained = 0;
+    lastSpent = 0;
+    lastTime = 0;
+
+
+    customPlot->rescaleAxes();
+    customPlot->replot();
 }
 
 void TradingEvaluatorGraph::titleDoubleClick()

@@ -5,7 +5,7 @@
 #include <QDebug>
 
 TradingEvaluatorWidget::TradingEvaluatorWidget(QAbstractTableModel *my, QAbstractTableModel *all,QWidget *parent) :
-    QDockWidget(parent),all_model(my),my_model(all),
+    QDockWidget(parent),all_model(all),my_model(my),
     ui(new Ui::TradingEvaluatorWidget)
 {
     ui->setupUi(this);
@@ -26,3 +26,15 @@ void TradingEvaluatorWidget::printCurrentEval(TradingEvaluator::eval e) {
     ui->profit->setText(QString::number(e.moneyGained - e.moneySpent));
 }
 
+void TradingEvaluatorWidget::reset()
+{
+    my_model->removeRows(0, my_model->rowCount());
+    all_model->removeRows(0, all_model->rowCount());
+
+    ui->money_gained->clear();
+    ui->money_spent->clear();
+    ui->stocks_bought->clear();
+    ui->stocks_sold->clear();
+    ui->stocks_remaining->clear();
+    ui->profit->clear();
+}
