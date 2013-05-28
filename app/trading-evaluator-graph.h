@@ -38,12 +38,16 @@ private slots:
   void contextMenuRequest(QPoint pos);
   void moveLegend();
   void graphClicked(QCPAbstractPlottable *plottable);
+  void addOldProfitGraph();
+  void addOldGainedGraph();
+  void addOldSpentGraph();
 
 private:
     Ui::TradingEvaluatorGraph *ui;
     double lastSpent  = 0;
     double lastTime   = 0;
     double lastGained = 0;
+    QMap<QString, QCPDataMap*> old;
 };
 
 #endif // TRADINGEVALUATORGRAPH_H

@@ -146,6 +146,8 @@ void TradingEvaluatorGraph::reset()
     lastSpent = 0;
     lastTime = 0;
 
+    old.clear();
+
 
     customPlot->rescaleAxes();
     customPlot->replot();
@@ -271,6 +273,10 @@ void TradingEvaluatorGraph::removeSelectedGraph()
 {
   if (ui->dockWidgetContents->selectedGraphs().size() > 0)
   {
+    QCPDataMap *map = new QCPDataMap();
+    *map = *ui->dockWidgetContents->selectedGraphs().first()->data();
+    old.insert(ui->dockWidgetContents->selectedGraphs().first()->name(), map);
+
     ui->dockWidgetContents->removeGraph(ui->dockWidgetContents->selectedGraphs().first());
     ui->dockWidgetContents->replot();
   }
@@ -296,6 +302,16 @@ void TradingEvaluatorGraph::contextMenuRequest(QPoint pos)
     menu->addAction("Move to bottom left", this, SLOT(moveLegend()))->setData((int)QCPLegend::psBottomLeft);
   } else  // general context menu on graphs requested
   {
+      if(old.contains("Profit")) {
+              menu->addAction("Add Profit", this, SLOT(addOldProfitGraph()));
+      }
+      if(old.contains("Money Spent")) {
+              menu->addAction("Add Money Spent", this, SLOT(addOldSpentGraph()));
+      }
+      if(old.contains("Money Gained")) {
+              menu->addAction("Add Money Gained", this, SLOT(addOldGainedGraph()));
+      }
+
     if (ui->dockWidgetContents->selectedGraphs().size() > 0)
       menu->addAction("Remove selected graph", this, SLOT(removeSelectedGraph()));
     if (ui->dockWidgetContents->graphCount() > 0)
@@ -304,6 +320,70 @@ void TradingEvaluatorGraph::contextMenuRequest(QPoint pos)
 
   menu->popup(ui->dockWidgetContents->mapToGlobal(pos));
 }
+
+
+void TradingEvaluatorGraph::addOldProfitGraph() {
+
+    auto customPlot = ui->dockWidgetContents;
+
+
+    // create graph and assign data to it:
+    customPlot->addGraph();
+    int x = customPlot->graphCount() - 1;
+
+
+    customPlot->graph(x)->setName("Profit");
+    customPlot->graph(x)->setPen(QPen(QColor(255,0,0,255)));
+    customPlot->graph(x)->setBrush(QBrush(QColor(255,0,0,120)));
+    customPlot->graph(x)->setData(old[QStringLiteral("Profit")]);
+
+    old.remove("Profit");
+    customPlot->replot();
+
+}
+
+void TradingEvaluatorGraph::addOldSpentGraph() {
+
+    auto customPlot = ui->dockWidgetContents;
+
+
+    // create graph and assign data to it:
+    customPlot->addGraph();
+    int x = customPlot->graphCount() - 1;
+
+
+    customPlot->graph(x)->setName("Money Spent");
+    customPlot->graph(x)->setPen(QPen(QColor(0,255,0,255)));
+    customPlot->graph(x)->setBrush(QBrush(QColor(0,255,0,120)));
+    customPlot->graph(x)->setData(old[QStringLiteral("Money Spent")]);
+
+    old.remove("Money Spent");
+    customPlot->replot();
+
+}
+
+void TradingEvaluatorGraph::addOldGainedGraph() {
+
+    auto customPlot = ui->dockWidgetContents;
+
+
+    // create graph and assign data to it:
+    customPlot->addGraph();
+    int x = customPlot->graphCount() - 1;
+
+
+    customPlot->graph(x)->setName("Money Gained");
+    customPlot->graph(2)->setPen(QPen(QColor(0,0,255,255)));
+    customPlot->graph(2)->setBrush(QBrush(QColor(0,0,255,120)));
+    customPlot->graph(x)->setData(old[QStringLiteral("Money Gained")]);
+
+    old.remove("Money Gained");
+    customPlot->replot();
+
+}
+
+
+
 
 void TradingEvaluatorGraph::moveLegend()
 {
