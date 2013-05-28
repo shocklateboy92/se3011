@@ -24,7 +24,7 @@ public:
     void reset();
 
  signals:
-    void newRecordCreate(Record::Ptr r);
+    void newRecordCreated(Record::Ptr r);
 
 private slots:
     void processPair(const PairData pd);
