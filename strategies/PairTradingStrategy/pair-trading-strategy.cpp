@@ -75,7 +75,7 @@ void PairTradingStrategy::processTrade(const Trade &trade)
             }
         }
 
-        if (buyPrice != 0.0) {
+
             auto r = Record::Ptr::create();
             r->setBidId(6666);
             r->setAskId(0);
@@ -103,7 +103,7 @@ void PairTradingStrategy::processTrade(const Trade &trade)
             r->setValue(r->price() * r->volume());
             emit newRecordCreated(r);
             qDebug() << "created a ask";
-        }
+
 
         p.previousSpread = currentSpread;
         p.historicalSpread =  (1 / p.historySize * currentSpread) + p.historicalSpread;
