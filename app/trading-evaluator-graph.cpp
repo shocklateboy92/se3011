@@ -284,6 +284,11 @@ void TradingEvaluatorGraph::removeSelectedGraph()
 
 void TradingEvaluatorGraph::removeAllGraphs()
 {
+    for(int i = 0 ;i < ui->dockWidgetContents->graphCount(); i++) {
+        QCPDataMap *map = new QCPDataMap();
+        *map = *ui->dockWidgetContents->graph(i)->data();
+        old.insert(ui->dockWidgetContents->graph(i)->name(), map);
+    }
   ui->dockWidgetContents->clearGraphs();
   ui->dockWidgetContents->replot();
 }
@@ -373,8 +378,8 @@ void TradingEvaluatorGraph::addOldGainedGraph() {
 
 
     customPlot->graph(x)->setName("Money Gained");
-    customPlot->graph(2)->setPen(QPen(QColor(0,0,255,255)));
-    customPlot->graph(2)->setBrush(QBrush(QColor(0,0,255,120)));
+    customPlot->graph(x)->setPen(QPen(QColor(0,0,255,255)));
+    customPlot->graph(x)->setBrush(QBrush(QColor(0,0,255,120)));
     customPlot->graph(x)->setData(old[QStringLiteral("Money Gained")]);
 
     old.remove("Money Gained");
