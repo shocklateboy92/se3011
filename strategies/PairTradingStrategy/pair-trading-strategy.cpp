@@ -84,7 +84,7 @@ void PairTradingStrategy::processTrade(const Trade &trade)
         r->setInstrument(buyInstrument);
         r->setType(Record::Type::ENTER);
         r->setPrice(buyPrice);
-        r->setVolume(50 / r->price());
+        r->setVolume(50);
         r->setValue(r->price() * r->volume());
         emit newRecordCreated(r);
         qDebug() << "created a bid";
@@ -98,7 +98,7 @@ void PairTradingStrategy::processTrade(const Trade &trade)
         r->setInstrument(sellInstrument);
         r->setType(Record::Type::ENTER);
         r->setPrice(sellPrice);
-        r->setVolume(50 / r->price());
+        r->setVolume(50);
         r->setValue(r->price() * r->volume());
         emit newRecordCreated(r);
         qDebug() << "created a ask";
