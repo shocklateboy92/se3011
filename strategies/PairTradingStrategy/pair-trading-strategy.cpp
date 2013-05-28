@@ -33,7 +33,9 @@ void PairTradingStrategy::removePair(const PairTradingStrategy::PairData pd)
 
 void PairTradingStrategy::reset()
 {
-//todo
+    for (PairTradingStrategy::PairData &ins : m_pairs) {
+        ins = PairData(ins.longInstrument, ins.shortInstrument);
+    }
 }
 
 

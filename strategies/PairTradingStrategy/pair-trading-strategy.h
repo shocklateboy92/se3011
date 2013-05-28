@@ -41,7 +41,7 @@ class PairTradingStrategy::PairData {
 public:
 
         double historicalSpread;
-         double previousPriceH;
+        double previousPriceH;
         double previousPriceL;
         bool isRising;
         bool isFalling;
@@ -49,12 +49,25 @@ public:
         bool sold;
         QByteArray longInstrument;
         QByteArray shortInstrument;
+
+        PairData() = default;
+
+        PairData(QByteArray li, QByteArray si) :
+            longInstrument(li),
+            shortInstrument(si),
+            historicalSpread(0.0),
+            previousPriceH(0.0),
+            previousPriceL(0.0),
+            isRising(false),
+            isFalling(false),
+            bought(false),
+            sold(false)
+        {}
+
         bool operator== (const PairData &other) {
             return (longInstrument==other.longInstrument
                     && shortInstrument==other.shortInstrument);
         }
-
-
 
 };
 
