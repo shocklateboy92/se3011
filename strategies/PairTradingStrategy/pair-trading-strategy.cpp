@@ -75,7 +75,7 @@ void PairTradingStrategy::processTrade(const Trade &trade)
             }
         }
 
-        if (buyPrice != 0.0 && sellPrice != 0.0) {
+        if (buyPrice != 0.0) {
             auto r = Record::Ptr::create();
             r->setBidId(6666);
             r->setAskId(0);
