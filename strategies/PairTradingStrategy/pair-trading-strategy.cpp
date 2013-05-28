@@ -65,6 +65,34 @@ void PairTradingStrategy::processTrade(const Trade &trade)
                 buyPrice = p.previousPriceL;
                 sellInstrument = p.longInstrument;
                 buyInstrument = p.shortInstrument;
+                auto r = Record::Ptr::create();
+                r->setBidId(6666);
+                r->setAskId(0);
+                r->setBidOrAsk(Record::BidAsk::Bid);
+                r->setDate(trade.date());
+                r->setTime(trade.time());
+                r->setInstrument(buyInstrument);
+                r->setType(Record::Type::ENTER);
+                r->setPrice(buyPrice);
+                r->setVolume(50);
+                r->setValue(r->price() * r->volume());
+                emit newRecordCreated(r);
+                qDebug() << "created a bid";
+
+                r = Record::Ptr::create();
+                r->setAskId(6666);
+                r->setBidId(0);
+                r->setBidOrAsk(Record::BidAsk::Ask);
+                r->setDate(trade.date());
+                r->setTime(trade.time());
+                r->setInstrument(sellInstrument);
+                r->setType(Record::Type::ENTER);
+                r->setPrice(sellPrice);
+                r->setVolume(50);
+                r->setValue(r->price() * r->volume());
+                emit newRecordCreated(r);
+                qDebug() << "created a ask";
+
             }
         } else if (currentSpread <= p.historicalSpread) {
             if(currentSpread >= p.previousSpread ) {
@@ -72,37 +100,37 @@ void PairTradingStrategy::processTrade(const Trade &trade)
                 buyPrice = p.previousPriceH;
                 sellInstrument = p.shortInstrument;
                 buyInstrument = p.longInstrument;
+                auto r = Record::Ptr::create();
+                r->setBidId(6666);
+                r->setAskId(0);
+                r->setBidOrAsk(Record::BidAsk::Bid);
+                r->setDate(trade.date());
+                r->setTime(trade.time());
+                r->setInstrument(buyInstrument);
+                r->setType(Record::Type::ENTER);
+                r->setPrice(buyPrice);
+                r->setVolume(50);
+                r->setValue(r->price() * r->volume());
+                emit newRecordCreated(r);
+                qDebug() << "created a bid";
+
+                r = Record::Ptr::create();
+                r->setAskId(6666);
+                r->setBidId(0);
+                r->setBidOrAsk(Record::BidAsk::Ask);
+                r->setDate(trade.date());
+                r->setTime(trade.time());
+                r->setInstrument(sellInstrument);
+                r->setType(Record::Type::ENTER);
+                r->setPrice(sellPrice);
+                r->setVolume(50);
+                r->setValue(r->price() * r->volume());
+                emit newRecordCreated(r);
+                qDebug() << "created a ask";
+
             }
         }
 
-
-            auto r = Record::Ptr::create();
-            r->setBidId(6666);
-            r->setAskId(0);
-            r->setBidOrAsk(Record::BidAsk::Bid);
-            r->setDate(trade.date());
-            r->setTime(trade.time());
-            r->setInstrument(buyInstrument);
-            r->setType(Record::Type::ENTER);
-            r->setPrice(buyPrice);
-            r->setVolume(50);
-            r->setValue(r->price() * r->volume());
-            emit newRecordCreated(r);
-            qDebug() << "created a bid";
-
-            r = Record::Ptr::create();
-            r->setAskId(6666);
-            r->setBidId(0);
-            r->setBidOrAsk(Record::BidAsk::Ask);
-            r->setDate(trade.date());
-            r->setTime(trade.time());
-            r->setInstrument(sellInstrument);
-            r->setType(Record::Type::ENTER);
-            r->setPrice(sellPrice);
-            r->setVolume(50);
-            r->setValue(r->price() * r->volume());
-            emit newRecordCreated(r);
-            qDebug() << "created a ask";
 
 
         p.previousSpread = currentSpread;
