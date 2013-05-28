@@ -59,15 +59,15 @@ void PairTradingStrategy::processTrade(const Trade &trade)
         QByteArray sellInstrument;
         QByteArray buyInstrument;
 
-        if (currentSpread > p.historicalSpread) {
-            if(currentSpread < p.previousSpread ) {
+        if (currentSpread >= p.historicalSpread) {
+            if(currentSpread <= p.previousSpread ) {
                 sellPrice = p.previousPriceH;
                 buyPrice = p.previousPriceL;
                 sellInstrument = p.longInstrument;
                 buyInstrument = p.shortInstrument;
             }
-        } else if (currentSpread < p.historicalSpread) {
-            if(currentSpread > p.previousSpread ) {
+        } else if (currentSpread <= p.historicalSpread) {
+            if(currentSpread >= p.previousSpread ) {
                 sellPrice = p.previousPriceL;
                 buyPrice = p.previousPriceH;
                 sellInstrument = p.shortInstrument;
