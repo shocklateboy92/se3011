@@ -106,7 +106,7 @@ MainWindow::MainWindow(QWidget *parent) :
         connect(ui->actionReset, &QAction::triggered, graph, &TradingEvaluatorGraph::reset);
         connect(ui->actionReset, &QAction::triggered, evalwidget, &TradingEvaluatorWidget::reset);
         //have to reset strategies
-
+        connect(ui->actionReset, &QAction::triggered, m_signal_generator, &TradingSignalGenerator::reset);
 
         //core stuff
         connect(ui->actionReset, &QAction::triggered, m_evaluator, &TradingEvaluator::reset);
