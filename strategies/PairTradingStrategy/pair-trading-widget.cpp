@@ -27,8 +27,10 @@ void PairTradingWidget::onAddtradeButtonClicked()
     pair.shortInstrument  = ui->instrument2_Line->text().toLocal8Bit();
 
     pair.historicalSpread = 0.0;
+    pair.previousSpread = 0.0;
     pair.previousPriceH = 0.0;
     pair.previousPriceL = 0.0;
+    pair.historySize = 0;
     pair.isRising = false;
     pair.isFalling = false;
     pair.bought = false;

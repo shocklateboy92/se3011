@@ -41,8 +41,11 @@ class PairTradingStrategy::PairData {
 public:
 
         double historicalSpread;
+        double previousSpread;
         double previousPriceH;
         double previousPriceL;
+        long long historySize;
+
         bool isRising;
         bool isFalling;
         bool bought;
