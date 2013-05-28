@@ -8,9 +8,9 @@ PairTradingWidget::PairTradingWidget(QWidget *parent) :
     ui(new Ui::PairTradingWidget)
 {
     ui->setupUi(this);
-    connect(ui->AddTrade_Button, &QAbstractButton::click,
+    connect(ui->AddTrade_Button, &QAbstractButton::clicked,
             this, &PairTradingWidget::onAddtradeButtonClicked);
-    connect(ui->RemoveTrade_Button, &QAbstractButton::click,
+    connect(ui->RemoveTrade_Button, &QAbstractButton::clicked,
             this, &PairTradingWidget::onRemovetradeButtonClicked);
 }
 
@@ -51,4 +51,33 @@ void PairTradingWidget::onAddtradeButtonClicked()
 
 void PairTradingWidget::onRemovetradeButtonClicked()
 {
+
+    QModelIndexList indexes = ui->tableWidget->selectionModel()
+                                ->selection().indexes();
+    if (!indexes.isEmpty()) {
+
+        PairTradingStrategy::PairData pair;
+
+        pair.longInstrument   = ui->tableWidget->selectedItems()[0]->text().toLocal8Bit();
+        pair.shortInstrument  = ui->tableWidget->selectedItems()[1]->text().toLocal8Bit();
+
+        pair.historicalSpread = 0.0;
+        pair.previousPriceH = 0.0;
+        pair.previousPriceL = 0.0;
+        pair.isRising = false;
+        pair.isFalling = false;
+        pair.bought = false;
+        pair.sold = false;
+
+        emit deletePair(pair);
+
+        ui->tableWidget->removeRow(indexes.first().row());
+
+    }
+
+
+
+
+
+
 }

@@ -49,7 +49,10 @@ public:
         bool sold;
         QByteArray longInstrument;
         QByteArray shortInstrument;
-
+        bool operator== (const PairData &other) {
+            return (longInstrument==other.longInstrument
+                    && shortInstrument==other.shortInstrument);
+        }
 
 
 

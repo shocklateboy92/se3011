@@ -12,31 +12,31 @@ QDockWidget *PairTradingStrategy::configWidget()
     return widget;
 }
 
-void PairTradingStrategy::processTrade(const Trade &trade)
-{
-}
-
 PairTradingStrategy::PairTradingStrategy(QObject *parent)
     : QObject (parent)
 {
     
-    
-    
-    
+
 }
 
 
 void PairTradingStrategy::processPair(const PairTradingStrategy::PairData pd)
 {
-    //m_pairs.append(pd);
+    m_pairs.append(pd);
 }
 
 void PairTradingStrategy::removePair(const PairTradingStrategy::PairData pd)
 {
-    //m_pairs.removeOne(pd);
+    m_pairs.removeOne(pd);
 }
 
 
 void PairTradingStrategy::reset()
+{
+//todo
+}
+
+
+void PairTradingStrategy::processTrade(const Trade &trade)
 {
 }
