@@ -90,7 +90,11 @@ void MomentumStrategy::processTrade(const Trade &t)
 void MomentumStrategy::reset()
 {
     for (const QString &ins : m_momentums.keys()) {
+        auto changes = m_momentums[ins].consecutiveChangesRequired;
+        auto vol = m_momentums[ins].volume;
         m_momentums[ins] = MomentumData();
+        m_momentums[ins].consecutiveChangesRequired = changes;
+        m_momentums[ins].volume = vol;
     }
 }
 
