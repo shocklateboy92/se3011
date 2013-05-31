@@ -42,6 +42,16 @@ void TradingSignalGenerator::loadPlugins()
 {
     auto pluginsDir = QDir(QCoreApplication::instance()->applicationDirPath());
 
+#if defined(QT_NO_DEBUG_OUTPUT)
+    // release mode
+    pluginsDir.cd("strategies");
+    for (QString fileName : pluginsDir.entryList()) {
+        if (fileName.toLower().endsWith(QStringLiteral("g8strat"))) {
+            addNewPlugin(pluginsDir.absoluteFilePath(fileName));
+        }
+    }
+
+#else
 #if defined(Q_OS_WIN)
     if (pluginsDir.dirName().toLower() == "debug" ||
             pluginsDir.dirName().toLower() == "release")
@@ -67,6 +77,7 @@ void TradingSignalGenerator::loadPlugins()
         //qDebug() << pluginsDir;
 
     }
+#endif
 
     qDebug() << m_strategies;
 }
