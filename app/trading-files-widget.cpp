@@ -52,7 +52,7 @@ void TradingFilesWidget::dropEvent(QDropEvent *e) {
     qDebug() << e;
     for (QUrl url : e->mimeData()->urls()) {
         if (url.isLocalFile()) {
-            m_model->addSource(url.path());
+            m_model->addSource(QDir::toNativeSeparators(url.toLocalFile()));
         } else {
             qWarning() << "ignoring" << url << "becuase it's not a local file";
         }
