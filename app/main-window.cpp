@@ -17,6 +17,17 @@
 #include <QTableView>
 #include <QPaintEvent>
 
+void MainWindow::setupMenuView()
+{
+    for (QAction *action : ui->menuView->actions()) {
+        ui->menuView->removeAction(action);
+    }
+
+    for (QDockWidget* dock : findChildren<QDockWidget*>()) {
+        ui->menuView->addAction(dock->toggleViewAction());
+    }
+}
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
@@ -112,10 +123,9 @@ MainWindow::MainWindow(QWidget *parent) :
         connect(ui->actionReset, &QAction::triggered, m_evaluator, &TradingEvaluator::reset);
         connect(ui->actionReset, &QAction::triggered, m_engine, &TradingEngine::reset);
 
-
-
-
     //end reset
+
+    setupMenuView();
 }
 
 MainWindow::~MainWindow()
@@ -159,6 +169,7 @@ void MainWindow::dropEvent(QDropEvent *e) {
             QDockWidget* w = m_signal_generator->addNewPlugin(fname);
             if (w) {
                 addDockWidget(Qt::RightDockWidgetArea, w);
+                setupMenuView();
             }
         }
     }

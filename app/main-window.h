@@ -26,6 +26,7 @@ public:
     void dragEnterEvent(QDragEnterEvent *e);
     void dragLeaveEvent(QDragLeaveEvent *e);
 
+    void setupMenuView();
 private:
     Ui::MainWindow *ui;
     Overlay *m_overlay;
