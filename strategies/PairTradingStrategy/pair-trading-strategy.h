@@ -56,15 +56,15 @@ public:
         PairData() = default;
 
         PairData(QByteArray li, QByteArray si) :
-            longInstrument(li),
-            shortInstrument(si),
             historicalSpread(0.0),
             previousPriceH(0.0),
             previousPriceL(0.0),
             isRising(false),
             isFalling(false),
             bought(false),
-            sold(false)
+            sold(false),
+            longInstrument(li),
+            shortInstrument(si)
         {}
 
         bool operator== (const PairData &other) {
